@@ -13,6 +13,7 @@ class OrderItem extends Model
         'order_id',
         'product_id',
         'variant_id',
+        'variant_name',
         'seller_id',
         'quantity',
         'unit_price',

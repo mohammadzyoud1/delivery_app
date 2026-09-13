@@ -8,7 +8,7 @@ import AuthInput from "@/Components/Auth/AuthInput.vue";
 import PasswordInput from "@/Components/Auth/PasswordInput.vue";
 import ProfileImageUpload from "@/Components/Auth/ProfileImageUpload.vue";
 import SocialLoginButton from "@/Components/Auth/SocialLoginButton.vue";
-
+import Button from "@/Components/UI/Button.vue";
 const form = useForm({
     first_name: "",
     last_name: "",
@@ -100,18 +100,14 @@ const handleSubmit = () => {
                 />
 
                 <!-- Sign up -->
-                <button
+                <Button
                     type="submit"
+                    :loading="form.processing"
                     :disabled="form.processing"
-                    class="flex w-full items-center justify-center gap-2 rounded-xl bg-gray-900 px-4 py-3.5 text-sm font-semibold text-white transition hover:bg-gray-800 active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-60"
+                    full-width
                 >
-                    <span
-                        v-if="form.processing"
-                        class="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent"
-                    ></span>
-
                     {{ form.processing ? "Creating Account..." : "Sign Up" }}
-                </button>
+                </Button>
             </form>
 
             <!-- Divider -->

@@ -7,6 +7,7 @@ use App\Models\EmailVerification;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Inertia\Inertia;
 
@@ -84,5 +85,60 @@ class AuthController extends Controller
         );
 
         return redirect()->route('verify.email');
+    }
+
+    public function login(Request $request)
+    {
+        // ==================== Validate Login ====================
+
+        $validated = $request->validate([
+            'login' => 'required|string',
+            'password' => 'required|string',
+        ]);
+
+        // ==================== Find User ====================
+
+        $user = User::where('email', $validated['login'])
+            ->orWhere('phone', $validated['login'])
+            ->first();
+
+        // ==================== Check Credentials ====================
+
+        if (!$user || !Hash::check(
+            $validated['password'],
+            $user->password
+        )) {
+            return back()->withErrors([
+                'login' => 'The email/phone or password is incorrect.',
+            ]);
+        }
+
+        // ==================== Check Email Verification ====================
+
+        if (!$user->email_verified_at) {
+            Auth::login($user);
+
+            return redirect()->route('verify.email');
+        }
+
+        // ==================== Login User ====================
+
+        Auth::login($user);
+
+        $request->session()->regenerate();
+
+        return redirect()->route('home');
+    }
+
+    public function logout(Request $request)
+    {
+        // ==================== Logout ====================
+
+        Auth::logout();
+
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return redirect()->route('login');
     }
 }

@@ -2,7 +2,7 @@
 import { useForm } from "@inertiajs/vue3";
 
 import AuthHeader from "@/Components/Auth/AuthHeader.vue";
-
+import Button from "@/Components/UI/Button.vue";
 const form = useForm({
     otp: "",
 });
@@ -45,18 +45,14 @@ const handleSubmit = () => {
                     </p>
                 </div>
 
-                <button
+                <Button
                     type="submit"
+                    :loading="form.processing"
                     :disabled="form.processing"
-                    class="flex w-full items-center justify-center gap-2 rounded-xl bg-gray-900 px-4 py-3.5 text-sm font-semibold text-white transition hover:bg-gray-800 active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-60"
+                    full-width
                 >
-                    <span
-                        v-if="form.processing"
-                        class="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent"
-                    ></span>
-
                     {{ form.processing ? "Verifying..." : "Verify Email" }}
-                </button>
+                </Button>
             </form>
 
             <p class="mt-6 text-center text-sm text-gray-500">
