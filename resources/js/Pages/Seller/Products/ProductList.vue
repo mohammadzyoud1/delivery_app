@@ -2,7 +2,7 @@
 // ==================== Imports ====================
 
 import { computed, ref } from "vue";
-
+import { router } from "@inertiajs/vue3";
 import SellerLayout from "@/Layouts/SellerLayout.vue";
 
 // ==================== Types ====================
@@ -48,6 +48,9 @@ const filteredProducts = computed(() => {
     return props.products;
 });
 
+const toggleStatus = (product: Product) => {
+    router.patch(`/seller/products/${product.id}/toggle-status`);
+};
 // ==================== Price Formatting ====================
 
 const formatPrice = (price: number) => {
@@ -203,6 +206,13 @@ const formatPrice = (price: number) => {
                                 {{ product.unit }}
                             </span>
                         </p>
+                        <button
+                            type="button"
+                            class="mt-4 w-full rounded-xl border border-gray-200 px-4 py-2.5 text-sm font-semibold text-gray-700 transition hover:bg-gray-50"
+                            @click="toggleStatus(product)"
+                        >
+                            {{ product.is_active ? "Deactivate" : "Activate" }}
+                        </button>
                     </div>
                 </div>
             </div>

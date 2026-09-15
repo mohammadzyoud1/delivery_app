@@ -621,4 +621,28 @@ class ProductController extends Controller
             ->route('seller.products.index')
             ->with('success', 'Product updated successfully.');
     }
+
+    // ==================== Toggle Product Status ====================
+
+    public function toggleStatus(Request $request, Product $product)
+    {
+        // ==================== Seller Ownership Check ====================
+
+        if ($product->seller_id !== $request->user()->id) {
+            abort(403);
+        }
+
+        // ==================== Toggle Active Status ====================
+
+        $product->update([
+            'is_active' => !$product->is_active,
+        ]);
+
+        return back()->with(
+            'success',
+            $product->is_active
+                ? 'Product activated successfully.'
+                : 'Product deactivated successfully.'
+        );
+    }
 }

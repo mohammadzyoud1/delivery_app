@@ -2,13 +2,14 @@
 
 use App\Http\Controllers\Seller\ProductController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CatalogController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\EmailVerificationController;
 use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
-Route::middleware(['auth', 'verified.email'])->group(function () {
+Route::middleware([])->group(function () {
     Route::get('/', [HomeController::class, 'index'])
         ->name('home');
 });
@@ -85,4 +86,13 @@ Route::middleware(['auth', 'verified.email', 'seller.access'])->group(function (
         ProductController::class,
         'update',
     ])->name('seller.products.update');
+
+    Route::patch('/seller/products/{product}/toggle-status', [
+        ProductController::class,
+        'toggleStatus',
+    ])->name('seller.products.toggle-status');
 });
+Route::get('/products/{product}', [
+    CatalogController::class,
+    'show',
+])->name('products.show');
