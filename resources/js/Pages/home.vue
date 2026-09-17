@@ -17,14 +17,39 @@ interface ProductImage {
     image: string;
 }
 
+interface ProductVariant {
+    id: number;
+    price: number;
+    stock: number;
+}
+
 interface Product {
     id: number;
     name: string;
     price: number;
     unit: string | null;
     images: ProductImage[];
+    variants: ProductVariant[];
 }
 
+// ==================== Add To Cart ====================
+
+const handleAddToCart = (product: Product) => {
+    // ==================== Products With Variants ====================
+
+    if (product.variants.length > 0) {
+        router.visit(`/products/${product.id}`);
+        return;
+    }
+
+    // ==================== Products Without Variants ====================
+
+    router.post("/cart/items", {
+        product_id: product.id,
+        variant_id: null,
+        quantity: 1,
+    });
+};
 const props = defineProps<{
     categories: Category[];
     products: Product[];
@@ -62,7 +87,7 @@ const logout = () => {
                         :key="product.id"
                         :product="product"
                         @favorite="console.log('favorite', $event)"
-                        @add-to-cart="console.log('add to cart', $event)"
+                        @add-to-cart="handleAddToCart"
                     />
                 </div>
             </div>

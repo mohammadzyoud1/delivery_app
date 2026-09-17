@@ -4,7 +4,7 @@
 import { computed, ref } from "vue";
 import CustomerLayout from "@/Layouts/CustomerLayout.vue";
 import Button from "@/Components/UI/Button.vue";
-
+import { router } from "@inertiajs/vue3";
 import {
     ChevronLeft,
     ChevronRight,
@@ -244,6 +244,14 @@ const decreaseQuantity = () => {
         quantity.value--;
     }
 };
+
+const addToCart = () => {
+    router.post("/cart/items", {
+        product_id: props.product.id,
+        variant_id: selectedVariant.value?.id ?? null,
+        quantity: quantity.value,
+    });
+};
 </script>
 
 <template>
@@ -469,6 +477,7 @@ const decreaseQuantity = () => {
                                 (product.variants.length > 0 &&
                                     !selectedVariant)
                             "
+                            @click="addToCart"
                         >
                             <ShoppingCart :size="20" />
 

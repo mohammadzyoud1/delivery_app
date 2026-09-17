@@ -11,12 +11,19 @@ interface ProductImage {
     image: string;
 }
 
+interface ProductVariant {
+    id: number;
+    price: number;
+    stock: number;
+}
+
 interface Product {
     id: number;
     name: string;
     price: number;
     unit: string | null;
     images: ProductImage[];
+    variants: ProductVariant[];
 }
 
 // ==================== Props ====================

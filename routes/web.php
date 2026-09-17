@@ -2,16 +2,72 @@
 
 use App\Http\Controllers\Seller\ProductController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\CatalogController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\CheckoutController;
+use App\Http\Controllers\DeliveryController;
 use App\Http\Controllers\EmailVerificationController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\OrderController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
 Route::middleware([])->group(function () {
     Route::get('/', [HomeController::class, 'index'])
         ->name('home');
+});
+
+Route::middleware(['auth', 'verified.email'])->group(function () {
+    // ==================== Cart ====================
+    Route::get('/cart', [
+        CartController::class,
+        'index',
+    ])->name('cart.index');
+    Route::post('/cart/items', [
+        CartController::class,
+        'store',
+    ])->name('cart.items.store');
+
+    Route::patch('/cart/items/{cartItem}', [
+        CartController::class,
+        'update',
+    ])->name('cart.items.update');
+
+    Route::delete('/cart/items/{cartItem}', [
+        CartController::class,
+        'destroy',
+    ])->name('cart.items.destroy');
+
+    // ==================== Orders ====================
+    Route::get('/orders', [
+        OrderController::class,
+        'index',
+    ])->name('orders.index');
+
+    // ==================== Order Details ====================
+
+    Route::get('/orders/{order}', [
+        OrderController::class,
+        'show',
+    ])->name('orders.show');
+
+    // ==================== Delivery ====================
+
+    Route::get('/delivery/orders', [
+        DeliveryController::class,
+        'index',
+    ])->name('delivery.orders');
+    Route::post('/delivery/orders/{order}/take', [
+        DeliveryController::class,
+        'take',
+    ])->name('delivery.orders.take');
+    // ==================== Delivery Status ====================
+
+    Route::patch('/delivery/orders/{order}/status', [
+        \App\Http\Controllers\DeliveryController::class,
+        'updateStatus',
+    ])->name('delivery.orders.status');
 });
 
 Route::get('/register', function () {
@@ -91,6 +147,20 @@ Route::middleware(['auth', 'verified.email', 'seller.access'])->group(function (
         ProductController::class,
         'toggleStatus',
     ])->name('seller.products.toggle-status');
+
+    // ==================== Checkout ====================
+
+    Route::get('/checkout', [
+        CheckoutController::class,
+        'index',
+    ])->name('checkout.index');
+
+    // ==================== Place Order ====================
+
+    Route::post('/checkout', [
+        CheckoutController::class,
+        'store',
+    ])->name('checkout.store');
 });
 Route::get('/products/{product}', [
     CatalogController::class,

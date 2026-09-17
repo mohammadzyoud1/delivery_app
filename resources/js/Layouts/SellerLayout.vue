@@ -1,8 +1,15 @@
 <script setup lang="ts">
 // ==================== Imports ====================
 
-import { Link } from "@inertiajs/vue3";
+import { Link, usePage } from "@inertiajs/vue3";
 import { LayoutDashboard, Package, Plus, User } from "lucide-vue-next";
+
+const page = usePage<{
+    flash: {
+        success?: string;
+        error?: string;
+    };
+}>();
 </script>
 
 <template>
@@ -28,6 +35,24 @@ import { LayoutDashboard, Package, Plus, User } from "lucide-vue-next";
                 </Link>
             </div>
         </header>
+
+        <!-- ==================== Flash Messages ==================== -->
+
+        <div class="mx-auto w-full max-w-7xl px-5 pt-4 sm:px-8">
+            <div
+                v-if="page.props.flash?.success"
+                class="rounded-xl border border-green-200 bg-green-50 px-4 py-3 text-sm font-medium text-green-700"
+            >
+                {{ page.props.flash.success }}
+            </div>
+
+            <div
+                v-if="page.props.flash?.error"
+                class="mt-2 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm font-medium text-red-700"
+            >
+                {{ page.props.flash.error }}
+            </div>
+        </div>
 
         <!-- ==================== Page Content ==================== -->
 

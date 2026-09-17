@@ -16,9 +16,31 @@ class HomeController extends Controller
             ->where('is_active', true)
             ->orderBy('name')
             ->get();
+
+        // ==================== Available Products ====================
+
         $products = Product::query()
             ->where('is_active', true)
-            ->with('images')
+            ->where(function ($query) {
+                // ==================== Products Without Variants ====================
+
+                $query
+                    ->where(function ($query) {
+                        $query
+                            ->whereDoesntHave('variants')
+                            ->where('stock', '>', 0);
+                    })
+                    // ==================== Products With Available Variants ====================
+                    ->orWhere(function ($query) {
+                        $query->whereHas('variants', function ($variantQuery) {
+                            $variantQuery->where('stock', '>', 0);
+                        });
+                    });
+            })
+            ->with([
+                'images',
+                'variants',
+            ])
             ->latest()
             ->get();
 

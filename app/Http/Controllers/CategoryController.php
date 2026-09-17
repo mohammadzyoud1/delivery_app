@@ -13,11 +13,32 @@ class CategoryController extends Controller
         $category = Category::where('name', $category)
             ->where('is_active', true)
             ->firstOrFail();
+        // ==================== Available Products ====================
+
         $products = $category
             ->products()
-            ->with('images')
             ->where('is_active', true)
-            ->get();;
+            ->where(function ($query) {
+                // ==================== Products Without Variants ====================
+
+                $query
+                    ->where(function ($query) {
+                        $query
+                            ->whereDoesntHave('variants')
+                            ->where('stock', '>', 0);
+                    })
+                    // ==================== Products With Available Variants ====================
+                    ->orWhere(function ($query) {
+                        $query->whereHas('variants', function ($variantQuery) {
+                            $variantQuery->where('stock', '>', 0);
+                        });
+                    });
+            })
+            ->with([
+                'images',
+                'variants',
+            ])
+            ->get();
 
         // ==================== Return Category Page ====================
 

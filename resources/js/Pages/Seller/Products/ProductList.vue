@@ -2,7 +2,7 @@
 // ==================== Imports ====================
 
 import { computed, ref } from "vue";
-import { router } from "@inertiajs/vue3";
+import { router, Link } from "@inertiajs/vue3";
 import SellerLayout from "@/Layouts/SellerLayout.vue";
 
 // ==================== Types ====================
@@ -206,13 +206,32 @@ const formatPrice = (price: number) => {
                                 {{ product.unit }}
                             </span>
                         </p>
-                        <button
-                            type="button"
-                            class="mt-4 w-full rounded-xl border border-gray-200 px-4 py-2.5 text-sm font-semibold text-gray-700 transition hover:bg-gray-50"
-                            @click="toggleStatus(product)"
-                        >
-                            {{ product.is_active ? "Deactivate" : "Activate" }}
-                        </button>
+                        <!-- ==================== Product Actions ==================== -->
+
+                        <div class="mt-4 flex gap-2">
+                            <!-- ==================== Edit Product ==================== -->
+
+                            <Link
+                                :href="`/seller/products/${product.id}/edit`"
+                                class="flex-1 rounded-xl bg-gray-900 px-4 py-2.5 text-center text-sm font-semibold text-white transition hover:bg-gray-800"
+                            >
+                                Edit
+                            </Link>
+
+                            <!-- ==================== Toggle Status ==================== -->
+
+                            <button
+                                type="button"
+                                class="flex-1 rounded-xl border border-gray-200 px-4 py-2.5 text-sm font-semibold text-gray-700 transition hover:bg-gray-50"
+                                @click="toggleStatus(product)"
+                            >
+                                {{
+                                    product.is_active
+                                        ? "Deactivate"
+                                        : "Activate"
+                                }}
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
