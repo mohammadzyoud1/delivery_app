@@ -48,8 +48,6 @@ class DeliveryController extends Controller
 
     public function take(Request $request, Order $order)
     {
-        // ==================== Take Order Transaction ====================
-
         DB::transaction(function () use ($request, $order) {
             // ==================== Lock Order ====================
 
@@ -57,27 +55,52 @@ class DeliveryController extends Controller
                 ->lockForUpdate()
                 ->findOrFail($order->id);
 
-            // ==================== Check Order Status ====================
+            // ==================== Validate Order Status ====================
 
             if ($order->status !== 'accepted') {
                 abort(422, 'This order is no longer available.');
             }
 
-            // ==================== Check Existing Assignment ====================
+            // ==================== Load Assignment ====================
 
-            if ($order->deliveryAssignment()->exists()) {
-                abort(422, 'This order has already been assigned.');
+            $assignment = $order->deliveryAssignment;
+
+            // ==================== Check Admin Assignment ====================
+
+            if ($assignment) {
+                // ==================== Only Assigned Delivery User ====================
+
+                if (
+                    $assignment->delivery_user_id !== $request->user()->id
+                ) {
+                    abort(
+                        403,
+                        'This order is assigned to another delivery user.'
+                    );
+                }
+
+                // ==================== Prevent Taking Again ====================
+
+                if ($assignment->taken_at) {
+                    abort(422, 'This order has already been taken.');
+                }
+
+                // ==================== Mark Assignment As Taken ====================
+
+                $assignment->update([
+                    'taken_at' => now(),
+                ]);
+            } else {
+                // ==================== Normal Delivery Assignment ====================
+
+                $assignment = DeliveryAssignment::create([
+                    'order_id' => $order->id,
+                    'delivery_user_id' => $request->user()->id,
+                    'assigned_by' => null,
+                    'type' => 'normal',
+                    'taken_at' => now(),
+                ]);
             }
-
-            // ==================== Create Assignment ====================
-
-            DeliveryAssignment::create([
-                'order_id' => $order->id,
-                'delivery_user_id' => $request->user()->id,
-                'assigned_by' => null,
-                'type' => 'normal',
-                'taken_at' => now(),
-            ]);
 
             // ==================== Update Order Status ====================
 
@@ -95,8 +118,6 @@ class DeliveryController extends Controller
                 'created_at' => now(),
             ]);
         });
-
-        // ==================== Return ====================
 
         return back()->with(
             'success',

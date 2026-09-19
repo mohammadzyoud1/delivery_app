@@ -1,5 +1,9 @@
 <?php
 
+use App\Http\Controllers\Admin\AdminDashboardController;
+use App\Http\Controllers\Admin\AdminDeliveryController;
+use App\Http\Controllers\Admin\AdminOrderController;
+use App\Http\Controllers\Admin\AdminOrderDetailsController;
 use App\Http\Controllers\Seller\ProductController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CartController;
@@ -65,7 +69,7 @@ Route::middleware(['auth', 'verified.email'])->group(function () {
     // ==================== Delivery Status ====================
 
     Route::patch('/delivery/orders/{order}/status', [
-        \App\Http\Controllers\DeliveryController::class,
+        DeliveryController::class,
         'updateStatus',
     ])->name('delivery.orders.status');
 });
@@ -98,17 +102,17 @@ Route::middleware(['auth', 'verified.email', 'seller.access'])->group(function (
     // ==================== Seller Routes ====================
 
     Route::get('/seller/products', [
-        \App\Http\Controllers\Seller\ProductController::class,
+        ProductController::class,
         'index',
     ])->name('seller.products.index');
 
     Route::get('/seller/products/create', [
-        \App\Http\Controllers\Seller\ProductController::class,
+        ProductController::class,
         'create',
     ])->name('seller.products.create');
 
     Route::post('/seller/products', [
-        \App\Http\Controllers\Seller\ProductController::class,
+        ProductController::class,
         'store',
     ])->name('seller.products.store');
     Route::get('/seller', [
@@ -162,7 +166,37 @@ Route::middleware(['auth', 'verified.email', 'seller.access'])->group(function (
         'store',
     ])->name('checkout.store');
 });
+
 Route::get('/products/{product}', [
     CatalogController::class,
     'show',
 ])->name('products.show');
+
+// ==================== Admin ====================
+
+Route::middleware(['auth', 'verified.email', 'admin'])->group(function () {
+    Route::get('/admin', [
+        AdminDashboardController::class,
+        'index',
+    ])->name('admin.dashboard');
+
+    Route::get('/admin/orders', [
+        AdminOrderController::class,
+        'index',
+    ])->name('admin.orders.index');
+
+    Route::get('/admin/orders/{order}', [
+        AdminOrderDetailsController::class,
+        'show',
+    ])->name('admin.orders.show');
+
+    Route::patch('/admin/orders/{order}/reject', [
+        AdminOrderDetailsController::class,
+        'reject',
+    ])->name('admin.orders.reject');
+
+    Route::post('/admin/orders/{order}/delivery', [
+        AdminDeliveryController::class,
+        'assign',
+    ])->name('admin.orders.delivery.assign');
+});

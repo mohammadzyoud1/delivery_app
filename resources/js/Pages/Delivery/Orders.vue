@@ -224,7 +224,8 @@ const updateStatus = (orderId: number, status: string) => {
                     v-if="
                         order.delivery_assignment &&
                         order.delivery_assignment.delivery_user_id ===
-                            props.deliveryUserId
+                            props.deliveryUserId &&
+                        order.status !== 'accepted'
                     "
                     class="mt-4 border-t border-gray-100 pt-4"
                 >
@@ -266,7 +267,9 @@ const updateStatus = (orderId: number, status: string) => {
                 <div
                     v-else-if="
                         order.status === 'accepted' &&
-                        !order.delivery_assignment
+                        (!order.delivery_assignment ||
+                            order.delivery_assignment.delivery_user_id ===
+                                props.deliveryUserId)
                     "
                     class="mt-4 border-t border-gray-100 pt-4"
                 >
