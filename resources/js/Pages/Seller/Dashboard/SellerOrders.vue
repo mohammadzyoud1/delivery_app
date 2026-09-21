@@ -81,98 +81,236 @@ const formatPrice = (price: number) => {
         <div class="mx-auto w-full max-w-7xl">
             <!-- ==================== Page Header ==================== -->
 
-            <div class="mb-6">
-                <h2 class="text-2xl font-bold tracking-tight text-gray-900">
-                    Orders
-                </h2>
-
-                <p class="mt-1 text-sm text-gray-500">
-                    Orders containing your products.
+            <section class="mb-8">
+                <p
+                    class="text-sm font-bold uppercase tracking-wider text-brand-600"
+                >
+                    Seller Center
                 </p>
-            </div>
+
+                <div
+                    class="mt-1 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between"
+                >
+                    <div>
+                        <h1
+                            class="text-2xl font-extrabold tracking-tight text-heading sm:text-3xl"
+                        >
+                            Orders
+                        </h1>
+
+                        <p class="mt-2 text-sm leading-6 text-muted">
+                            Orders containing products from your store.
+                        </p>
+                    </div>
+
+                    <div
+                        v-if="orders.length"
+                        class="w-fit rounded-full border border-border bg-surface px-3.5 py-2 text-xs font-bold text-body"
+                    >
+                        {{ orders.length }}
+                        {{ orders.length === 1 ? "order" : "orders" }}
+                    </div>
+                </div>
+            </section>
 
             <!-- ==================== Empty State ==================== -->
 
-            <div
+            <section
                 v-if="!orders.length"
-                class="rounded-2xl border border-gray-100 bg-white p-8 text-center shadow-sm"
+                class="rounded-2xl border border-border bg-surface p-8 text-center shadow-sm sm:p-12"
             >
-                <h3 class="text-base font-semibold text-gray-900">
-                    No orders yet
-                </h3>
-
-                <p class="mt-1 text-sm text-gray-500">
-                    Orders containing your products will appear here.
-                </p>
-            </div>
-
-            <div v-else class="space-y-4">
                 <div
+                    class="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-brand-50 text-brand-600"
+                >
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="26"
+                        height="26"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                    >
+                        <path
+                            d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"
+                        />
+                        <path d="M3 6h18" />
+                        <path d="M16 10a4 4 0 0 1-8 0" />
+                    </svg>
+                </div>
+
+                <h2 class="mt-5 text-base font-extrabold text-heading">
+                    No orders yet
+                </h2>
+
+                <p class="mx-auto mt-2 max-w-sm text-sm leading-6 text-muted">
+                    Orders containing your products will appear here once
+                    customers place them.
+                </p>
+            </section>
+
+            <!-- ==================== Orders ==================== -->
+
+            <div v-else class="space-y-5">
+                <article
                     v-for="sellerOrder in orders"
                     :key="sellerOrder.order.id"
-                    class="rounded-2xl border border-gray-100 bg-white p-5 shadow-sm"
+                    class="overflow-hidden rounded-2xl border border-border bg-surface shadow-sm"
                 >
                     <!-- ==================== Order Header ==================== -->
 
                     <div
-                        class="flex flex-col gap-2 border-b border-gray-100 pb-4 sm:flex-row sm:items-center sm:justify-between"
+                        class="border-b border-border bg-background/70 px-5 py-5 sm:px-6"
                     >
-                        <div>
-                            <p class="font-semibold text-gray-900">
-                                Order #{{ sellerOrder.order.id }}
-                            </p>
+                        <div
+                            class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between"
+                        >
+                            <div class="min-w-0">
+                                <div class="flex flex-wrap items-center gap-2">
+                                    <h2
+                                        class="text-base font-extrabold text-heading"
+                                    >
+                                        Order #{{ sellerOrder.order.id }}
+                                    </h2>
 
-                            <p class="mt-1 text-xs capitalize text-gray-500">
-                                {{ sellerOrder.order.status }}
-                            </p>
+                                    <!-- ==================== Status ==================== -->
+
+                                    <span
+                                        class="w-fit rounded-full border px-3 py-1 text-[11px] font-bold capitalize"
+                                        :class="
+                                            sellerOrder.order.status ===
+                                            'delivered'
+                                                ? 'border-green-200 bg-green-50 text-green-700'
+                                                : sellerOrder.order.status ===
+                                                    'rejected'
+                                                  ? 'border-red-200 bg-red-50 text-red-700'
+                                                  : 'border-brand-100 bg-brand-50 text-brand-700'
+                                        "
+                                    >
+                                        {{
+                                            sellerOrder.order.status.replace(
+                                                /_/g,
+                                                " ",
+                                            )
+                                        }}
+                                    </span>
+                                </div>
+
+                                <p class="mt-1.5 text-xs text-muted">
+                                    {{ sellerOrder.items.length }}
+                                    {{
+                                        sellerOrder.items.length === 1
+                                            ? "product"
+                                            : "products"
+                                    }}
+                                    from your store
+                                </p>
+                            </div>
+
+                            <div class="sm:text-right">
+                                <p class="text-xs font-medium text-muted">
+                                    Ordered
+                                </p>
+
+                                <p class="mt-1 text-sm font-semibold text-body">
+                                    {{ sellerOrder.order.created_at }}
+                                </p>
+                            </div>
                         </div>
-
-                        <p class="text-xs text-gray-500">
-                            {{ sellerOrder.order.created_at }}
-                        </p>
                     </div>
 
-                    <!-- ==================== Seller's Products ==================== -->
+                    <!-- ==================== Seller Products ==================== -->
 
-                    <div class="divide-y divide-gray-100">
+                    <div class="divide-y divide-border">
                         <div
                             v-for="item in sellerOrder.items"
                             :key="item.id"
-                            class="py-4"
+                            class="px-5 py-5 sm:px-6"
                         >
-                            <p class="font-medium text-gray-900">
-                                {{ item.product.name }}
-                            </p>
-
-                            <p
-                                v-if="item.variant"
-                                class="mt-1 text-sm text-gray-500"
-                            >
-                                SKU: {{ item.variant.sku || "No SKU" }}
-                            </p>
-
                             <div
-                                class="mt-3 grid grid-cols-2 gap-3 text-sm sm:grid-cols-3"
+                                class="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between"
                             >
-                                <div>
-                                    <p class="text-gray-500">Quantity</p>
-                                    <p class="mt-1 font-medium text-gray-900">
-                                        {{ item.quantity }}
-                                    </p>
+                                <!-- ==================== Product ==================== -->
+
+                                <div class="min-w-0">
+                                    <h3
+                                        class="truncate text-sm font-extrabold text-heading"
+                                    >
+                                        {{ item.product.name }}
+                                    </h3>
+
+                                    <div
+                                        v-if="item.variant"
+                                        class="mt-1.5 flex flex-wrap items-center gap-2"
+                                    >
+                                        <span
+                                            class="rounded-md bg-background px-2 py-1 text-xs font-medium text-muted"
+                                        >
+                                            SKU
+                                        </span>
+
+                                        <span
+                                            class="text-xs font-medium text-body"
+                                        >
+                                            {{ item.variant.sku || "No SKU" }}
+                                        </span>
+                                    </div>
                                 </div>
 
-                                <div>
-                                    <p class="text-gray-500">Unit Price</p>
-                                    <p class="mt-1 font-medium text-gray-900">
-                                        {{ formatPrice(item.unit_price) }}
-                                    </p>
-                                </div>
+                                <!-- ==================== Product Summary ==================== -->
 
-                                <div>
-                                    <p class="text-gray-500">Subtotal</p>
-                                    <p class="mt-1 font-medium text-gray-900">
-                                        {{ formatPrice(item.subtotal) }}
-                                    </p>
+                                <div
+                                    class="grid grid-cols-3 gap-3 sm:max-w-xl sm:flex-1 lg:max-w-2xl"
+                                >
+                                    <div
+                                        class="rounded-xl bg-background px-3 py-3"
+                                    >
+                                        <p
+                                            class="text-[11px] font-bold uppercase tracking-wide text-muted"
+                                        >
+                                            Quantity
+                                        </p>
+
+                                        <p
+                                            class="mt-1 text-sm font-extrabold text-heading"
+                                        >
+                                            {{ item.quantity }}
+                                        </p>
+                                    </div>
+
+                                    <div
+                                        class="rounded-xl bg-background px-3 py-3"
+                                    >
+                                        <p
+                                            class="text-[11px] font-bold uppercase tracking-wide text-muted"
+                                        >
+                                            Unit Price
+                                        </p>
+
+                                        <p
+                                            class="mt-1 text-sm font-extrabold text-heading"
+                                        >
+                                            {{ formatPrice(item.unit_price) }}
+                                        </p>
+                                    </div>
+
+                                    <div
+                                        class="rounded-xl bg-brand-50 px-3 py-3"
+                                    >
+                                        <p
+                                            class="text-[11px] font-bold uppercase tracking-wide text-brand-600"
+                                        >
+                                            Subtotal
+                                        </p>
+
+                                        <p
+                                            class="mt-1 text-sm font-extrabold text-brand-700"
+                                        >
+                                            {{ formatPrice(item.subtotal) }}
+                                        </p>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -181,17 +319,25 @@ const formatPrice = (price: number) => {
                     <!-- ==================== Seller Order Total ==================== -->
 
                     <div
-                        class="flex items-center justify-between border-t border-gray-100 pt-4"
+                        class="flex items-center justify-between border-t border-border bg-background/50 px-5 py-4 sm:px-6"
                     >
-                        <span class="text-sm font-medium text-gray-500">
-                            Your total
-                        </span>
+                        <div>
+                            <p class="text-xs font-medium text-muted">
+                                Your order total
+                            </p>
 
-                        <span class="text-lg font-bold text-gray-900">
+                            <p class="mt-0.5 text-xs text-muted">
+                                Products from your store
+                            </p>
+                        </div>
+
+                        <span
+                            class="text-xl font-extrabold tracking-tight text-heading"
+                        >
                             {{ formatPrice(sellerOrder.total) }}
                         </span>
                     </div>
-                </div>
+                </article>
             </div>
         </div>
     </SellerLayout>

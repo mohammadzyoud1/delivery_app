@@ -89,289 +89,471 @@ const statusClasses = (status: string): string => {
     <Head title="Admin Delivery" />
 
     <AdminLayout>
-        <!-- ==================== Page Header ==================== -->
+        <div class="space-y-6">
+            <!-- ==================== Page Header ==================== -->
 
-        <div class="mb-8">
-            <h1 class="text-2xl font-bold tracking-tight text-gray-900">
-                Delivery
-            </h1>
-
-            <p class="mt-1 text-sm text-gray-500">
-                Manage delivery assignments and track delivery progress.
-            </p>
-        </div>
-
-        <!-- ==================== Empty State ==================== -->
-
-        <div
-            v-if="props.orders.length === 0"
-            class="rounded-2xl border border-gray-200 bg-white p-10 text-center"
-        >
-            <h2 class="font-semibold text-gray-900">No delivery orders</h2>
-
-            <p class="mt-1 text-sm text-gray-500">
-                There are currently no orders in the delivery flow.
-            </p>
-        </div>
-
-        <!-- ==================== Desktop Table ==================== -->
-
-        <div
-            v-else
-            class="hidden overflow-hidden rounded-2xl border border-gray-200 bg-white md:block"
-        >
-            <div class="overflow-x-auto">
-                <table class="w-full text-left">
-                    <thead class="border-b border-gray-200 bg-gray-50">
-                        <tr>
-                            <th
-                                class="px-6 py-4 text-xs font-semibold uppercase tracking-wide text-gray-500"
-                            >
-                                Order
-                            </th>
-
-                            <th
-                                class="px-6 py-4 text-xs font-semibold uppercase tracking-wide text-gray-500"
-                            >
-                                Customer
-                            </th>
-
-                            <th
-                                class="px-6 py-4 text-xs font-semibold uppercase tracking-wide text-gray-500"
-                            >
-                                Delivery User
-                            </th>
-
-                            <th
-                                class="px-6 py-4 text-xs font-semibold uppercase tracking-wide text-gray-500"
-                            >
-                                Type
-                            </th>
-
-                            <th
-                                class="px-6 py-4 text-xs font-semibold uppercase tracking-wide text-gray-500"
-                            >
-                                Status
-                            </th>
-
-                            <th
-                                class="px-6 py-4 text-xs font-semibold uppercase tracking-wide text-gray-500"
-                            >
-                                Lock
-                            </th>
-
-                            <th
-                                class="px-6 py-4 text-xs font-semibold uppercase tracking-wide text-gray-500"
-                            >
-                                Taken
-                            </th>
-
-                            <th
-                                class="px-6 py-4 text-xs font-semibold uppercase tracking-wide text-gray-500"
-                            >
-                                Date
-                            </th>
-                        </tr>
-                    </thead>
-
-                    <tbody class="divide-y divide-gray-100">
-                        <tr
-                            v-for="order in props.orders"
-                            :key="order.id"
-                            class="hover:bg-gray-50"
-                        >
-                            <td
-                                class="whitespace-nowrap px-6 py-4 text-sm font-semibold text-gray-900"
-                            >
-                                #{{ order.id }}
-                            </td>
-
-                            <td class="px-6 py-4">
-                                <p class="text-sm font-medium text-gray-900">
-                                    {{ order.customer.first_name }}
-                                    {{ order.customer.last_name }}
-                                </p>
-                            </td>
-
-                            <td class="px-6 py-4">
-                                <span
-                                    v-if="
-                                        order.delivery_assignment?.delivery_user
-                                    "
-                                    class="text-sm text-gray-700"
-                                >
-                                    {{
-                                        order.delivery_assignment.delivery_user
-                                            .first_name
-                                    }}
-                                    {{
-                                        order.delivery_assignment.delivery_user
-                                            .last_name
-                                    }}
-                                </span>
-
-                                <span v-else class="text-sm text-gray-400">
-                                    Unassigned
-                                </span>
-                            </td>
-
-                            <td class="px-6 py-4">
-                                <span
-                                    v-if="order.delivery_assignment"
-                                    class="text-sm font-medium capitalize text-gray-700"
-                                >
-                                    {{ order.delivery_assignment.type }}
-                                </span>
-
-                                <span v-else class="text-sm text-gray-400">
-                                    —
-                                </span>
-                            </td>
-
-                            <td class="px-6 py-4">
-                                <span
-                                    class="inline-flex rounded-full px-3 py-1 text-xs font-semibold capitalize"
-                                    :class="statusClasses(order.status)"
-                                >
-                                    {{ formatStatus(order.status) }}
-                                </span>
-                            </td>
-
-                            <td class="px-6 py-4">
-                                <span
-                                    v-if="order.delivery_locked"
-                                    class="inline-flex rounded-full bg-amber-100 px-3 py-1 text-xs font-semibold text-amber-700"
-                                >
-                                    Locked
-                                </span>
-
-                                <span v-else class="text-sm text-gray-400">
-                                    No
-                                </span>
-                            </td>
-
-                            <td class="px-6 py-4">
-                                <span
-                                    v-if="order.delivery_assignment?.taken_at"
-                                    class="text-sm text-gray-700"
-                                >
-                                    Yes
-                                </span>
-
-                                <span v-else class="text-sm text-gray-400">
-                                    No
-                                </span>
-                            </td>
-
-                            <td
-                                class="whitespace-nowrap px-6 py-4 text-sm text-gray-500"
-                            >
-                                {{ formatDate(order.created_at) }}
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-
-        <!-- ==================== Mobile Cards ==================== -->
-
-        <div v-if="props.orders.length > 0" class="space-y-4 md:hidden">
             <div
-                v-for="order in props.orders"
-                :key="order.id"
-                class="rounded-2xl border border-gray-200 bg-white p-5"
+                class="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between"
             >
-                <div class="flex items-start justify-between gap-4">
-                    <div>
-                        <p class="font-semibold text-gray-900">
-                            Order #{{ order.id }}
-                        </p>
-
-                        <p class="mt-1 text-sm text-gray-500">
-                            {{ order.customer.first_name }}
-                            {{ order.customer.last_name }}
-                        </p>
-                    </div>
-
-                    <span
-                        class="inline-flex rounded-full px-3 py-1 text-xs font-semibold capitalize"
-                        :class="statusClasses(order.status)"
+                <div>
+                    <p
+                        class="text-xs font-bold uppercase tracking-[0.16em] text-brand-600"
                     >
-                        {{ formatStatus(order.status) }}
-                    </span>
+                        Admin Panel
+                    </p>
+
+                    <h1
+                        class="mt-1 text-2xl font-bold tracking-tight text-heading"
+                    >
+                        Delivery
+                    </h1>
+
+                    <p class="mt-1 max-w-2xl text-sm text-muted">
+                        Manage delivery assignments and track delivery progress.
+                    </p>
                 </div>
 
-                <div class="mt-5 space-y-3 border-t border-gray-100 pt-4">
-                    <div class="flex justify-between gap-4">
-                        <span class="text-sm text-gray-500">
-                            Delivery User
-                        </span>
+                <div
+                    class="inline-flex w-fit items-center rounded-full border border-border bg-surface px-4 py-2 text-sm font-semibold text-body shadow-sm"
+                >
+                    {{ props.orders.length }} orders
+                </div>
+            </div>
+
+            <!-- ==================== Summary ==================== -->
+
+            <div class="grid grid-cols-1 gap-4 sm:grid-cols-3">
+                <div
+                    class="rounded-2xl border border-border bg-surface p-5 shadow-sm"
+                >
+                    <p
+                        class="text-xs font-bold uppercase tracking-wide text-muted"
+                    >
+                        Delivery Orders
+                    </p>
+
+                    <p class="mt-1 text-2xl font-bold text-heading">
+                        {{ props.orders.length }}
+                    </p>
+                </div>
+
+                <div
+                    class="rounded-2xl border border-border bg-surface p-5 shadow-sm"
+                >
+                    <p
+                        class="text-xs font-bold uppercase tracking-wide text-muted"
+                    >
+                        Assigned
+                    </p>
+
+                    <p class="mt-1 text-2xl font-bold text-heading">
+                        {{
+                            props.orders.filter(
+                                (order) => order.delivery_assignment,
+                            ).length
+                        }}
+                    </p>
+                </div>
+
+                <div
+                    class="rounded-2xl border border-border bg-surface p-5 shadow-sm"
+                >
+                    <p
+                        class="text-xs font-bold uppercase tracking-wide text-muted"
+                    >
+                        Locked
+                    </p>
+
+                    <p class="mt-1 text-2xl font-bold text-heading">
+                        {{
+                            props.orders.filter(
+                                (order) => order.delivery_locked,
+                            ).length
+                        }}
+                    </p>
+                </div>
+            </div>
+
+            <!-- ==================== Empty State ==================== -->
+
+            <div
+                v-if="props.orders.length === 0"
+                class="rounded-2xl border border-border bg-surface px-6 py-14 text-center shadow-sm"
+            >
+                <div
+                    class="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-brand-50 text-brand-600"
+                >
+                    <Package class="h-6 w-6" />
+                </div>
+
+                <h2 class="mt-4 text-base font-semibold text-heading">
+                    No delivery orders
+                </h2>
+
+                <p class="mt-1 text-sm text-muted">
+                    There are currently no orders in the delivery flow.
+                </p>
+            </div>
+
+            <!-- ==================== Desktop Table ==================== -->
+
+            <div
+                v-else
+                class="hidden overflow-hidden rounded-2xl border border-border bg-surface shadow-sm md:block"
+            >
+                <div class="overflow-x-auto">
+                    <table class="w-full min-w-[1050px] text-left">
+                        <thead class="border-b border-border bg-background">
+                            <tr>
+                                <th
+                                    class="px-5 py-4 text-xs font-bold uppercase tracking-wide text-muted"
+                                >
+                                    Order
+                                </th>
+
+                                <th
+                                    class="px-5 py-4 text-xs font-bold uppercase tracking-wide text-muted"
+                                >
+                                    Customer
+                                </th>
+
+                                <th
+                                    class="px-5 py-4 text-xs font-bold uppercase tracking-wide text-muted"
+                                >
+                                    Delivery User
+                                </th>
+
+                                <th
+                                    class="px-5 py-4 text-xs font-bold uppercase tracking-wide text-muted"
+                                >
+                                    Type
+                                </th>
+
+                                <th
+                                    class="px-5 py-4 text-xs font-bold uppercase tracking-wide text-muted"
+                                >
+                                    Status
+                                </th>
+
+                                <th
+                                    class="px-5 py-4 text-xs font-bold uppercase tracking-wide text-muted"
+                                >
+                                    Lock
+                                </th>
+
+                                <th
+                                    class="px-5 py-4 text-xs font-bold uppercase tracking-wide text-muted"
+                                >
+                                    Taken
+                                </th>
+
+                                <th
+                                    class="px-5 py-4 text-xs font-bold uppercase tracking-wide text-muted"
+                                >
+                                    Date
+                                </th>
+                            </tr>
+                        </thead>
+
+                        <tbody class="divide-y divide-border">
+                            <tr
+                                v-for="order in props.orders"
+                                :key="order.id"
+                                class="transition-colors hover:bg-background"
+                            >
+                                <!-- ==================== Order ==================== -->
+
+                                <td class="px-5 py-4">
+                                    <p class="font-semibold text-heading">
+                                        #{{ order.id }}
+                                    </p>
+
+                                    <p class="mt-0.5 text-xs text-muted">
+                                        Customer #{{ order.customer_id }}
+                                    </p>
+                                </td>
+
+                                <!-- ==================== Customer ==================== -->
+
+                                <td class="px-5 py-4">
+                                    <p
+                                        class="text-sm font-semibold text-heading"
+                                    >
+                                        {{ order.customer.first_name }}
+                                        {{ order.customer.last_name }}
+                                    </p>
+                                </td>
+
+                                <!-- ==================== Delivery User ==================== -->
+
+                                <td class="px-5 py-4">
+                                    <template
+                                        v-if="
+                                            order.delivery_assignment
+                                                ?.delivery_user
+                                        "
+                                    >
+                                        <p
+                                            class="text-sm font-medium text-body"
+                                        >
+                                            {{
+                                                order.delivery_assignment
+                                                    .delivery_user.first_name
+                                            }}
+                                            {{
+                                                order.delivery_assignment
+                                                    .delivery_user.last_name
+                                            }}
+                                        </p>
+
+                                        <p
+                                            v-if="
+                                                order.delivery_assignment
+                                                    .assigned_by_user
+                                            "
+                                            class="mt-0.5 text-xs text-muted"
+                                        >
+                                            Assigned by
+                                            {{
+                                                order.delivery_assignment
+                                                    .assigned_by_user.first_name
+                                            }}
+                                            {{
+                                                order.delivery_assignment
+                                                    .assigned_by_user.last_name
+                                            }}
+                                        </p>
+                                    </template>
+
+                                    <span v-else class="text-sm text-muted">
+                                        Unassigned
+                                    </span>
+                                </td>
+
+                                <!-- ==================== Type ==================== -->
+
+                                <td class="px-5 py-4">
+                                    <span
+                                        v-if="order.delivery_assignment"
+                                        class="inline-flex rounded-lg bg-background px-2.5 py-1 text-xs font-semibold capitalize text-body"
+                                    >
+                                        {{ order.delivery_assignment.type }}
+                                    </span>
+
+                                    <span v-else class="text-sm text-muted">
+                                        —
+                                    </span>
+                                </td>
+
+                                <!-- ==================== Status ==================== -->
+
+                                <td class="px-5 py-4">
+                                    <span
+                                        class="inline-flex rounded-full px-3 py-1 text-xs font-bold capitalize"
+                                        :class="statusClasses(order.status)"
+                                    >
+                                        {{ formatStatus(order.status) }}
+                                    </span>
+                                </td>
+
+                                <!-- ==================== Lock ==================== -->
+
+                                <td class="px-5 py-4">
+                                    <span
+                                        v-if="order.delivery_locked"
+                                        class="inline-flex rounded-full border border-amber-100 bg-amber-50 px-3 py-1 text-xs font-bold text-amber-700"
+                                    >
+                                        Locked
+                                    </span>
+
+                                    <span v-else class="text-sm text-muted">
+                                        Not locked
+                                    </span>
+                                </td>
+
+                                <!-- ==================== Taken ==================== -->
+
+                                <td class="px-5 py-4">
+                                    <span
+                                        v-if="
+                                            order.delivery_assignment?.taken_at
+                                        "
+                                        class="inline-flex rounded-full border border-green-100 bg-green-50 px-3 py-1 text-xs font-bold text-green-700"
+                                    >
+                                        Taken
+                                    </span>
+
+                                    <span v-else class="text-sm text-muted">
+                                        Not taken
+                                    </span>
+                                </td>
+
+                                <!-- ==================== Date ==================== -->
+
+                                <td
+                                    class="whitespace-nowrap px-5 py-4 text-sm text-body"
+                                >
+                                    {{ formatDate(order.created_at) }}
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- ==================== Mobile Cards ==================== -->
+
+            <div v-if="props.orders.length > 0" class="space-y-4 md:hidden">
+                <div
+                    v-for="order in props.orders"
+                    :key="order.id"
+                    class="rounded-2xl border border-border bg-surface p-5 shadow-sm"
+                >
+                    <!-- ==================== Card Header ==================== -->
+
+                    <div class="flex items-start justify-between gap-3">
+                        <div>
+                            <p class="font-semibold text-heading">
+                                Order #{{ order.id }}
+                            </p>
+
+                            <p class="mt-1 text-sm text-muted">
+                                {{ order.customer.first_name }}
+                                {{ order.customer.last_name }}
+                            </p>
+                        </div>
 
                         <span
-                            v-if="order.delivery_assignment?.delivery_user"
-                            class="text-right text-sm font-medium text-gray-900"
+                            class="shrink-0 rounded-full px-3 py-1 text-xs font-bold capitalize"
+                            :class="statusClasses(order.status)"
                         >
-                            {{
-                                order.delivery_assignment.delivery_user
-                                    .first_name
-                            }}
-                            {{
-                                order.delivery_assignment.delivery_user
-                                    .last_name
-                            }}
-                        </span>
-
-                        <span v-else class="text-sm text-gray-400">
-                            Unassigned
+                            {{ formatStatus(order.status) }}
                         </span>
                     </div>
 
-                    <div class="flex justify-between gap-4">
-                        <span class="text-sm text-gray-500"> Type </span>
+                    <!-- ==================== Delivery Information ==================== -->
 
-                        <span
-                            class="text-sm font-medium capitalize text-gray-900"
+                    <div class="mt-5 space-y-4 border-t border-border pt-4">
+                        <div class="flex justify-between gap-4">
+                            <span class="text-sm text-muted">
+                                Delivery User
+                            </span>
+
+                            <span
+                                v-if="order.delivery_assignment?.delivery_user"
+                                class="text-right text-sm font-semibold text-heading"
+                            >
+                                {{
+                                    order.delivery_assignment.delivery_user
+                                        .first_name
+                                }}
+                                {{
+                                    order.delivery_assignment.delivery_user
+                                        .last_name
+                                }}
+                            </span>
+
+                            <span v-else class="text-sm text-muted">
+                                Unassigned
+                            </span>
+                        </div>
+
+                        <div
+                            v-if="order.delivery_assignment?.assigned_by_user"
+                            class="flex justify-between gap-4"
                         >
-                            {{ order.delivery_assignment?.type ?? "—" }}
-                        </span>
+                            <span class="text-sm text-muted">
+                                Assigned By
+                            </span>
+
+                            <span
+                                class="text-right text-sm font-medium text-body"
+                            >
+                                {{
+                                    order.delivery_assignment.assigned_by_user
+                                        .first_name
+                                }}
+                                {{
+                                    order.delivery_assignment.assigned_by_user
+                                        .last_name
+                                }}
+                            </span>
+                        </div>
+
+                        <div class="flex justify-between gap-4">
+                            <span class="text-sm text-muted"> Type </span>
+
+                            <span
+                                class="text-sm font-semibold capitalize text-heading"
+                            >
+                                {{ order.delivery_assignment?.type ?? "—" }}
+                            </span>
+                        </div>
+
+                        <div class="flex justify-between gap-4">
+                            <span class="text-sm text-muted"> Lock </span>
+
+                            <span
+                                class="text-sm font-semibold"
+                                :class="
+                                    order.delivery_locked
+                                        ? 'text-amber-600'
+                                        : 'text-muted'
+                                "
+                            >
+                                {{
+                                    order.delivery_locked
+                                        ? "Locked"
+                                        : "Not locked"
+                                }}
+                            </span>
+                        </div>
+
+                        <div class="flex justify-between gap-4">
+                            <span class="text-sm text-muted"> Taken </span>
+
+                            <span
+                                class="text-sm font-semibold"
+                                :class="
+                                    order.delivery_assignment?.taken_at
+                                        ? 'text-green-600'
+                                        : 'text-muted'
+                                "
+                            >
+                                {{
+                                    order.delivery_assignment?.taken_at
+                                        ? "Taken"
+                                        : "Not taken"
+                                }}
+                            </span>
+                        </div>
+
+                        <div class="flex justify-between gap-4">
+                            <span class="text-sm text-muted"> Created </span>
+
+                            <span
+                                class="text-right text-sm font-medium text-body"
+                            >
+                                {{ formatDate(order.created_at) }}
+                            </span>
+                        </div>
                     </div>
 
-                    <div class="flex justify-between gap-4">
-                        <span class="text-sm text-gray-500"> Lock </span>
+                    <!-- ==================== Admin Note ==================== -->
 
-                        <span
-                            class="text-sm font-medium"
-                            :class="
-                                order.delivery_locked
-                                    ? 'text-amber-600'
-                                    : 'text-gray-400'
-                            "
+                    <div
+                        v-if="order.delivery_assignment?.admin_note"
+                        class="mt-4 rounded-xl border border-brand-100 bg-brand-50 p-3"
+                    >
+                        <p
+                            class="text-[11px] font-bold uppercase tracking-wide text-brand-700"
                         >
-                            {{
-                                order.delivery_locked ? "Locked" : "Not locked"
-                            }}
-                        </span>
-                    </div>
+                            Admin Note
+                        </p>
 
-                    <div class="flex justify-between gap-4">
-                        <span class="text-sm text-gray-500"> Taken </span>
-
-                        <span class="text-sm font-medium text-gray-900">
-                            {{
-                                order.delivery_assignment?.taken_at
-                                    ? "Yes"
-                                    : "No"
-                            }}
-                        </span>
-                    </div>
-
-                    <div class="flex justify-between gap-4">
-                        <span class="text-sm text-gray-500"> Date </span>
-
-                        <span class="text-right text-sm text-gray-700">
-                            {{ formatDate(order.created_at) }}
-                        </span>
+                        <p class="mt-1 text-sm leading-5 text-brand-700">
+                            {{ order.delivery_assignment.admin_note }}
+                        </p>
                     </div>
                 </div>
             </div>

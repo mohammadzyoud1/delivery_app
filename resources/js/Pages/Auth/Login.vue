@@ -1,4 +1,3 @@
-```vue
 <script setup lang="ts">
 import { Link, useForm } from "@inertiajs/vue3";
 import { Mail } from "lucide-vue-next";
@@ -96,4 +95,3 @@ const handleSubmit = () => {
         </div>
     </div>
 </template>
-```

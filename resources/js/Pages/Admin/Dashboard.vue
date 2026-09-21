@@ -49,64 +49,112 @@ const formatStatus = (status: string): string => {
         <!-- ==================== Page Header ==================== -->
 
         <div class="mb-8">
-            <h1 class="text-2xl font-bold tracking-tight text-gray-900">
+            <p
+                class="mb-2 text-xs font-bold uppercase tracking-[0.18em] text-brand-600"
+            >
+                Admin Panel
+            </p>
+
+            <h1
+                class="text-2xl font-bold tracking-tight text-heading sm:text-3xl"
+            >
                 Dashboard
             </h1>
 
-            <p class="mt-1 text-sm text-gray-500">
+            <p class="mt-2 text-sm text-muted sm:text-base">
                 Overview of what's happening in Deliver.
             </p>
         </div>
 
         <!-- ==================== Statistics ==================== -->
 
-        <div class="grid grid-cols-2 gap-4 lg:grid-cols-5">
-            <div class="rounded-2xl border border-gray-200 bg-white p-5">
-                <ClipboardList class="mb-4 h-5 w-5 text-gray-500" />
+        <div class="grid grid-cols-2 gap-4 xl:grid-cols-5">
+            <!-- Orders -->
 
-                <p class="text-sm text-gray-500">Orders</p>
+            <div
+                class="rounded-2xl border border-border bg-surface p-5 shadow-sm transition-shadow hover:shadow-md"
+            >
+                <div
+                    class="mb-4 flex h-10 w-10 items-center justify-center rounded-xl bg-brand-50 text-brand-600"
+                >
+                    <ClipboardList class="h-5 w-5" />
+                </div>
 
-                <p class="mt-1 text-2xl font-bold text-gray-900">
+                <p class="text-sm font-medium text-muted">Orders</p>
+
+                <p class="mt-1 text-2xl font-bold tracking-tight text-heading">
                     {{ props.stats.orders }}
                 </p>
             </div>
 
-            <div class="rounded-2xl border border-gray-200 bg-white p-5">
-                <Users class="mb-4 h-5 w-5 text-gray-500" />
+            <!-- Users -->
 
-                <p class="text-sm text-gray-500">Users</p>
+            <div
+                class="rounded-2xl border border-border bg-surface p-5 shadow-sm transition-shadow hover:shadow-md"
+            >
+                <div
+                    class="mb-4 flex h-10 w-10 items-center justify-center rounded-xl bg-brand-50 text-brand-600"
+                >
+                    <Users class="h-5 w-5" />
+                </div>
 
-                <p class="mt-1 text-2xl font-bold text-gray-900">
+                <p class="text-sm font-medium text-muted">Users</p>
+
+                <p class="mt-1 text-2xl font-bold tracking-tight text-heading">
                     {{ props.stats.users }}
                 </p>
             </div>
 
-            <div class="rounded-2xl border border-gray-200 bg-white p-5">
-                <ShoppingBag class="mb-4 h-5 w-5 text-gray-500" />
+            <!-- Sellers -->
 
-                <p class="text-sm text-gray-500">Sellers</p>
+            <div
+                class="rounded-2xl border border-border bg-surface p-5 shadow-sm transition-shadow hover:shadow-md"
+            >
+                <div
+                    class="mb-4 flex h-10 w-10 items-center justify-center rounded-xl bg-brand-50 text-brand-600"
+                >
+                    <ShoppingBag class="h-5 w-5" />
+                </div>
 
-                <p class="mt-1 text-2xl font-bold text-gray-900">
+                <p class="text-sm font-medium text-muted">Sellers</p>
+
+                <p class="mt-1 text-2xl font-bold tracking-tight text-heading">
                     {{ props.stats.sellers }}
                 </p>
             </div>
 
-            <div class="rounded-2xl border border-gray-200 bg-white p-5">
-                <Truck class="mb-4 h-5 w-5 text-gray-500" />
+            <!-- Delivery -->
 
-                <p class="text-sm text-gray-500">Delivery</p>
+            <div
+                class="rounded-2xl border border-border bg-surface p-5 shadow-sm transition-shadow hover:shadow-md"
+            >
+                <div
+                    class="mb-4 flex h-10 w-10 items-center justify-center rounded-xl bg-brand-50 text-brand-600"
+                >
+                    <Truck class="h-5 w-5" />
+                </div>
 
-                <p class="mt-1 text-2xl font-bold text-gray-900">
+                <p class="text-sm font-medium text-muted">Delivery</p>
+
+                <p class="mt-1 text-2xl font-bold tracking-tight text-heading">
                     {{ props.stats.delivery }}
                 </p>
             </div>
 
-            <div class="rounded-2xl border border-gray-200 bg-white p-5">
-                <Package class="mb-4 h-5 w-5 text-gray-500" />
+            <!-- Products -->
 
-                <p class="text-sm text-gray-500">Products</p>
+            <div
+                class="rounded-2xl border border-border bg-surface p-5 shadow-sm transition-shadow hover:shadow-md"
+            >
+                <div
+                    class="mb-4 flex h-10 w-10 items-center justify-center rounded-xl bg-brand-50 text-brand-600"
+                >
+                    <Package class="h-5 w-5" />
+                </div>
 
-                <p class="mt-1 text-2xl font-bold text-gray-900">
+                <p class="text-sm font-medium text-muted">Products</p>
+
+                <p class="mt-1 text-2xl font-bold tracking-tight text-heading">
                     {{ props.stats.products }}
                 </p>
             </div>
@@ -115,53 +163,77 @@ const formatStatus = (status: string): string => {
         <!-- ==================== Recent Orders ==================== -->
 
         <div
-            class="mt-8 overflow-hidden rounded-2xl border border-gray-200 bg-white"
+            class="mt-8 overflow-hidden rounded-2xl border border-border bg-surface shadow-sm"
         >
+            <!-- Section Header -->
+
             <div
-                class="flex items-center justify-between border-b border-gray-100 px-5 py-4 sm:px-6"
+                class="flex flex-col gap-3 border-b border-border px-5 py-4 sm:flex-row sm:items-center sm:justify-between sm:px-6"
             >
                 <div>
-                    <h2 class="font-semibold text-gray-900">Recent Orders</h2>
+                    <h2 class="font-semibold text-heading">Recent Orders</h2>
 
-                    <p class="mt-1 text-sm text-gray-500">
+                    <p class="mt-1 text-sm text-muted">
                         Latest activity in the store.
                     </p>
                 </div>
 
                 <Link
                     href="/admin/orders"
-                    class="flex items-center gap-1 text-sm font-medium text-gray-700 hover:text-gray-900"
+                    class="group flex w-fit items-center gap-1.5 rounded-lg px-2 py-1.5 text-sm font-semibold text-brand-600 transition hover:bg-brand-50 hover:text-brand-700 focus-visible:outline-none"
                 >
                     View all
 
-                    <ArrowRight class="h-4 w-4" />
+                    <ArrowRight
+                        class="h-4 w-4 transition-transform group-hover:translate-x-0.5"
+                    />
                 </Link>
             </div>
 
+            <!-- Empty State -->
+
             <div
                 v-if="props.recentOrders.length === 0"
-                class="p-8 text-center text-sm text-gray-500"
+                class="px-6 py-12 text-center"
             >
-                No orders yet.
+                <div
+                    class="mx-auto flex h-12 w-12 items-center justify-center rounded-2xl bg-brand-50 text-brand-600"
+                >
+                    <ClipboardList class="h-5 w-5" />
+                </div>
+
+                <h3 class="mt-4 text-sm font-semibold text-heading">
+                    No orders yet
+                </h3>
+
+                <p class="mt-1 text-sm text-muted">
+                    Recent orders will appear here.
+                </p>
             </div>
 
-            <div v-else class="divide-y divide-gray-100">
+            <!-- Orders -->
+
+            <div v-else class="divide-y divide-border">
                 <div
                     v-for="order in props.recentOrders"
                     :key="order.id"
-                    class="flex items-center justify-between gap-4 px-5 py-4 sm:px-6"
+                    class="flex flex-col gap-3 px-5 py-4 transition-colors hover:bg-background sm:flex-row sm:items-center sm:justify-between sm:px-6"
                 >
-                    <div>
-                        <p class="font-medium text-gray-900">
+                    <!-- Order Information -->
+
+                    <div class="min-w-0">
+                        <p class="font-semibold text-heading">
                             Order #{{ order.id }}
                         </p>
 
-                        <p class="mt-1 text-sm capitalize text-gray-500">
+                        <p class="mt-1 text-sm capitalize text-muted">
                             {{ formatStatus(order.status) }}
                         </p>
                     </div>
 
-                    <p class="font-semibold text-gray-900">
+                    <!-- Order Total -->
+
+                    <p class="text-base font-bold text-heading sm:text-right">
                         {{ Number(order.total_amount).toFixed(2) }}
                     </p>
                 </div>

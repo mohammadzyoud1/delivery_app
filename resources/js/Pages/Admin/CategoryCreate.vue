@@ -42,213 +42,271 @@ const submit = () => {
     <Head title="Create Category" />
 
     <AdminLayout>
-        <!-- ==================== Header ==================== -->
-
-        <div class="mb-6">
-            <Link
-                href="/admin/categories"
-                class="mb-4 inline-flex items-center gap-2 text-sm font-medium text-gray-600 hover:text-gray-900"
-            >
-                <ArrowLeft class="h-4 w-4" />
-                Back to Categories
-            </Link>
-
-            <p
-                class="text-xs font-semibold uppercase tracking-wide text-gray-400"
-            >
-                Catalog
-            </p>
-
-            <h1 class="mt-1 text-2xl font-bold text-gray-900">
-                Create Category
-            </h1>
-
-            <p class="mt-1 text-sm text-gray-500">
-                Add a new category or subcategory.
-            </p>
-        </div>
-
-        <!-- ==================== Form ==================== -->
-
-        <form
-            class="max-w-3xl rounded-2xl border border-gray-200 bg-white p-5 sm:p-6"
-            @submit.prevent="submit"
-        >
-            <!-- ==================== Name ==================== -->
+        <div class="space-y-6">
+            <!-- ==================== Page Header ==================== -->
 
             <div>
-                <label for="name" class="text-sm font-semibold text-gray-900">
-                    Category Name
-                </label>
-
-                <input
-                    id="name"
-                    v-model="form.name"
-                    type="text"
-                    placeholder="e.g. Electronics"
-                    class="mt-2 w-full rounded-xl border border-gray-200 px-4 py-3 text-sm outline-none transition focus:border-gray-900"
-                />
-
-                <p v-if="form.errors.name" class="mt-1 text-sm text-red-600">
-                    {{ form.errors.name }}
-                </p>
-            </div>
-
-            <!-- ==================== Parent Category ==================== -->
-
-            <div class="mt-5">
-                <label
-                    for="parent_id"
-                    class="text-sm font-semibold text-gray-900"
-                >
-                    Parent Category
-                </label>
-
-                <select
-                    id="parent_id"
-                    v-model="form.parent_id"
-                    class="mt-2 w-full rounded-xl border border-gray-200 bg-white px-4 py-3 text-sm outline-none focus:border-gray-900"
-                >
-                    <option :value="null">Main Category</option>
-
-                    <option
-                        v-for="parent in parentCategories"
-                        :key="parent.id"
-                        :value="parent.id"
-                    >
-                        {{ parent.name }}
-                    </option>
-                </select>
-
-                <p class="mt-1 text-xs text-gray-500">
-                    Select a parent if this should be a subcategory.
-                </p>
-
-                <p
-                    v-if="form.errors.parent_id"
-                    class="mt-1 text-sm text-red-600"
-                >
-                    {{ form.errors.parent_id }}
-                </p>
-            </div>
-
-            <!-- ==================== Description ==================== -->
-
-            <div class="mt-5">
-                <label
-                    for="description"
-                    class="text-sm font-semibold text-gray-900"
-                >
-                    Description
-                </label>
-
-                <textarea
-                    id="description"
-                    v-model="form.description"
-                    rows="4"
-                    placeholder="Describe this category..."
-                    class="mt-2 w-full resize-none rounded-xl border border-gray-200 px-4 py-3 text-sm outline-none transition focus:border-gray-900"
-                ></textarea>
-
-                <p
-                    v-if="form.errors.description"
-                    class="mt-1 text-sm text-red-600"
-                >
-                    {{ form.errors.description }}
-                </p>
-            </div>
-
-            <!-- ==================== Image ==================== -->
-
-            <div class="mt-5">
-                <label for="image" class="text-sm font-semibold text-gray-900">
-                    Category Image
-                </label>
-
-                <label
-                    for="image"
-                    class="mt-2 flex cursor-pointer items-center gap-3 rounded-xl border border-dashed border-gray-300 p-4 transition hover:border-gray-900"
-                >
-                    <div
-                        class="flex h-10 w-10 items-center justify-center rounded-lg bg-gray-100"
-                    >
-                        <ImagePlus class="h-5 w-5 text-gray-500" />
-                    </div>
-
-                    <div>
-                        <p class="text-sm font-medium text-gray-900">
-                            Choose an image
-                        </p>
-
-                        <p class="text-xs text-gray-500">
-                            JPG, PNG, WEBP up to 2 MB
-                        </p>
-                    </div>
-                </label>
-
-                <input
-                    id="image"
-                    type="file"
-                    accept="image/*"
-                    class="hidden"
-                    @change="
-                        form.image =
-                            ($event.target as HTMLInputElement).files?.[0] ??
-                            null
-                    "
-                />
-
-                <p v-if="form.errors.image" class="mt-1 text-sm text-red-600">
-                    {{ form.errors.image }}
-                </p>
-
-                <p v-if="form.image" class="mt-2 text-xs text-gray-500">
-                    Selected: {{ form.image.name }}
-                </p>
-            </div>
-
-            <!-- ==================== Status ==================== -->
-
-            <label
-                class="mt-5 flex items-center gap-3 rounded-xl bg-gray-50 p-4"
-            >
-                <input
-                    v-model="form.is_active"
-                    type="checkbox"
-                    class="h-4 w-4 rounded border-gray-300"
-                />
-
-                <div>
-                    <p class="text-sm font-semibold text-gray-900">
-                        Active category
-                    </p>
-
-                    <p class="text-xs text-gray-500">
-                        Active categories can be used by sellers.
-                    </p>
-                </div>
-            </label>
-
-            <!-- ==================== Actions ==================== -->
-
-            <div
-                class="mt-6 flex flex-col-reverse gap-3 border-t border-gray-100 pt-6 sm:flex-row sm:justify-end"
-            >
                 <Link
                     href="/admin/categories"
-                    class="rounded-xl border border-gray-200 px-5 py-3 text-center text-sm font-semibold text-gray-700 hover:bg-gray-50"
+                    class="inline-flex items-center gap-2 text-sm font-semibold text-muted transition hover:text-brand-700"
                 >
-                    Cancel
+                    <ArrowLeft class="h-4 w-4" />
+                    Back to Categories
                 </Link>
 
-                <button
-                    type="submit"
-                    :disabled="form.processing"
-                    class="rounded-xl bg-gray-900 px-5 py-3 text-sm font-semibold text-white transition hover:bg-gray-800 disabled:cursor-not-allowed disabled:opacity-50"
-                >
-                    {{ form.processing ? "Creating..." : "Create Category" }}
-                </button>
+                <div class="mt-5">
+                    <p
+                        class="text-xs font-bold uppercase tracking-[0.16em] text-brand-600"
+                    >
+                        Catalog
+                    </p>
+
+                    <h1
+                        class="mt-1 text-2xl font-bold tracking-tight text-heading"
+                    >
+                        Create Category
+                    </h1>
+
+                    <p class="mt-1 text-sm text-muted">
+                        Add a new category or subcategory to your catalog.
+                    </p>
+                </div>
             </div>
-        </form>
+
+            <!-- ==================== Form ==================== -->
+
+            <form
+                class="max-w-3xl overflow-hidden rounded-2xl border border-border bg-surface shadow-sm"
+                @submit.prevent="submit"
+            >
+                <!-- ==================== Form Header ==================== -->
+
+                <div
+                    class="border-b border-border bg-background px-5 py-5 sm:px-6"
+                >
+                    <h2 class="font-semibold text-heading">
+                        Category Information
+                    </h2>
+
+                    <p class="mt-1 text-sm text-muted">
+                        Enter the details for your new catalog category.
+                    </p>
+                </div>
+
+                <div class="space-y-6 p-5 sm:p-6">
+                    <!-- ==================== Name ==================== -->
+
+                    <div>
+                        <label
+                            for="name"
+                            class="text-sm font-semibold text-heading"
+                        >
+                            Category Name
+                        </label>
+
+                        <input
+                            id="name"
+                            v-model="form.name"
+                            type="text"
+                            placeholder="e.g. Electronics"
+                            class="mt-2 w-full rounded-xl border border-border bg-surface px-4 py-3 text-sm text-heading placeholder:text-muted outline-none transition focus:border-brand-500 focus:ring-2 focus:ring-brand-500/10"
+                            :class="
+                                form.errors.name
+                                    ? 'border-red-300 focus:border-red-500 focus:ring-red-500/10'
+                                    : ''
+                            "
+                        />
+
+                        <p
+                            v-if="form.errors.name"
+                            class="mt-1.5 text-sm text-red-600"
+                        >
+                            {{ form.errors.name }}
+                        </p>
+                    </div>
+
+                    <!-- ==================== Parent Category ==================== -->
+
+                    <div>
+                        <label
+                            for="parent_id"
+                            class="text-sm font-semibold text-heading"
+                        >
+                            Parent Category
+                        </label>
+
+                        <select
+                            id="parent_id"
+                            v-model="form.parent_id"
+                            class="mt-2 w-full rounded-xl border border-border bg-surface px-4 py-3 text-sm text-heading outline-none transition focus:border-brand-500 focus:ring-2 focus:ring-brand-500/10"
+                            :class="
+                                form.errors.parent_id
+                                    ? 'border-red-300 focus:border-red-500 focus:ring-red-500/10'
+                                    : ''
+                            "
+                        >
+                            <option :value="null">Main Category</option>
+
+                            <option
+                                v-for="parent in parentCategories"
+                                :key="parent.id"
+                                :value="parent.id"
+                            >
+                                {{ parent.name }}
+                            </option>
+                        </select>
+
+                        <p class="mt-1.5 text-xs text-muted">
+                            Select a parent category if this should be a
+                            subcategory.
+                        </p>
+
+                        <p
+                            v-if="form.errors.parent_id"
+                            class="mt-1.5 text-sm text-red-600"
+                        >
+                            {{ form.errors.parent_id }}
+                        </p>
+                    </div>
+
+                    <!-- ==================== Description ==================== -->
+
+                    <div>
+                        <label
+                            for="description"
+                            class="text-sm font-semibold text-heading"
+                        >
+                            Description
+                        </label>
+
+                        <textarea
+                            id="description"
+                            v-model="form.description"
+                            rows="5"
+                            placeholder="Describe this category..."
+                            class="mt-2 w-full resize-none rounded-xl border border-border bg-surface px-4 py-3 text-sm leading-6 text-heading placeholder:text-muted outline-none transition focus:border-brand-500 focus:ring-2 focus:ring-brand-500/10"
+                            :class="
+                                form.errors.description
+                                    ? 'border-red-300 focus:border-red-500 focus:ring-red-500/10'
+                                    : ''
+                            "
+                        ></textarea>
+
+                        <p
+                            v-if="form.errors.description"
+                            class="mt-1.5 text-sm text-red-600"
+                        >
+                            {{ form.errors.description }}
+                        </p>
+                    </div>
+
+                    <!-- ==================== Image ==================== -->
+
+                    <div>
+                        <label
+                            for="image"
+                            class="text-sm font-semibold text-heading"
+                        >
+                            Category Image
+                        </label>
+
+                        <label
+                            for="image"
+                            class="mt-2 flex cursor-pointer items-center gap-4 rounded-2xl border border-dashed border-border bg-background p-5 transition hover:border-brand-300 hover:bg-brand-50/40"
+                        >
+                            <div
+                                class="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-brand-50 text-brand-600"
+                            >
+                                <ImagePlus class="h-5 w-5" />
+                            </div>
+
+                            <div class="min-w-0">
+                                <p class="text-sm font-semibold text-heading">
+                                    Choose an image
+                                </p>
+
+                                <p class="mt-1 text-xs text-muted">
+                                    JPG, PNG or WEBP up to 2 MB
+                                </p>
+
+                                <p
+                                    v-if="form.image"
+                                    class="mt-2 truncate text-xs font-medium text-brand-700"
+                                >
+                                    Selected: {{ form.image.name }}
+                                </p>
+                            </div>
+                        </label>
+
+                        <input
+                            id="image"
+                            type="file"
+                            accept="image/*"
+                            class="hidden"
+                            @change="
+                                form.image =
+                                    ($event.target as HTMLInputElement)
+                                        .files?.[0] ?? null
+                            "
+                        />
+
+                        <p
+                            v-if="form.errors.image"
+                            class="mt-1.5 text-sm text-red-600"
+                        >
+                            {{ form.errors.image }}
+                        </p>
+                    </div>
+
+                    <!-- ==================== Status ==================== -->
+
+                    <label
+                        class="flex cursor-pointer items-start gap-3 rounded-2xl border border-border bg-background p-4 transition hover:border-brand-100 hover:bg-brand-50/40"
+                    >
+                        <input
+                            v-model="form.is_active"
+                            type="checkbox"
+                            class="mt-0.5 h-4 w-4 rounded border-border text-brand-600 focus:ring-brand-500"
+                        />
+
+                        <div>
+                            <p class="text-sm font-semibold text-heading">
+                                Active category
+                            </p>
+
+                            <p class="mt-1 text-xs leading-5 text-muted">
+                                Active categories can be selected and used by
+                                sellers.
+                            </p>
+                        </div>
+                    </label>
+
+                    <!-- ==================== Actions ==================== -->
+
+                    <div
+                        class="flex flex-col-reverse gap-3 border-t border-border pt-6 sm:flex-row sm:justify-end"
+                    >
+                        <Link
+                            href="/admin/categories"
+                            class="inline-flex items-center justify-center rounded-xl border border-border bg-surface px-5 py-3 text-sm font-semibold text-body transition hover:bg-background focus:outline-none focus:ring-2 focus:ring-brand-500 focus:ring-offset-2"
+                        >
+                            Cancel
+                        </Link>
+
+                        <button
+                            type="submit"
+                            :disabled="form.processing"
+                            class="inline-flex items-center justify-center rounded-xl bg-brand-600 px-5 py-3 text-sm font-bold text-white shadow-sm transition hover:bg-brand-700 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                        >
+                            {{
+                                form.processing
+                                    ? "Creating..."
+                                    : "Create Category"
+                            }}
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
     </AdminLayout>
 </template>

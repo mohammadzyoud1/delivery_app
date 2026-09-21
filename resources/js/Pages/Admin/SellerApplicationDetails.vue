@@ -116,99 +116,190 @@ const statusLabel = (status: string): string => {
         <div class="mx-auto max-w-6xl space-y-6">
             <!-- ==================== Header ==================== -->
 
-            <div class="flex items-center gap-3">
-                <Link
-                    href="/admin/seller-applications"
-                    class="rounded-xl p-2 text-gray-600 transition hover:bg-gray-100"
-                >
-                    <ArrowLeft class="h-5 w-5" />
-                </Link>
+            <div
+                class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between"
+            >
+                <div class="flex items-center gap-3">
+                    <Link
+                        href="/admin/seller-applications"
+                        class="flex h-10 w-10 items-center justify-center rounded-xl border border-border bg-surface text-muted shadow-sm transition hover:border-brand-200 hover:bg-brand-50 hover:text-brand-700"
+                    >
+                        <ArrowLeft class="h-5 w-5" />
+                    </Link>
+
+                    <div>
+                        <p
+                            class="text-xs font-bold uppercase tracking-[0.16em] text-brand-600"
+                        >
+                            Seller Application
+                        </p>
+
+                        <h1
+                            class="mt-1 text-2xl font-bold tracking-tight text-heading"
+                        >
+                            Application #{{ application.id }}
+                        </h1>
+                    </div>
+                </div>
+
+                <!-- ==================== Header Status ==================== -->
 
                 <div>
-                    <p
-                        class="text-xs font-medium uppercase tracking-wide text-gray-400"
+                    <span
+                        v-if="application.status === 'approved'"
+                        class="inline-flex items-center gap-1.5 rounded-full border border-green-100 bg-green-50 px-3 py-1.5 text-xs font-bold text-green-700"
                     >
-                        Seller Application
-                    </p>
+                        <CheckCircle2 class="h-4 w-4" />
+                        Approved
+                    </span>
 
-                    <h1 class="text-2xl font-bold text-gray-900">
-                        Application #{{ application.id }}
-                    </h1>
+                    <span
+                        v-else-if="application.status === 'rejected'"
+                        class="inline-flex items-center gap-1.5 rounded-full border border-red-100 bg-red-50 px-3 py-1.5 text-xs font-bold text-red-700"
+                    >
+                        <XCircle class="h-4 w-4" />
+                        Rejected
+                    </span>
+
+                    <span
+                        v-else
+                        class="inline-flex items-center gap-1.5 rounded-full border border-yellow-100 bg-yellow-50 px-3 py-1.5 text-xs font-bold text-yellow-700"
+                    >
+                        <Clock3 class="h-4 w-4" />
+                        {{ statusLabel(application.status) }}
+                    </span>
                 </div>
             </div>
 
-            <!-- ==================== Main Content ==================== -->
+            <!-- ==================== Main Information ==================== -->
 
             <div class="grid gap-6 lg:grid-cols-3">
                 <!-- ==================== Applicant ==================== -->
 
-                <div
-                    class="rounded-2xl border border-gray-200 bg-white p-5 lg:col-span-1"
+                <section
+                    class="rounded-2xl border border-border bg-surface p-5 shadow-sm sm:p-6"
                 >
-                    <div class="mb-5 flex items-center gap-2">
-                        <UserRound class="h-5 w-5 text-gray-500" />
+                    <div class="flex items-center gap-3">
+                        <div
+                            class="flex h-10 w-10 items-center justify-center rounded-xl bg-brand-50 text-brand-600"
+                        >
+                            <UserRound class="h-5 w-5" />
+                        </div>
 
-                        <h2 class="font-semibold text-gray-900">Applicant</h2>
+                        <div>
+                            <p
+                                class="text-xs font-bold uppercase tracking-wide text-brand-600"
+                            >
+                                Applicant
+                            </p>
+
+                            <h2
+                                class="mt-0.5 text-lg font-semibold text-heading"
+                            >
+                                User Information
+                            </h2>
+                        </div>
                     </div>
 
-                    <div class="space-y-4">
+                    <div class="mt-6 space-y-5">
+                        <!-- ==================== Name ==================== -->
+
                         <div>
-                            <p class="text-xs text-gray-400">Name</p>
-                            <p class="mt-1 font-medium text-gray-900">
+                            <p
+                                class="text-[11px] font-bold uppercase tracking-wide text-muted"
+                            >
+                                Name
+                            </p>
+
+                            <p class="mt-1 text-sm font-semibold text-heading">
                                 {{ fullName(application.user) }}
                             </p>
                         </div>
 
+                        <!-- ==================== Email ==================== -->
+
                         <div>
-                            <p class="text-xs text-gray-400">Email</p>
-                            <p class="mt-1 break-all text-sm text-gray-700">
+                            <p
+                                class="text-[11px] font-bold uppercase tracking-wide text-muted"
+                            >
+                                Email
+                            </p>
+
+                            <p
+                                class="mt-1 break-all text-sm font-medium text-body"
+                            >
                                 {{ application.user.email }}
                             </p>
                         </div>
 
+                        <!-- ==================== Phone ==================== -->
+
                         <div>
-                            <p class="text-xs text-gray-400">Phone</p>
-                            <p class="mt-1 text-sm text-gray-700">
+                            <p
+                                class="text-[11px] font-bold uppercase tracking-wide text-muted"
+                            >
+                                Phone
+                            </p>
+
+                            <p class="mt-1 text-sm font-medium text-body">
                                 {{ application.user.phone || "—" }}
                             </p>
                         </div>
 
-                        <div>
-                            <Link
-                                :href="`/admin/users/${application.user.id}`"
-                                class="inline-flex items-center text-sm font-semibold text-gray-900 hover:underline"
-                            >
-                                View User
-                            </Link>
-                        </div>
+                        <!-- ==================== View User ==================== -->
+
+                        <Link
+                            :href="`/admin/users/${application.user.id}`"
+                            class="inline-flex w-full items-center justify-center rounded-xl border border-border px-4 py-2.5 text-sm font-semibold text-body transition hover:border-brand-200 hover:bg-brand-50 hover:text-brand-700"
+                        >
+                            View User
+                        </Link>
                     </div>
-                </div>
+                </section>
 
                 <!-- ==================== Application Information ==================== -->
 
-                <div
-                    class="rounded-2xl border border-gray-200 bg-white p-5 lg:col-span-2"
+                <section
+                    class="rounded-2xl border border-border bg-surface p-5 shadow-sm sm:p-6 lg:col-span-2"
                 >
-                    <div class="mb-5 flex items-center gap-2">
-                        <FileText class="h-5 w-5 text-gray-500" />
+                    <div class="flex items-center gap-3">
+                        <div
+                            class="flex h-10 w-10 items-center justify-center rounded-xl bg-brand-50 text-brand-600"
+                        >
+                            <FileText class="h-5 w-5" />
+                        </div>
 
-                        <h2 class="font-semibold text-gray-900">
-                            Application Information
-                        </h2>
+                        <div>
+                            <p
+                                class="text-xs font-bold uppercase tracking-wide text-brand-600"
+                            >
+                                Application
+                            </p>
+
+                            <h2
+                                class="mt-0.5 text-lg font-semibold text-heading"
+                            >
+                                Application Information
+                            </h2>
+                        </div>
                     </div>
 
-                    <div class="grid gap-4 sm:grid-cols-2">
-                        <!-- Status -->
+                    <div class="mt-6 grid gap-4 sm:grid-cols-2">
+                        <!-- ==================== Status ==================== -->
 
                         <div
-                            class="rounded-xl border border-gray-100 bg-gray-50 p-4"
+                            class="rounded-xl border border-border bg-background p-4"
                         >
-                            <p class="text-xs text-gray-400">Status</p>
+                            <p
+                                class="text-[11px] font-bold uppercase tracking-wide text-muted"
+                            >
+                                Status
+                            </p>
 
                             <div class="mt-2">
                                 <span
                                     v-if="application.status === 'approved'"
-                                    class="inline-flex items-center gap-1.5 rounded-full bg-green-100 px-3 py-1 text-xs font-semibold text-green-700"
+                                    class="inline-flex items-center gap-1.5 rounded-full border border-green-100 bg-green-50 px-3 py-1 text-xs font-bold text-green-700"
                                 >
                                     <CheckCircle2 class="h-4 w-4" />
                                     Approved
@@ -218,7 +309,7 @@ const statusLabel = (status: string): string => {
                                     v-else-if="
                                         application.status === 'rejected'
                                     "
-                                    class="inline-flex items-center gap-1.5 rounded-full bg-red-100 px-3 py-1 text-xs font-semibold text-red-700"
+                                    class="inline-flex items-center gap-1.5 rounded-full border border-red-100 bg-red-50 px-3 py-1 text-xs font-bold text-red-700"
                                 >
                                     <XCircle class="h-4 w-4" />
                                     Rejected
@@ -226,7 +317,7 @@ const statusLabel = (status: string): string => {
 
                                 <span
                                     v-else
-                                    class="inline-flex items-center gap-1.5 rounded-full bg-yellow-100 px-3 py-1 text-xs font-semibold text-yellow-700"
+                                    class="inline-flex items-center gap-1.5 rounded-full border border-yellow-100 bg-yellow-50 px-3 py-1 text-xs font-bold text-yellow-700"
                                 >
                                     <Clock3 class="h-4 w-4" />
                                     {{ statusLabel(application.status) }}
@@ -234,147 +325,206 @@ const statusLabel = (status: string): string => {
                             </div>
                         </div>
 
-                        <!-- Submitted -->
+                        <!-- ==================== Submitted ==================== -->
 
                         <div
-                            class="rounded-xl border border-gray-100 bg-gray-50 p-4"
+                            class="rounded-xl border border-border bg-background p-4"
                         >
-                            <p class="text-xs text-gray-400">Submitted</p>
+                            <p
+                                class="text-[11px] font-bold uppercase tracking-wide text-muted"
+                            >
+                                Submitted
+                            </p>
 
                             <div
-                                class="mt-2 flex items-center gap-2 text-sm font-medium text-gray-900"
+                                class="mt-2 flex items-center gap-2 text-sm font-semibold text-heading"
                             >
-                                <CalendarDays class="h-4 w-4 text-gray-400" />
+                                <CalendarDays class="h-4 w-4 text-muted" />
                                 {{ formatDate(application.created_at) }}
                             </div>
                         </div>
 
-                        <!-- Reviewed -->
+                        <!-- ==================== Reviewed ==================== -->
 
                         <div
-                            class="rounded-xl border border-gray-100 bg-gray-50 p-4"
+                            class="rounded-xl border border-border bg-background p-4"
                         >
-                            <p class="text-xs text-gray-400">Reviewed</p>
+                            <p
+                                class="text-[11px] font-bold uppercase tracking-wide text-muted"
+                            >
+                                Reviewed
+                            </p>
 
-                            <div class="mt-2 text-sm font-medium text-gray-900">
+                            <p class="mt-2 text-sm font-semibold text-heading">
                                 {{ formatDate(application.reviewed_at) }}
-                            </div>
+                            </p>
                         </div>
 
-                        <!-- Reviewer -->
+                        <!-- ==================== Reviewer ==================== -->
 
                         <div
-                            class="rounded-xl border border-gray-100 bg-gray-50 p-4"
+                            class="rounded-xl border border-border bg-background p-4"
                         >
-                            <p class="text-xs text-gray-400">Reviewed By</p>
+                            <p
+                                class="text-[11px] font-bold uppercase tracking-wide text-muted"
+                            >
+                                Reviewed By
+                            </p>
 
-                            <div class="mt-2 text-sm font-medium text-gray-900">
+                            <p class="mt-2 text-sm font-semibold text-heading">
                                 {{
                                     application.reviewer
                                         ? fullName(application.reviewer)
                                         : "—"
                                 }}
-                            </div>
+                            </p>
                         </div>
                     </div>
-                </div>
+                </section>
             </div>
 
             <!-- ==================== Application Reason ==================== -->
 
-            <div class="rounded-2xl border border-gray-200 bg-white p-5">
-                <div class="mb-4 flex items-center gap-2">
-                    <FileText class="h-5 w-5 text-gray-500" />
+            <section
+                class="rounded-2xl border border-border bg-surface p-5 shadow-sm sm:p-6"
+            >
+                <div class="flex items-center gap-3">
+                    <div
+                        class="flex h-10 w-10 items-center justify-center rounded-xl bg-brand-50 text-brand-600"
+                    >
+                        <FileText class="h-5 w-5" />
+                    </div>
 
-                    <h2 class="font-semibold text-gray-900">
-                        Application Reason
-                    </h2>
+                    <div>
+                        <p
+                            class="text-xs font-bold uppercase tracking-wide text-brand-600"
+                        >
+                            Applicant Statement
+                        </p>
+
+                        <h2 class="mt-0.5 text-lg font-semibold text-heading">
+                            Application Reason
+                        </h2>
+                    </div>
                 </div>
 
                 <div
-                    class="rounded-xl bg-gray-50 p-4 text-sm leading-7 text-gray-700"
+                    class="mt-5 rounded-xl border border-border bg-background p-4 sm:p-5"
                 >
-                    {{ application.reason }}
+                    <p class="whitespace-pre-line text-sm leading-7 text-body">
+                        {{ application.reason }}
+                    </p>
                 </div>
-            </div>
+            </section>
 
             <!-- ==================== Rejection Reason ==================== -->
 
-            <div
+            <section
                 v-if="
                     application.status === 'rejected' &&
                     application.rejection_reason
                 "
-                class="rounded-2xl border border-red-200 bg-red-50 p-5"
+                class="rounded-2xl border border-red-200 bg-red-50 p-5 sm:p-6"
             >
-                <div class="mb-4 flex items-center gap-2">
-                    <XCircle class="h-5 w-5 text-red-600" />
+                <div class="flex items-center gap-3">
+                    <div
+                        class="flex h-10 w-10 items-center justify-center rounded-xl bg-white text-red-600"
+                    >
+                        <XCircle class="h-5 w-5" />
+                    </div>
 
-                    <h2 class="font-semibold text-red-900">Rejection Reason</h2>
+                    <div>
+                        <p
+                            class="text-xs font-bold uppercase tracking-wide text-red-600"
+                        >
+                            Review Result
+                        </p>
+
+                        <h2 class="mt-0.5 text-lg font-semibold text-red-900">
+                            Rejection Reason
+                        </h2>
+                    </div>
                 </div>
 
                 <div
-                    class="rounded-xl bg-white p-4 text-sm leading-7 text-red-800"
+                    class="mt-5 rounded-xl border border-red-100 bg-white p-4 sm:p-5"
                 >
-                    {{ application.rejection_reason }}
+                    <p
+                        class="whitespace-pre-line text-sm leading-7 text-red-800"
+                    >
+                        {{ application.rejection_reason }}
+                    </p>
                 </div>
-            </div>
+            </section>
+
             <!-- ==================== Application Actions ==================== -->
 
-            <div
+            <section
                 v-if="application.status === 'pending'"
-                class="rounded-2xl border border-gray-200 bg-white p-5"
+                class="rounded-2xl border border-border bg-surface p-5 shadow-sm sm:p-6"
             >
-                <div class="mb-5">
-                    <h2 class="font-semibold text-gray-900">
+                <div>
+                    <p
+                        class="text-xs font-bold uppercase tracking-wide text-brand-600"
+                    >
+                        Pending Review
+                    </p>
+
+                    <h2 class="mt-1 text-lg font-semibold text-heading">
                         Review Application
                     </h2>
 
-                    <p class="mt-1 text-sm text-gray-500">
+                    <p class="mt-1 text-sm text-muted">
                         Approve the applicant or provide a reason for rejection.
                     </p>
                 </div>
 
                 <!-- ==================== Approve ==================== -->
 
-                <div class="mb-6">
+                <div class="mt-6">
                     <Button
                         type="button"
-                        class="w-full rounded-xl bg-green-600 px-4 py-3 text-sm font-semibold text-white transition hover:bg-green-700"
+                        class="w-full rounded-xl bg-green-600 px-4 py-3 text-sm font-bold text-white transition hover:bg-green-700"
                         @click="approveApplication"
                     >
+                        <CheckCircle2 class="mr-2 inline-block h-4 w-4" />
                         Approve Application
                     </Button>
                 </div>
 
                 <!-- ==================== Reject ==================== -->
 
-                <div class="border-t border-gray-100 pt-6">
+                <div class="mt-6 border-t border-border pt-6">
                     <label
                         for="rejection_reason"
-                        class="block text-sm font-medium text-gray-700"
+                        class="block text-sm font-semibold text-heading"
                     >
                         Rejection Reason
                     </label>
+
+                    <p class="mt-1 text-xs text-muted">
+                        Explain why this application cannot be approved.
+                    </p>
 
                     <textarea
                         id="rejection_reason"
                         v-model="rejectionReason"
                         rows="4"
-                        class="mt-2 w-full rounded-xl border border-gray-200 px-4 py-3 text-sm outline-none transition focus:border-gray-400 focus:ring-0"
+                        class="mt-3 w-full resize-none rounded-xl border border-border bg-surface px-4 py-3 text-sm text-heading placeholder:text-muted focus:border-brand-500 focus:ring-2 focus:ring-brand-100 focus:outline-none"
                         placeholder="Explain why this application is being rejected..."
-                    />
+                    ></textarea>
 
                     <Button
                         type="button"
-                        class="mt-3 w-full rounded-xl bg-red-600 px-4 py-3 text-sm font-semibold text-white transition hover:bg-red-700 disabled:cursor-not-allowed disabled:opacity-50"
+                        class="mt-3 w-full rounded-xl bg-red-600 px-4 py-3 text-sm font-bold text-white transition hover:bg-red-700 disabled:cursor-not-allowed disabled:opacity-50"
                         :disabled="!rejectionReason.trim() || rejecting"
                         @click="rejectApplication"
                     >
+                        <XCircle class="mr-2 inline-block h-4 w-4" />
                         {{ rejecting ? "Rejecting..." : "Reject Application" }}
                     </Button>
                 </div>
-            </div>
+            </section>
         </div>
     </AdminLayout>
 </template>

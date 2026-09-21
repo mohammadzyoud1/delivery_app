@@ -1,8 +1,18 @@
 <script setup lang="ts">
 // ==================== Imports ====================
+import AppHeader from "@/Components/Navigation/AppHeader.vue";
 
 import { Link, usePage } from "@inertiajs/vue3";
-import { LayoutDashboard, Package, Plus, User } from "lucide-vue-next";
+
+import {
+    ArrowLeft,
+    LayoutDashboard,
+    Package,
+    Plus,
+    User,
+} from "lucide-vue-next";
+
+// ==================== Page ====================
 
 const page = usePage<{
     flash: {
@@ -10,31 +20,21 @@ const page = usePage<{
         error?: string;
     };
 }>();
+
+// ==================== Navigation Helper ====================
+
+const isActive = (path: string) => {
+    return page.url === path || page.url.startsWith(`${path}/`);
+};
 </script>
 
 <template>
     <!-- ==================== Seller Layout ==================== -->
 
-    <div class="min-h-screen bg-gray-50">
+    <div class="min-h-screen bg-background">
         <!-- ==================== Header ==================== -->
 
-        <header class="border-b border-gray-100 bg-white">
-            <div
-                class="mx-auto flex h-16 w-full max-w-7xl items-center justify-between px-5 sm:px-8"
-            >
-                <h1 class="text-xl font-bold tracking-tight text-gray-900">
-                    Seller Dashboard
-                </h1>
-
-                <Link
-                    href="/profile"
-                    aria-label="Open profile"
-                    class="flex h-10 w-10 items-center justify-center rounded-full bg-gray-100 text-gray-700 transition hover:bg-gray-200"
-                >
-                    <User :size="20" />
-                </Link>
-            </div>
-        </header>
+        <AppHeader />
 
         <!-- ==================== Flash Messages ==================== -->
 
@@ -56,8 +56,8 @@ const page = usePage<{
 
         <!-- ==================== Page Content ==================== -->
 
-        <main class="pb-20">
-            <div class="mx-auto w-full max-w-7xl px-5 py-6 sm:px-8">
+        <main class="pb-24">
+            <div class="mx-auto w-full max-w-7xl px-5 py-6 sm:px-8 sm:py-8">
                 <slot />
             </div>
         </main>
@@ -65,33 +65,57 @@ const page = usePage<{
         <!-- ==================== Seller Navigation ==================== -->
 
         <nav
-            class="fixed inset-x-0 bottom-0 z-50 border-t border-gray-100 bg-white"
+            class="fixed inset-x-0 bottom-0 z-50 border-t border-border bg-surface/95 shadow-[0_-4px_20px_rgba(15,23,42,0.06)] backdrop-blur"
         >
             <div
-                class="mx-auto flex h-16 max-w-7xl items-center justify-around px-2 sm:px-8"
+                class="mx-auto flex h-[72px] max-w-7xl items-center justify-around px-2 sm:px-8"
             >
+                <!-- Dashboard -->
+
                 <Link
                     href="/seller"
-                    class="flex flex-col items-center gap-1 text-gray-500 hover:text-gray-900"
+                    class="flex min-w-[72px] flex-col items-center justify-center gap-1.5 rounded-xl px-3 py-2 transition focus-visible:outline-none"
+                    :class="
+                        isActive('/seller') && page.url === '/seller'
+                            ? 'bg-brand-50 text-brand-700'
+                            : 'text-muted hover:bg-background hover:text-heading'
+                    "
                 >
                     <LayoutDashboard :size="20" />
-                    <span class="text-[11px] font-medium"> Dashboard </span>
+
+                    <span class="text-[11px] font-semibold"> Dashboard </span>
                 </Link>
+
+                <!-- Products -->
 
                 <Link
                     href="/seller/products"
-                    class="flex flex-col items-center gap-1 text-gray-500 hover:text-gray-900"
+                    class="flex min-w-[72px] flex-col items-center justify-center gap-1.5 rounded-xl px-3 py-2 transition focus-visible:outline-none"
+                    :class="
+                        isActive('/seller/products')
+                            ? 'bg-brand-50 text-brand-700'
+                            : 'text-muted hover:bg-background hover:text-heading'
+                    "
                 >
                     <Package :size="20" />
-                    <span class="text-[11px] font-medium"> Products </span>
+
+                    <span class="text-[11px] font-semibold"> Products </span>
                 </Link>
+
+                <!-- Add Product -->
 
                 <Link
                     href="/seller/products/create"
-                    class="flex flex-col items-center gap-1 text-gray-500 hover:text-gray-900"
+                    class="flex min-w-[72px] flex-col items-center justify-center gap-1.5 rounded-xl px-3 py-2 transition focus-visible:outline-none"
+                    :class="
+                        page.url === '/seller/products/create'
+                            ? 'bg-brand-50 text-brand-700'
+                            : 'text-muted hover:bg-background hover:text-heading'
+                    "
                 >
                     <Plus :size="20" />
-                    <span class="text-[11px] font-medium"> Add Product </span>
+
+                    <span class="text-[11px] font-semibold"> Add Product </span>
                 </Link>
             </div>
         </nav>

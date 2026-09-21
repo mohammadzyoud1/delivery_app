@@ -52,39 +52,91 @@ const formatDate = (date: string): string => {
 
     <AdminLayout>
         <div class="space-y-6">
-            <!-- ==================== Header ==================== -->
-
-            <div>
-                <p
-                    class="text-xs font-medium uppercase tracking-wide text-gray-400"
-                >
-                    Admin Panel
-                </p>
-
-                <h1 class="mt-1 text-2xl font-bold text-gray-900">Sellers</h1>
-
-                <p class="mt-1 text-sm text-gray-500">
-                    Manage users who have seller access.
-                </p>
-            </div>
-
-            <!-- ==================== Seller Count ==================== -->
+            <!-- ==================== Page Header ==================== -->
 
             <div
-                class="flex items-center gap-3 rounded-2xl border border-gray-200 bg-white p-5"
+                class="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between"
             >
-                <div
-                    class="flex h-11 w-11 items-center justify-center rounded-xl bg-gray-100"
-                >
-                    <Users class="h-5 w-5 text-gray-700" />
+                <div>
+                    <p
+                        class="text-xs font-bold uppercase tracking-[0.16em] text-brand-600"
+                    >
+                        Admin Panel
+                    </p>
+
+                    <h1
+                        class="mt-1 text-2xl font-bold tracking-tight text-heading"
+                    >
+                        Sellers
+                    </h1>
+
+                    <p class="mt-1 max-w-2xl text-sm text-muted">
+                        Manage users who have seller access.
+                    </p>
                 </div>
 
-                <div>
-                    <p class="text-xs text-gray-400">Total Sellers</p>
+                <div
+                    class="inline-flex w-fit items-center rounded-full border border-border bg-surface px-4 py-2 text-sm font-semibold text-body shadow-sm"
+                >
+                    {{ sellers.length }} sellers
+                </div>
+            </div>
 
-                    <p class="text-xl font-bold text-gray-900">
-                        {{ sellers.length }}
-                    </p>
+            <!-- ==================== Seller Statistics ==================== -->
+
+            <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                <div
+                    class="rounded-2xl border border-border bg-surface p-5 shadow-sm"
+                >
+                    <div class="flex items-center gap-3">
+                        <div
+                            class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-brand-50 text-brand-600"
+                        >
+                            <Users class="h-5 w-5" />
+                        </div>
+
+                        <div>
+                            <p
+                                class="text-xs font-bold uppercase tracking-wide text-muted"
+                            >
+                                Total Sellers
+                            </p>
+
+                            <p class="mt-0.5 text-xl font-bold text-heading">
+                                {{ sellers.length }}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div
+                    class="rounded-2xl border border-border bg-surface p-5 shadow-sm"
+                >
+                    <div class="flex items-center gap-3">
+                        <div
+                            class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-brand-50 text-brand-600"
+                        >
+                            <Package class="h-5 w-5" />
+                        </div>
+
+                        <div>
+                            <p
+                                class="text-xs font-bold uppercase tracking-wide text-muted"
+                            >
+                                Total Products
+                            </p>
+
+                            <p class="mt-0.5 text-xl font-bold text-heading">
+                                {{
+                                    sellers.reduce(
+                                        (total, seller) =>
+                                            total + seller.products.length,
+                                        0,
+                                    )
+                                }}
+                            </p>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -92,15 +144,19 @@ const formatDate = (date: string): string => {
 
             <div
                 v-if="sellers.length === 0"
-                class="rounded-2xl border border-gray-200 bg-white px-6 py-14 text-center"
+                class="rounded-2xl border border-border bg-surface px-6 py-14 text-center shadow-sm"
             >
-                <Users class="mx-auto h-10 w-10 text-gray-300" />
+                <div
+                    class="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-brand-50 text-brand-600"
+                >
+                    <Users class="h-6 w-6" />
+                </div>
 
-                <h2 class="mt-4 text-lg font-semibold text-gray-900">
+                <h2 class="mt-4 text-base font-semibold text-heading">
                     No sellers yet
                 </h2>
 
-                <p class="mt-1 text-sm text-gray-500">
+                <p class="mt-1 text-sm text-muted">
                     Approved seller applications will appear here.
                 </p>
             </div>
@@ -109,62 +165,62 @@ const formatDate = (date: string): string => {
 
             <div
                 v-else
-                class="hidden overflow-hidden rounded-2xl border border-gray-200 bg-white md:block"
+                class="hidden overflow-hidden rounded-2xl border border-border bg-surface shadow-sm md:block"
             >
                 <div class="overflow-x-auto">
-                    <table class="w-full text-left">
-                        <thead class="border-b border-gray-100 bg-gray-50">
+                    <table class="w-full min-w-[900px] text-left">
+                        <thead class="border-b border-border bg-background">
                             <tr>
                                 <th
-                                    class="px-5 py-4 text-xs font-semibold uppercase tracking-wide text-gray-500"
+                                    class="px-5 py-4 text-xs font-bold uppercase tracking-wide text-muted"
                                 >
                                     Seller
                                 </th>
 
                                 <th
-                                    class="px-5 py-4 text-xs font-semibold uppercase tracking-wide text-gray-500"
+                                    class="px-5 py-4 text-xs font-bold uppercase tracking-wide text-muted"
                                 >
                                     Contact
                                 </th>
 
                                 <th
-                                    class="px-5 py-4 text-xs font-semibold uppercase tracking-wide text-gray-500"
+                                    class="px-5 py-4 text-xs font-bold uppercase tracking-wide text-muted"
                                 >
                                     Products
                                 </th>
 
                                 <th
-                                    class="px-5 py-4 text-xs font-semibold uppercase tracking-wide text-gray-500"
+                                    class="px-5 py-4 text-xs font-bold uppercase tracking-wide text-muted"
                                 >
                                     Verification
                                 </th>
 
                                 <th
-                                    class="px-5 py-4 text-xs font-semibold uppercase tracking-wide text-gray-500"
+                                    class="px-5 py-4 text-xs font-bold uppercase tracking-wide text-muted"
                                 >
                                     Joined
                                 </th>
 
                                 <th
-                                    class="px-5 py-4 text-right text-xs font-semibold uppercase tracking-wide text-gray-500"
+                                    class="px-5 py-4 text-right text-xs font-bold uppercase tracking-wide text-muted"
                                 >
                                     Action
                                 </th>
                             </tr>
                         </thead>
 
-                        <tbody class="divide-y divide-gray-100">
+                        <tbody class="divide-y divide-border">
                             <tr
                                 v-for="seller in sellers"
                                 :key="seller.id"
-                                class="transition hover:bg-gray-50"
+                                class="transition-colors hover:bg-background"
                             >
-                                <!-- Seller -->
+                                <!-- ==================== Seller ==================== -->
 
                                 <td class="px-5 py-4">
                                     <div class="flex items-center gap-3">
                                         <div
-                                            class="flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-full bg-gray-100"
+                                            class="flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-full bg-brand-50 text-brand-600"
                                         >
                                             <img
                                                 v-if="seller.profile_image"
@@ -175,7 +231,7 @@ const formatDate = (date: string): string => {
 
                                             <span
                                                 v-else
-                                                class="text-sm font-semibold text-gray-500"
+                                                class="text-sm font-bold"
                                             >
                                                 {{
                                                     seller.first_name
@@ -185,80 +241,80 @@ const formatDate = (date: string): string => {
                                             </span>
                                         </div>
 
-                                        <div>
+                                        <div class="min-w-0">
                                             <p
-                                                class="font-medium text-gray-900"
+                                                class="truncate font-semibold text-heading"
                                             >
                                                 {{ fullName(seller) }}
                                             </p>
 
-                                            <p class="text-xs text-gray-400">
+                                            <p
+                                                class="mt-0.5 text-xs text-muted"
+                                            >
                                                 #{{ seller.id }}
                                             </p>
                                         </div>
                                     </div>
                                 </td>
 
-                                <!-- Contact -->
+                                <!-- ==================== Contact ==================== -->
 
                                 <td class="px-5 py-4">
                                     <p
-                                        class="max-w-xs truncate text-sm text-gray-700"
+                                        class="max-w-xs truncate text-sm font-medium text-body"
                                     >
                                         {{ seller.email }}
                                     </p>
 
-                                    <p class="mt-1 text-xs text-gray-400">
+                                    <p class="mt-1 text-xs text-muted">
                                         {{ seller.phone || "No phone" }}
                                     </p>
                                 </td>
 
-                                <!-- Products -->
+                                <!-- ==================== Products ==================== -->
 
                                 <td class="px-5 py-4">
                                     <div
-                                        class="flex items-center gap-2 text-sm font-medium text-gray-700"
+                                        class="inline-flex items-center gap-2 rounded-lg bg-background px-2.5 py-1.5 text-sm font-semibold text-body"
                                     >
-                                        <Package
-                                            class="h-4 w-4 text-gray-400"
-                                        />
+                                        <Package class="h-4 w-4 text-muted" />
 
                                         {{ seller.products.length }}
                                     </div>
                                 </td>
 
-                                <!-- Verification -->
+                                <!-- ==================== Verification ==================== -->
 
                                 <td class="px-5 py-4">
                                     <span
                                         v-if="seller.email_verified_at"
-                                        class="rounded-full bg-green-100 px-3 py-1 text-xs font-semibold text-green-700"
+                                        class="inline-flex rounded-full border border-green-100 bg-green-50 px-3 py-1 text-xs font-bold text-green-700"
                                     >
                                         Verified
                                     </span>
 
                                     <span
                                         v-else
-                                        class="rounded-full bg-yellow-100 px-3 py-1 text-xs font-semibold text-yellow-700"
+                                        class="inline-flex rounded-full border border-yellow-100 bg-yellow-50 px-3 py-1 text-xs font-bold text-yellow-700"
                                     >
                                         Unverified
                                     </span>
                                 </td>
 
-                                <!-- Joined -->
+                                <!-- ==================== Joined ==================== -->
 
                                 <td
-                                    class="whitespace-nowrap px-5 py-4 text-sm text-gray-600"
+                                    class="whitespace-nowrap px-5 py-4 text-sm text-body"
                                 >
                                     {{ formatDate(seller.created_at) }}
                                 </td>
 
-                                <!-- Action -->
+                                <!-- ==================== Action ==================== -->
 
                                 <td class="px-5 py-4 text-right">
                                     <Link
                                         :href="`/admin/users/${seller.id}`"
-                                        class="inline-flex items-center gap-2 rounded-xl border border-gray-200 px-3 py-2 text-sm font-medium text-gray-700 transition hover:bg-gray-50"
+                                        class="inline-flex items-center gap-2 rounded-xl border border-border px-3 py-2 text-sm font-semibold text-body transition hover:border-brand-200 hover:bg-brand-50 hover:text-brand-700 focus-visible:outline-none"
                                     >
                                         <Eye class="h-4 w-4" />
                                         View
@@ -272,16 +328,18 @@ const formatDate = (date: string): string => {
 
             <!-- ==================== Mobile Cards ==================== -->
 
-            <div v-if="sellers.length > 0" class="space-y-3 md:hidden">
+            <div v-if="sellers.length > 0" class="space-y-4 md:hidden">
                 <div
                     v-for="seller in sellers"
                     :key="seller.id"
-                    class="rounded-2xl border border-gray-200 bg-white p-4"
+                    class="rounded-2xl border border-border bg-surface p-5 shadow-sm"
                 >
+                    <!-- ==================== Seller Header ==================== -->
+
                     <div class="flex items-start justify-between gap-3">
-                        <div class="flex items-center gap-3">
+                        <div class="flex min-w-0 items-center gap-3">
                             <div
-                                class="flex h-11 w-11 shrink-0 items-center justify-center overflow-hidden rounded-full bg-gray-100"
+                                class="flex h-12 w-12 shrink-0 items-center justify-center overflow-hidden rounded-full bg-brand-50 text-brand-600"
                             >
                                 <img
                                     v-if="seller.profile_image"
@@ -290,10 +348,7 @@ const formatDate = (date: string): string => {
                                     class="h-full w-full object-cover"
                                 />
 
-                                <span
-                                    v-else
-                                    class="text-sm font-semibold text-gray-500"
-                                >
+                                <span v-else class="text-sm font-bold">
                                     {{
                                         seller.first_name
                                             .charAt(0)
@@ -302,57 +357,103 @@ const formatDate = (date: string): string => {
                                 </span>
                             </div>
 
-                            <div>
-                                <p class="font-semibold text-gray-900">
+                            <div class="min-w-0">
+                                <p class="truncate font-semibold text-heading">
                                     {{ fullName(seller) }}
                                 </p>
 
-                                <p class="text-xs text-gray-400">
+                                <p class="mt-0.5 text-xs text-muted">
                                     #{{ seller.id }}
                                 </p>
                             </div>
                         </div>
 
                         <span
-                            class="rounded-full bg-green-100 px-2.5 py-1 text-xs font-semibold text-green-700"
+                            class="shrink-0 rounded-full border border-brand-100 bg-brand-50 px-2.5 py-1 text-xs font-bold text-brand-700"
                         >
                             Seller
                         </span>
                     </div>
 
+                    <!-- ==================== Contact ==================== -->
+
+                    <div class="mt-4 border-t border-border pt-4">
+                        <p
+                            class="text-[11px] font-bold uppercase tracking-wide text-muted"
+                        >
+                            Contact
+                        </p>
+
+                        <p class="mt-1 truncate text-sm font-medium text-body">
+                            {{ seller.email }}
+                        </p>
+
+                        <p class="mt-0.5 text-xs text-muted">
+                            {{ seller.phone || "No phone number" }}
+                        </p>
+                    </div>
+
+                    <!-- ==================== Seller Metadata ==================== -->
+
                     <div
-                        class="mt-4 grid grid-cols-2 gap-3 border-t border-gray-100 pt-4"
+                        class="mt-4 grid grid-cols-2 gap-3 border-t border-border pt-4"
                     >
                         <div>
-                            <p class="text-xs text-gray-400">Products</p>
+                            <p
+                                class="text-[11px] font-bold uppercase tracking-wide text-muted"
+                            >
+                                Products
+                            </p>
 
                             <p
-                                class="mt-1 flex items-center gap-1.5 text-sm font-medium text-gray-800"
+                                class="mt-1 flex items-center gap-1.5 text-sm font-semibold text-heading"
                             >
-                                <Package class="h-4 w-4 text-gray-400" />
+                                <Package class="h-4 w-4 text-brand-600" />
 
                                 {{ seller.products.length }}
                             </p>
                         </div>
 
                         <div>
-                            <p class="text-xs text-gray-400">Joined</p>
+                            <p
+                                class="text-[11px] font-bold uppercase tracking-wide text-muted"
+                            >
+                                Joined
+                            </p>
 
-                            <p class="mt-1 text-sm font-medium text-gray-800">
+                            <p class="mt-1 text-sm font-semibold text-heading">
                                 {{ formatDate(seller.created_at) }}
                             </p>
                         </div>
                     </div>
 
-                    <div class="mt-4">
-                        <Link
-                            :href="`/admin/users/${seller.id}`"
-                            class="flex w-full items-center justify-center gap-2 rounded-xl bg-gray-900 px-4 py-3 text-sm font-semibold text-white transition hover:bg-gray-800"
+                    <!-- ==================== Verification ==================== -->
+
+                    <div class="mt-4 border-t border-border pt-4">
+                        <span
+                            v-if="seller.email_verified_at"
+                            class="inline-flex rounded-full border border-green-100 bg-green-50 px-3 py-1 text-xs font-bold text-green-700"
                         >
-                            <Eye class="h-4 w-4" />
-                            View Seller
-                        </Link>
+                            Email Verified
+                        </span>
+
+                        <span
+                            v-else
+                            class="inline-flex rounded-full border border-yellow-100 bg-yellow-50 px-3 py-1 text-xs font-bold text-yellow-700"
+                        >
+                            Email Unverified
+                        </span>
                     </div>
+
+                    <!-- ==================== Action ==================== -->
+
+                    <Link
+                        :href="`/admin/users/${seller.id}`"
+                        class="mt-5 flex w-full items-center justify-center gap-2 rounded-xl bg-brand-600 px-4 py-3 text-sm font-bold text-white transition hover:bg-brand-700 focus-visible:outline-none"
+                    >
+                        <Eye class="h-4 w-4" />
+                        View Seller
+                    </Link>
                 </div>
             </div>
         </div>

@@ -94,11 +94,11 @@ const totalOrderValue = (): number => {
     <Head :title="`User - ${fullName()}`" />
 
     <AdminLayout>
-        <!-- ==================== Back ==================== -->
+        <!-- ==================== Back Navigation ==================== -->
 
         <Link
             href="/admin/users"
-            class="mb-6 inline-flex items-center gap-2 text-sm font-medium text-gray-600 transition hover:text-gray-900"
+            class="mb-5 inline-flex items-center gap-2 text-sm font-semibold text-muted transition hover:text-brand-700"
         >
             <ArrowLeft class="h-4 w-4" />
             Back to Users
@@ -107,129 +107,157 @@ const totalOrderValue = (): number => {
         <!-- ==================== Page Header ==================== -->
 
         <div
-            class="mb-6 flex flex-col gap-5 rounded-2xl border border-gray-200 bg-white p-5 sm:p-6 lg:flex-row lg:items-center lg:justify-between"
+            class="mb-6 rounded-2xl border border-border bg-surface p-5 shadow-sm sm:p-6"
         >
-            <div class="flex items-center gap-4">
-                <img
-                    v-if="props.user.profile_image"
-                    :src="props.user.profile_image"
-                    :alt="fullName()"
-                    class="h-16 w-16 rounded-full object-cover"
-                />
+            <div
+                class="flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between"
+            >
+                <div class="flex min-w-0 items-center gap-4">
+                    <img
+                        v-if="props.user.profile_image"
+                        :src="props.user.profile_image"
+                        :alt="fullName()"
+                        class="h-16 w-16 shrink-0 rounded-full object-cover ring-4 ring-brand-50"
+                    />
 
-                <div
-                    v-else
-                    class="flex h-16 w-16 shrink-0 items-center justify-center rounded-full bg-gray-100"
-                >
-                    <UserRound class="h-7 w-7 text-gray-500" />
+                    <div
+                        v-else
+                        class="flex h-16 w-16 shrink-0 items-center justify-center rounded-full bg-brand-50 text-brand-600"
+                    >
+                        <UserRound class="h-7 w-7" />
+                    </div>
+
+                    <div class="min-w-0">
+                        <p
+                            class="mb-1 text-xs font-bold uppercase tracking-[0.16em] text-brand-600"
+                        >
+                            User Profile
+                        </p>
+
+                        <h1
+                            class="truncate text-2xl font-bold tracking-tight text-heading"
+                        >
+                            {{ fullName() }}
+                        </h1>
+
+                        <p class="mt-1 text-sm text-muted">
+                            User #{{ props.user.id }}
+                        </p>
+                    </div>
                 </div>
 
-                <div>
-                    <h1 class="text-2xl font-bold text-gray-900">
-                        {{ fullName() }}
-                    </h1>
+                <!-- ==================== User Status ==================== -->
 
-                    <p class="mt-1 text-sm text-gray-500">
-                        User #{{ props.user.id }}
-                    </p>
+                <div class="flex flex-wrap gap-2">
+                    <span
+                        v-for="role in props.user.roles"
+                        :key="role.id"
+                        class="rounded-full border border-brand-100 bg-brand-50 px-3 py-1 text-xs font-bold capitalize text-brand-700"
+                    >
+                        {{ role.name }}
+                    </span>
+
+                    <span
+                        v-if="props.user.roles.length === 0"
+                        class="rounded-full border border-brand-100 bg-brand-50 px-3 py-1 text-xs font-bold text-brand-700"
+                    >
+                        Customer
+                    </span>
+
+                    <span
+                        v-if="props.user.email_verified_at"
+                        class="rounded-full border border-green-100 bg-green-50 px-3 py-1 text-xs font-bold text-green-700"
+                    >
+                        Email Verified
+                    </span>
+
+                    <span
+                        v-else
+                        class="rounded-full border border-yellow-100 bg-yellow-50 px-3 py-1 text-xs font-bold text-yellow-700"
+                    >
+                        Email Unverified
+                    </span>
                 </div>
-            </div>
-
-            <div class="flex flex-wrap gap-2">
-                <span
-                    v-for="role in props.user.roles"
-                    :key="role.id"
-                    class="rounded-full bg-gray-100 px-3 py-1 text-xs font-medium capitalize text-gray-700"
-                >
-                    {{ role.name }}
-                </span>
-
-                <span
-                    v-if="props.user.roles.length === 0"
-                    class="rounded-full bg-gray-100 px-3 py-1 text-xs font-medium text-gray-700"
-                >
-                    Customer
-                </span>
-
-                <span
-                    v-if="props.user.email_verified_at"
-                    class="rounded-full bg-green-50 px-3 py-1 text-xs font-medium text-green-700"
-                >
-                    Email Verified
-                </span>
-
-                <span
-                    v-else
-                    class="rounded-full bg-yellow-50 px-3 py-1 text-xs font-medium text-yellow-700"
-                >
-                    Email Unverified
-                </span>
             </div>
         </div>
 
         <!-- ==================== Statistics ==================== -->
 
         <div class="mb-6 grid grid-cols-1 gap-4 sm:grid-cols-3">
-            <div class="rounded-2xl border border-gray-200 bg-white p-5">
+            <!-- ==================== Orders ==================== -->
+
+            <div
+                class="rounded-2xl border border-border bg-surface p-5 shadow-sm"
+            >
                 <div class="flex items-center gap-3">
                     <div
-                        class="flex h-10 w-10 items-center justify-center rounded-xl bg-gray-100"
+                        class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-brand-50 text-brand-600"
                     >
-                        <ShoppingBag class="h-5 w-5 text-gray-600" />
+                        <ShoppingBag class="h-5 w-5" />
                     </div>
 
                     <div>
                         <p
-                            class="text-xs font-medium uppercase tracking-wide text-gray-400"
+                            class="text-xs font-bold uppercase tracking-wide text-muted"
                         >
                             Orders
                         </p>
 
-                        <p class="text-xl font-bold text-gray-900">
+                        <p class="mt-0.5 text-xl font-bold text-heading">
                             {{ props.user.orders.length }}
                         </p>
                     </div>
                 </div>
             </div>
 
-            <div class="rounded-2xl border border-gray-200 bg-white p-5">
+            <!-- ==================== Deliveries ==================== -->
+
+            <div
+                class="rounded-2xl border border-border bg-surface p-5 shadow-sm"
+            >
                 <div class="flex items-center gap-3">
                     <div
-                        class="flex h-10 w-10 items-center justify-center rounded-xl bg-gray-100"
+                        class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-brand-50 text-brand-600"
                     >
-                        <Truck class="h-5 w-5 text-gray-600" />
+                        <Truck class="h-5 w-5" />
                     </div>
 
                     <div>
                         <p
-                            class="text-xs font-medium uppercase tracking-wide text-gray-400"
+                            class="text-xs font-bold uppercase tracking-wide text-muted"
                         >
                             Deliveries
                         </p>
 
-                        <p class="text-xl font-bold text-gray-900">
+                        <p class="mt-0.5 text-xl font-bold text-heading">
                             {{ props.user.delivery_assignments.length }}
                         </p>
                     </div>
                 </div>
             </div>
 
-            <div class="rounded-2xl border border-gray-200 bg-white p-5">
+            <!-- ==================== Order Value ==================== -->
+
+            <div
+                class="rounded-2xl border border-border bg-surface p-5 shadow-sm"
+            >
                 <div class="flex items-center gap-3">
                     <div
-                        class="flex h-10 w-10 items-center justify-center rounded-xl bg-gray-100"
+                        class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-brand-50 text-brand-600"
                     >
-                        <ShoppingBag class="h-5 w-5 text-gray-600" />
+                        <ShoppingBag class="h-5 w-5" />
                     </div>
 
-                    <div>
+                    <div class="min-w-0">
                         <p
-                            class="text-xs font-medium uppercase tracking-wide text-gray-400"
+                            class="text-xs font-bold uppercase tracking-wide text-muted"
                         >
                             Order Value
                         </p>
 
-                        <p class="text-xl font-bold text-gray-900">
+                        <p
+                            class="mt-0.5 truncate text-xl font-bold text-heading"
+                        >
                             {{ totalOrderValue().toFixed(2) }}
                         </p>
                     </div>
@@ -242,114 +270,174 @@ const totalOrderValue = (): number => {
         <div class="grid grid-cols-1 gap-6 lg:grid-cols-3">
             <!-- ==================== User Information ==================== -->
 
-            <div class="rounded-2xl border border-gray-200 bg-white p-5 sm:p-6">
-                <h2 class="text-base font-semibold text-gray-900">
+            <section
+                class="rounded-2xl border border-border bg-surface p-5 shadow-sm sm:p-6"
+            >
+                <p
+                    class="text-xs font-bold uppercase tracking-[0.16em] text-brand-600"
+                >
+                    Account
+                </p>
+
+                <h2 class="mt-1 text-lg font-semibold text-heading">
                     User Information
                 </h2>
 
-                <div class="mt-5 space-y-4">
+                <div class="mt-6 space-y-5">
+                    <!-- ==================== Email ==================== -->
+
                     <div class="flex items-start gap-3">
-                        <Mail class="mt-0.5 h-5 w-5 text-gray-400" />
+                        <div
+                            class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-background text-muted"
+                        >
+                            <Mail class="h-4 w-4" />
+                        </div>
 
                         <div class="min-w-0">
-                            <p class="text-xs text-gray-400">Email</p>
+                            <p
+                                class="text-[11px] font-bold uppercase tracking-wide text-muted"
+                            >
+                                Email
+                            </p>
 
                             <p
-                                class="break-all text-sm font-medium text-gray-900"
+                                class="mt-1 break-all text-sm font-semibold text-heading"
                             >
                                 {{ props.user.email }}
                             </p>
                         </div>
                     </div>
 
+                    <!-- ==================== Phone ==================== -->
+
                     <div v-if="props.user.phone" class="flex items-start gap-3">
-                        <Phone class="mt-0.5 h-5 w-5 text-gray-400" />
+                        <div
+                            class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-background text-muted"
+                        >
+                            <Phone class="h-4 w-4" />
+                        </div>
 
                         <div>
-                            <p class="text-xs text-gray-400">Phone</p>
+                            <p
+                                class="text-[11px] font-bold uppercase tracking-wide text-muted"
+                            >
+                                Phone
+                            </p>
 
-                            <p class="text-sm font-medium text-gray-900">
+                            <p class="mt-1 text-sm font-semibold text-heading">
                                 {{ props.user.phone }}
                             </p>
                         </div>
                     </div>
 
-                    <div class="flex items-start gap-3">
-                        <UserRound class="mt-0.5 h-5 w-5 text-gray-400" />
+                    <!-- ==================== Roles ==================== -->
 
-                        <div>
-                            <p class="text-xs text-gray-400">Roles</p>
+                    <div class="flex items-start gap-3">
+                        <div
+                            class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-background text-muted"
+                        >
+                            <UserRound class="h-4 w-4" />
+                        </div>
+
+                        <div class="min-w-0">
+                            <p
+                                class="text-[11px] font-bold uppercase tracking-wide text-muted"
+                            >
+                                Roles
+                            </p>
 
                             <p
-                                class="text-sm font-medium capitalize text-gray-900"
+                                class="mt-1 text-sm font-semibold capitalize text-heading"
                             >
                                 {{ roleNames() }}
                             </p>
                         </div>
                     </div>
 
+                    <!-- ==================== Joined ==================== -->
+
                     <div class="flex items-start gap-3">
-                        <CalendarDays class="mt-0.5 h-5 w-5 text-gray-400" />
+                        <div
+                            class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-background text-muted"
+                        >
+                            <CalendarDays class="h-4 w-4" />
+                        </div>
 
                         <div>
-                            <p class="text-xs text-gray-400">Joined</p>
+                            <p
+                                class="text-[11px] font-bold uppercase tracking-wide text-muted"
+                            >
+                                Joined
+                            </p>
 
-                            <p class="text-sm font-medium text-gray-900">
+                            <p class="mt-1 text-sm font-semibold text-heading">
                                 {{ formatDate(props.user.created_at) }}
                             </p>
                         </div>
                     </div>
                 </div>
-            </div>
+            </section>
 
-            <!-- ==================== Recent Orders ==================== -->
+            <!-- ==================== Orders ==================== -->
 
-            <div
-                class="rounded-2xl border border-gray-200 bg-white p-5 sm:p-6 lg:col-span-2"
+            <section
+                class="rounded-2xl border border-border bg-surface shadow-sm lg:col-span-2"
             >
-                <div class="flex items-center justify-between">
-                    <h2 class="text-base font-semibold text-gray-900">
-                        Orders
-                    </h2>
+                <div
+                    class="flex items-center justify-between gap-4 border-b border-border px-5 py-4 sm:px-6"
+                >
+                    <div>
+                        <p
+                            class="text-xs font-bold uppercase tracking-[0.16em] text-brand-600"
+                        >
+                            Activity
+                        </p>
 
-                    <span class="text-xs text-gray-400">
+                        <h2 class="mt-1 text-lg font-semibold text-heading">
+                            Orders
+                        </h2>
+                    </div>
+
+                    <span
+                        class="rounded-full bg-background px-3 py-1 text-xs font-bold text-muted"
+                    >
                         {{ props.user.orders.length }} total
                     </span>
                 </div>
 
                 <div
                     v-if="props.user.orders.length"
-                    class="mt-4 divide-y divide-gray-100"
+                    class="divide-y divide-border"
                 >
                     <div
                         v-for="order in props.user.orders.slice(0, 8)"
                         :key="order.id"
-                        class="flex flex-col gap-3 py-4 sm:flex-row sm:items-center sm:justify-between"
+                        class="flex flex-col gap-4 p-5 transition-colors hover:bg-background sm:flex-row sm:items-center sm:justify-between sm:px-6"
                     >
-                        <div>
-                            <p class="text-sm font-semibold text-gray-900">
+                        <div class="min-w-0">
+                            <p class="font-semibold text-heading">
                                 Order #{{ order.id }}
                             </p>
 
-                            <p class="mt-1 text-xs text-gray-400">
+                            <p class="mt-1 text-xs text-muted">
                                 {{ formatDateTime(order.created_at) }}
                             </p>
                         </div>
 
-                        <div class="flex items-center gap-3">
+                        <div class="flex flex-wrap items-center gap-3">
                             <span
-                                class="rounded-full bg-gray-100 px-3 py-1 text-xs font-medium capitalize text-gray-700"
+                                class="rounded-full border border-border bg-background px-3 py-1 text-xs font-bold capitalize text-body"
                             >
                                 {{ formatStatus(order.status) }}
                             </span>
 
-                            <span class="text-sm font-semibold text-gray-900">
+                            <span class="text-sm font-bold text-heading">
                                 {{ Number(order.total_amount).toFixed(2) }}
                             </span>
 
                             <Link
                                 :href="`/admin/orders/${order.id}`"
-                                class="text-sm font-semibold text-gray-900 hover:underline"
+                                class="inline-flex items-center rounded-xl border border-border px-3 py-2 text-sm font-semibold text-body transition hover:border-brand-200 hover:bg-brand-50 hover:text-brand-700 focus-visible:outline-none"
                             >
                                 View
                             </Link>
@@ -357,82 +445,113 @@ const totalOrderValue = (): number => {
                     </div>
                 </div>
 
-                <div v-else class="py-10 text-center">
-                    <ShoppingBag class="mx-auto h-9 w-9 text-gray-300" />
+                <!-- ==================== Empty Orders ==================== -->
 
-                    <p class="mt-3 text-sm font-medium text-gray-900">
-                        No orders yet.
+                <div v-else class="px-6 py-14 text-center">
+                    <div
+                        class="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-brand-50 text-brand-600"
+                    >
+                        <ShoppingBag class="h-6 w-6" />
+                    </div>
+
+                    <h3 class="mt-4 text-base font-semibold text-heading">
+                        No orders yet
+                    </h3>
+
+                    <p class="mt-1 text-sm text-muted">
+                        This user has not placed any orders.
                     </p>
                 </div>
-            </div>
+            </section>
         </div>
 
         <!-- ==================== Delivery Assignments ==================== -->
 
-        <div
+        <section
             v-if="props.user.delivery_assignments.length"
-            class="mt-6 rounded-2xl border border-gray-200 bg-white p-5 sm:p-6"
+            class="mt-6 rounded-2xl border border-border bg-surface shadow-sm"
         >
-            <div class="flex items-center justify-between">
-                <h2 class="text-base font-semibold text-gray-900">
-                    Delivery Assignments
-                </h2>
+            <div
+                class="flex items-center justify-between gap-4 border-b border-border px-5 py-4 sm:px-6"
+            >
+                <div>
+                    <p
+                        class="text-xs font-bold uppercase tracking-[0.16em] text-brand-600"
+                    >
+                        Delivery
+                    </p>
 
-                <span class="text-xs text-gray-400">
-                    {{ props.user.delivery_assignments.length }} total
+                    <h2 class="mt-1 text-lg font-semibold text-heading">
+                        Delivery Assignments
+                    </h2>
+                </div>
+
+                <span
+                    class="rounded-full bg-background px-3 py-1 text-xs font-bold text-muted"
+                >
+                    {{ props.user.delivery_assignments.length }}
+                    total
                 </span>
             </div>
 
-            <div class="mt-4 divide-y divide-gray-100">
+            <div class="divide-y divide-border">
                 <div
                     v-for="assignment in props.user.delivery_assignments.slice(
                         0,
                         8,
                     )"
                     :key="assignment.id"
-                    class="flex flex-col gap-3 py-4 sm:flex-row sm:items-center sm:justify-between"
+                    class="flex flex-col gap-4 p-5 transition-colors hover:bg-background sm:flex-row sm:items-center sm:justify-between sm:px-6"
                 >
                     <div>
-                        <p class="text-sm font-semibold text-gray-900">
+                        <p class="font-semibold text-heading">
                             Order #{{ assignment.order_id }}
                         </p>
 
-                        <p class="mt-1 text-xs capitalize text-gray-400">
+                        <p class="mt-1 text-xs capitalize text-muted">
                             {{ assignment.type }} assignment
+                        </p>
+
+                        <p
+                            v-if="assignment.created_at"
+                            class="mt-1 text-xs text-muted"
+                        >
+                            Assigned
+                            {{ formatDateTime(assignment.created_at) }}
                         </p>
                     </div>
 
                     <div class="flex flex-wrap items-center gap-3">
                         <span
                             v-if="assignment.completed_at"
-                            class="rounded-full bg-green-50 px-3 py-1 text-xs font-medium text-green-700"
+                            class="rounded-full border border-green-100 bg-green-50 px-3 py-1 text-xs font-bold text-green-700"
                         >
                             Completed
                         </span>
 
                         <span
                             v-else-if="assignment.taken_at"
-                            class="rounded-full bg-blue-50 px-3 py-1 text-xs font-medium text-blue-700"
+                            class="rounded-full border border-blue-100 bg-blue-50 px-3 py-1 text-xs font-bold text-blue-700"
                         >
                             Taken
                         </span>
 
                         <span
                             v-else
-                            class="rounded-full bg-yellow-50 px-3 py-1 text-xs font-medium text-yellow-700"
+                            class="rounded-full border border-yellow-100 bg-yellow-50 px-3 py-1 text-xs font-bold text-yellow-700"
                         >
                             Not Taken
                         </span>
 
                         <Link
                             :href="`/admin/orders/${assignment.order_id}`"
-                            class="text-sm font-semibold text-gray-900 hover:underline"
+                            class="inline-flex items-center rounded-xl border border-border px-3 py-2 text-sm font-semibold text-body transition hover:border-brand-200 hover:bg-brand-50 hover:text-brand-700 focus-visible:outline-none"
                         >
                             View Order
                         </Link>
                     </div>
                 </div>
             </div>
-        </div>
+        </section>
     </AdminLayout>
 </template>

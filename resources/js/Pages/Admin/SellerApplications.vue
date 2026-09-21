@@ -95,20 +95,26 @@ const statusClasses = (status: string): string => {
         <!-- ==================== Page Header ==================== -->
 
         <div
-            class="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between"
+            class="mb-6 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between"
         >
             <div>
-                <h1 class="text-2xl font-bold text-gray-900">
+                <p
+                    class="text-xs font-bold uppercase tracking-[0.16em] text-brand-600"
+                >
+                    Admin Panel
+                </p>
+
+                <h1 class="mt-1 text-2xl font-bold tracking-tight text-heading">
                     Seller Applications
                 </h1>
 
-                <p class="mt-1 text-sm text-gray-500">
+                <p class="mt-1 max-w-2xl text-sm text-muted">
                     Review users who have applied to become sellers.
                 </p>
             </div>
 
             <div
-                class="rounded-xl bg-gray-100 px-4 py-2 text-sm font-medium text-gray-700"
+                class="inline-flex w-fit items-center rounded-full border border-border bg-surface px-4 py-2 text-sm font-semibold text-body shadow-sm"
             >
                 {{ props.applications.length }} applications
             </div>
@@ -117,38 +123,38 @@ const statusClasses = (status: string): string => {
         <!-- ==================== Desktop Table ==================== -->
 
         <div
-            class="hidden overflow-hidden rounded-2xl border border-gray-200 bg-white lg:block"
+            class="hidden overflow-hidden rounded-2xl border border-border bg-surface shadow-sm lg:block"
         >
             <div class="overflow-x-auto">
-                <table class="w-full text-left">
-                    <thead class="border-b border-gray-200 bg-gray-50">
+                <table class="w-full min-w-[950px] text-left">
+                    <thead class="border-b border-border bg-background">
                         <tr>
                             <th
-                                class="px-6 py-4 text-xs font-semibold uppercase tracking-wide text-gray-500"
+                                class="px-6 py-4 text-xs font-bold uppercase tracking-wide text-muted"
                             >
                                 Applicant
                             </th>
 
                             <th
-                                class="px-6 py-4 text-xs font-semibold uppercase tracking-wide text-gray-500"
+                                class="px-6 py-4 text-xs font-bold uppercase tracking-wide text-muted"
                             >
                                 Reason
                             </th>
 
                             <th
-                                class="px-6 py-4 text-xs font-semibold uppercase tracking-wide text-gray-500"
+                                class="px-6 py-4 text-xs font-bold uppercase tracking-wide text-muted"
                             >
                                 Status
                             </th>
 
                             <th
-                                class="px-6 py-4 text-xs font-semibold uppercase tracking-wide text-gray-500"
+                                class="px-6 py-4 text-xs font-bold uppercase tracking-wide text-muted"
                             >
                                 Submitted
                             </th>
 
                             <th
-                                class="px-6 py-4 text-xs font-semibold uppercase tracking-wide text-gray-500"
+                                class="px-6 py-4 text-xs font-bold uppercase tracking-wide text-muted"
                             >
                                 Reviewed By
                             </th>
@@ -157,32 +163,32 @@ const statusClasses = (status: string): string => {
                         </tr>
                     </thead>
 
-                    <tbody class="divide-y divide-gray-100">
+                    <tbody class="divide-y divide-border">
                         <tr
                             v-for="application in props.applications"
                             :key="application.id"
-                            class="transition hover:bg-gray-50"
+                            class="transition-colors hover:bg-background"
                         >
                             <!-- ==================== Applicant ==================== -->
 
                             <td class="px-6 py-4">
                                 <div class="flex items-center gap-3">
                                     <div
-                                        class="flex h-10 w-10 items-center justify-center rounded-full bg-gray-100"
+                                        class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-brand-50 text-brand-600"
                                     >
-                                        <UserRound
-                                            class="h-5 w-5 text-gray-500"
-                                        />
+                                        <UserRound class="h-5 w-5" />
                                     </div>
 
-                                    <div>
+                                    <div class="min-w-0">
                                         <p
-                                            class="text-sm font-semibold text-gray-900"
+                                            class="truncate text-sm font-semibold text-heading"
                                         >
                                             {{ fullName(application.user) }}
                                         </p>
 
-                                        <p class="text-xs text-gray-400">
+                                        <p
+                                            class="mt-0.5 truncate text-xs text-muted"
+                                        >
                                             {{ application.user.email }}
                                         </p>
                                     </div>
@@ -193,7 +199,7 @@ const statusClasses = (status: string): string => {
 
                             <td class="max-w-xs px-6 py-4">
                                 <p
-                                    class="truncate text-sm text-gray-600"
+                                    class="truncate text-sm text-body"
                                     :title="
                                         application.reason ??
                                         'No reason provided'
@@ -210,8 +216,21 @@ const statusClasses = (status: string): string => {
 
                             <td class="px-6 py-4">
                                 <span
-                                    class="inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-medium capitalize"
-                                    :class="statusClasses(application.status)"
+                                    class="inline-flex items-center gap-1.5 rounded-full border px-3 py-1 text-xs font-bold capitalize"
+                                    :class="{
+                                        'border-yellow-100 bg-yellow-50 text-yellow-700':
+                                            application.status === 'pending',
+                                        'border-green-100 bg-green-50 text-green-700':
+                                            application.status === 'approved',
+                                        'border-red-100 bg-red-50 text-red-700':
+                                            application.status === 'rejected',
+                                        'border-border bg-background text-body':
+                                            ![
+                                                'pending',
+                                                'approved',
+                                                'rejected',
+                                            ].includes(application.status),
+                                    }"
                                 >
                                     <Clock
                                         v-if="application.status === 'pending'"
@@ -240,11 +259,9 @@ const statusClasses = (status: string): string => {
 
                             <td class="whitespace-nowrap px-6 py-4">
                                 <div
-                                    class="flex items-center gap-2 text-sm text-gray-500"
+                                    class="flex items-center gap-2 text-sm text-body"
                                 >
-                                    <CalendarDays
-                                        class="h-4 w-4 text-gray-400"
-                                    />
+                                    <CalendarDays class="h-4 w-4 text-muted" />
 
                                     {{ formatDate(application.created_at) }}
                                 </div>
@@ -253,13 +270,13 @@ const statusClasses = (status: string): string => {
                             <!-- ==================== Reviewed By ==================== -->
 
                             <td class="px-6 py-4">
-                                <span class="text-sm text-gray-600">
+                                <p class="text-sm font-medium text-body">
                                     {{ reviewerName(application) }}
-                                </span>
+                                </p>
 
                                 <p
                                     v-if="application.reviewed_at"
-                                    class="mt-1 text-xs text-gray-400"
+                                    class="mt-1 text-xs text-muted"
                                 >
                                     {{
                                         formatDateTime(application.reviewed_at)
@@ -272,7 +289,7 @@ const statusClasses = (status: string): string => {
                             <td class="px-6 py-4 text-right">
                                 <Link
                                     :href="`/admin/seller-applications/${application.id}`"
-                                    class="text-sm font-semibold text-gray-900 hover:underline"
+                                    class="inline-flex items-center rounded-xl border border-border px-3 py-2 text-sm font-semibold text-body transition hover:border-brand-200 hover:bg-brand-50 hover:text-brand-700 focus-visible:outline-none"
                                 >
                                     View
                                 </Link>
@@ -286,12 +303,20 @@ const statusClasses = (status: string): string => {
 
             <div
                 v-if="props.applications.length === 0"
-                class="px-6 py-12 text-center"
+                class="px-6 py-14 text-center"
             >
-                <UserRound class="mx-auto h-10 w-10 text-gray-300" />
+                <div
+                    class="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-brand-50 text-brand-600"
+                >
+                    <UserRound class="h-6 w-6" />
+                </div>
 
-                <p class="mt-3 text-sm font-medium text-gray-900">
-                    No seller applications found.
+                <h3 class="mt-4 text-base font-semibold text-heading">
+                    No seller applications
+                </h3>
+
+                <p class="mt-1 text-sm text-muted">
+                    There are currently no seller applications to review.
                 </p>
             </div>
         </div>
@@ -302,70 +327,125 @@ const statusClasses = (status: string): string => {
             <div
                 v-for="application in props.applications"
                 :key="application.id"
-                class="rounded-2xl border border-gray-200 bg-white p-4"
+                class="rounded-2xl border border-border bg-surface p-5 shadow-sm"
             >
-                <!-- ==================== Applicant ==================== -->
+                <!-- ==================== Applicant Header ==================== -->
 
-                <div class="flex items-center gap-3">
+                <div class="flex items-start gap-3">
                     <div
-                        class="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-gray-100"
+                        class="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-brand-50 text-brand-600"
                     >
-                        <UserRound class="h-5 w-5 text-gray-500" />
+                        <UserRound class="h-5 w-5" />
                     </div>
 
                     <div class="min-w-0 flex-1">
-                        <p class="truncate text-sm font-semibold text-gray-900">
+                        <p class="truncate text-sm font-semibold text-heading">
                             {{ fullName(application.user) }}
                         </p>
 
-                        <p class="truncate text-xs text-gray-400">
+                        <p class="mt-0.5 truncate text-xs text-muted">
                             {{ application.user.email }}
                         </p>
                     </div>
 
                     <span
-                        class="shrink-0 rounded-full px-3 py-1 text-xs font-medium capitalize"
-                        :class="statusClasses(application.status)"
+                        class="shrink-0 inline-flex items-center gap-1 rounded-full border px-2.5 py-1 text-xs font-bold capitalize"
+                        :class="{
+                            'border-yellow-100 bg-yellow-50 text-yellow-700':
+                                application.status === 'pending',
+                            'border-green-100 bg-green-50 text-green-700':
+                                application.status === 'approved',
+                            'border-red-100 bg-red-50 text-red-700':
+                                application.status === 'rejected',
+                            'border-border bg-background text-body': ![
+                                'pending',
+                                'approved',
+                                'rejected',
+                            ].includes(application.status),
+                        }"
                     >
+                        <Clock
+                            v-if="application.status === 'pending'"
+                            class="h-3.5 w-3.5"
+                        />
+
+                        <CheckCircle
+                            v-else-if="application.status === 'approved'"
+                            class="h-3.5 w-3.5"
+                        />
+
+                        <XCircle
+                            v-else-if="application.status === 'rejected'"
+                            class="h-3.5 w-3.5"
+                        />
+
                         {{ formatStatus(application.status) }}
                     </span>
                 </div>
 
                 <!-- ==================== Reason ==================== -->
 
-                <div class="mt-4 border-t border-gray-100 pt-4">
+                <div class="mt-5 border-t border-border pt-4">
                     <p
-                        class="text-xs font-medium uppercase tracking-wide text-gray-400"
+                        class="text-[11px] font-bold uppercase tracking-wide text-muted"
                     >
-                        Reason
+                        Application Reason
                     </p>
 
-                    <p class="mt-1 text-sm text-gray-600">
-                        {{ application.reason ?? "No reason provided" }}
+                    <p class="mt-1.5 text-sm leading-6 text-body">
+                        {{
+                            application.reason ??
+                            "No reason was provided by the applicant."
+                        }}
                     </p>
                 </div>
 
                 <!-- ==================== Metadata ==================== -->
 
                 <div
-                    class="mt-4 flex flex-wrap gap-x-5 gap-y-2 border-t border-gray-100 pt-4 text-xs text-gray-400"
+                    class="mt-4 grid grid-cols-1 gap-3 border-t border-border pt-4 sm:grid-cols-2"
                 >
-                    <span>
-                        Submitted:
-                        {{ formatDate(application.created_at) }}
-                    </span>
+                    <div>
+                        <p
+                            class="text-[11px] font-bold uppercase tracking-wide text-muted"
+                        >
+                            Submitted
+                        </p>
 
-                    <span v-if="application.reviewed_at">
-                        Reviewed:
-                        {{ formatDate(application.reviewed_at) }}
-                    </span>
+                        <div
+                            class="mt-1 flex items-center gap-1.5 text-sm font-medium text-body"
+                        >
+                            <CalendarDays class="h-4 w-4 text-muted" />
+
+                            {{ formatDate(application.created_at) }}
+                        </div>
+                    </div>
+
+                    <div>
+                        <p
+                            class="text-[11px] font-bold uppercase tracking-wide text-muted"
+                        >
+                            Reviewed By
+                        </p>
+
+                        <p class="mt-1 text-sm font-medium text-body">
+                            {{ reviewerName(application) }}
+                        </p>
+
+                        <p
+                            v-if="application.reviewed_at"
+                            class="mt-0.5 text-xs text-muted"
+                        >
+                            {{ formatDateTime(application.reviewed_at) }}
+                        </p>
+                    </div>
                 </div>
 
                 <!-- ==================== Action ==================== -->
 
                 <Link
                     :href="`/admin/seller-applications/${application.id}`"
-                    class="mt-4 block w-full rounded-xl bg-gray-900 px-4 py-3 text-center text-sm font-semibold text-white transition hover:bg-gray-800"
+                    class="mt-5 block w-full rounded-xl bg-brand-600 px-4 py-3 text-center text-sm font-bold text-white transition hover:bg-brand-700 focus-visible:outline-none"
                 >
                     View Application
                 </Link>
@@ -375,12 +455,20 @@ const statusClasses = (status: string): string => {
 
             <div
                 v-if="props.applications.length === 0"
-                class="rounded-2xl border border-gray-200 bg-white px-6 py-12 text-center"
+                class="rounded-2xl border border-border bg-surface px-6 py-14 text-center shadow-sm"
             >
-                <UserRound class="mx-auto h-10 w-10 text-gray-300" />
+                <div
+                    class="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-brand-50 text-brand-600"
+                >
+                    <UserRound class="h-6 w-6" />
+                </div>
 
-                <p class="mt-3 text-sm font-medium text-gray-900">
-                    No seller applications found.
+                <h3 class="mt-4 text-base font-semibold text-heading">
+                    No seller applications
+                </h3>
+
+                <p class="mt-1 text-sm text-muted">
+                    There are currently no seller applications to review.
                 </p>
             </div>
         </div>

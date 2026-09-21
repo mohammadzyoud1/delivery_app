@@ -199,34 +199,45 @@ const submit = () => {
 
 <template>
     <SellerLayout>
-        <div class="mx-auto w-full max-w-3xl">
+        <div class="mx-auto w-full max-w-4xl">
             <!-- ==================== Page Header ==================== -->
 
-            <div class="mb-6">
-                <h2 class="text-2xl font-bold tracking-tight text-gray-900">
-                    Add Product
-                </h2>
-
-                <p class="mt-1 text-sm text-gray-500">
-                    Add a new product to your store.
+            <section class="mb-8">
+                <p
+                    class="text-sm font-bold uppercase tracking-wider text-brand-600"
+                >
+                    Store Management
                 </p>
-            </div>
+
+                <h1
+                    class="mt-1 text-2xl font-extrabold tracking-tight text-heading sm:text-3xl"
+                >
+                    Add Product
+                </h1>
+
+                <p class="mt-2 text-sm leading-6 text-muted">
+                    Add a new product to your store and configure its
+                    availability, pricing, and variants.
+                </p>
+            </section>
 
             <!-- ==================== Product Form ==================== -->
 
-            <form
-                @submit.prevent="submit"
-                class="space-y-5 rounded-2xl border border-gray-100 bg-white p-5 shadow-sm sm:p-7"
-            >
+            <form class="space-y-6" @submit.prevent="submit">
                 <!-- ==================== Product Images ==================== -->
 
-                <div>
-                    <label
-                        for="images"
-                        class="mb-2 block text-sm font-semibold text-gray-900"
-                    >
-                        Product Images
-                    </label>
+                <section
+                    class="rounded-2xl border border-border bg-surface p-5 shadow-sm sm:p-6"
+                >
+                    <div class="mb-5">
+                        <h2 class="text-base font-extrabold text-heading">
+                            Product Images
+                        </h2>
+
+                        <p class="mt-1 text-sm text-muted">
+                            Add clear images that show your product.
+                        </p>
+                    </div>
 
                     <input
                         id="images"
@@ -240,14 +251,42 @@ const submit = () => {
 
                     <button
                         type="button"
-                        class="flex min-h-32 w-full flex-col items-center justify-center rounded-xl border-2 border-dashed border-gray-200 bg-gray-50 px-4 py-6 text-center transition hover:border-gray-300 hover:bg-gray-100"
+                        class="flex min-h-36 w-full flex-col items-center justify-center rounded-2xl border-2 border-dashed border-border bg-background px-5 py-8 text-center transition-all duration-200 hover:border-brand-300 hover:bg-brand-50/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:ring-offset-2"
                         @click="imageInput?.click()"
                     >
-                        <span class="text-sm font-semibold text-gray-700">
+                        <div
+                            class="flex h-12 w-12 items-center justify-center rounded-xl bg-brand-50 text-brand-600"
+                        >
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="22"
+                                height="22"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                            >
+                                <rect
+                                    width="18"
+                                    height="18"
+                                    x="3"
+                                    y="3"
+                                    rx="2"
+                                />
+                                <circle cx="9" cy="9" r="2" />
+                                <path
+                                    d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"
+                                />
+                            </svg>
+                        </div>
+
+                        <span class="mt-3 text-sm font-bold text-heading">
                             Add Product Images
                         </span>
 
-                        <span class="mt-1 text-xs text-gray-400">
+                        <span class="mt-1 text-xs text-muted">
                             Select one or more images
                         </span>
                     </button>
@@ -256,22 +295,23 @@ const submit = () => {
 
                     <div
                         v-if="imagePreviews.length"
-                        class="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-3"
+                        class="mt-5 grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4"
                     >
                         <div
                             v-for="(preview, index) in imagePreviews"
                             :key="preview"
-                            class="relative aspect-square overflow-hidden rounded-xl border border-gray-200"
+                            class="group relative aspect-square overflow-hidden rounded-xl border border-border bg-background"
                         >
                             <img
                                 :src="preview"
                                 :alt="`Product image ${index + 1}`"
-                                class="h-full w-full object-cover"
+                                class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
                             />
 
                             <button
                                 type="button"
-                                class="absolute right-2 top-2 flex h-8 w-8 items-center justify-center rounded-full bg-white/90 text-sm font-bold text-gray-700 shadow-sm transition hover:bg-white"
+                                :aria-label="`Remove image ${index + 1}`"
+                                class="absolute right-2 top-2 flex h-8 w-8 items-center justify-center rounded-full border border-white/60 bg-white/95 text-lg font-medium text-slate-600 shadow-sm backdrop-blur transition hover:bg-white hover:text-red-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500"
                                 @click="removeImage(index)"
                             >
                                 ×
@@ -281,244 +321,287 @@ const submit = () => {
 
                     <p
                         v-if="form.errors.images"
-                        class="mt-1.5 text-sm text-red-600"
+                        class="mt-2 text-sm font-medium text-red-600"
                     >
                         {{ form.errors.images }}
                     </p>
-                </div>
-                <!-- ==================== Product Name ==================== -->
+                </section>
 
-                <div>
-                    <label
-                        for="name"
-                        class="mb-2 block text-sm font-semibold text-gray-900"
-                    >
-                        Product Name
-                    </label>
+                <!-- ==================== Basic Information ==================== -->
 
-                    <input
-                        id="name"
-                        v-model="form.name"
-                        type="text"
-                        placeholder="e.g. iPhone 15"
-                        class="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 text-sm text-gray-900 outline-none transition placeholder:text-gray-400 focus:border-gray-400 focus:bg-white"
-                    />
+                <section
+                    class="rounded-2xl border border-border bg-surface p-5 shadow-sm sm:p-6"
+                >
+                    <div class="mb-5">
+                        <h2 class="text-base font-extrabold text-heading">
+                            Basic Information
+                        </h2>
 
-                    <p
-                        v-if="form.errors.name"
-                        class="mt-1.5 text-sm text-red-600"
-                    >
-                        {{ form.errors.name }}
-                    </p>
-                </div>
-
-                <!-- ==================== Category ==================== -->
-
-                <div>
-                    <label
-                        for="category"
-                        class="mb-2 block text-sm font-semibold text-gray-900"
-                    >
-                        Category
-                    </label>
-
-                    <select
-                        id="category"
-                        v-model="form.category_id"
-                        class="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 text-sm text-gray-900 outline-none transition focus:border-gray-400 focus:bg-white"
-                    >
-                        <option value="" disabled>Select a category</option>
-
-                        <option
-                            v-for="category in categories"
-                            :key="category.id"
-                            :value="category.id"
-                        >
-                            {{ category.name }}
-                        </option>
-                    </select>
-
-                    <p
-                        v-if="form.errors.category_id"
-                        class="mt-1.5 text-sm text-red-600"
-                    >
-                        {{ form.errors.category_id }}
-                    </p>
-                </div>
-
-                <!-- ==================== Description ==================== -->
-
-                <div>
-                    <label
-                        for="description"
-                        class="mb-2 block text-sm font-semibold text-gray-900"
-                    >
-                        Description
-                    </label>
-
-                    <textarea
-                        id="description"
-                        v-model="form.description"
-                        rows="4"
-                        placeholder="Describe your product..."
-                        class="w-full resize-none rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 text-sm text-gray-900 outline-none transition placeholder:text-gray-400 focus:border-gray-400 focus:bg-white"
-                    ></textarea>
-
-                    <p
-                        v-if="form.errors.description"
-                        class="mt-1.5 text-sm text-red-600"
-                    >
-                        {{ form.errors.description }}
-                    </p>
-                </div>
-
-                <!-- ==================== Price / Stock ==================== -->
-
-                <div class="grid grid-cols-1 gap-5 sm:grid-cols-2">
-                    <div>
-                        <label
-                            for="price"
-                            class="mb-2 block text-sm font-semibold text-gray-900"
-                        >
-                            Price
-                        </label>
-
-                        <input
-                            id="price"
-                            v-model="form.price"
-                            type="number"
-                            min="0"
-                            step="0.01"
-                            placeholder="0.00"
-                            class="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 text-sm text-gray-900 outline-none transition placeholder:text-gray-400 focus:border-gray-400 focus:bg-white"
-                        />
-
-                        <p
-                            v-if="form.errors.price"
-                            class="mt-1.5 text-sm text-red-600"
-                        >
-                            {{ form.errors.price }}
+                        <p class="mt-1 text-sm text-muted">
+                            Provide the main details customers will see.
                         </p>
                     </div>
 
-                    <div v-if="!hasVariants">
-                        <label
-                            for="stock"
-                            class="mb-2 block text-sm font-semibold text-gray-900"
-                        >
-                            Stock
-                        </label>
+                    <div class="space-y-5">
+                        <!-- ==================== Product Name ==================== -->
 
-                        <input
-                            id="stock"
-                            v-model="form.stock"
-                            type="number"
-                            min="0"
-                            placeholder="0"
-                            class="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 text-sm text-gray-900 outline-none transition placeholder:text-gray-400 focus:border-gray-400 focus:bg-white"
-                        />
+                        <div>
+                            <label
+                                for="name"
+                                class="mb-2 block text-sm font-bold text-heading"
+                            >
+                                Product Name
+                            </label>
 
-                        <p
-                            v-if="form.errors.stock"
-                            class="mt-1.5 text-sm text-red-600"
-                        >
-                            {{ form.errors.stock }}
-                        </p>
+                            <input
+                                id="name"
+                                v-model="form.name"
+                                type="text"
+                                placeholder="e.g. iPhone 15"
+                                class="w-full rounded-xl border border-border bg-background px-4 py-3 text-sm text-heading outline-none transition placeholder:text-muted focus:border-brand-500 focus:bg-surface focus:ring-2 focus:ring-brand-100"
+                            />
+
+                            <p
+                                v-if="form.errors.name"
+                                class="mt-1.5 text-sm font-medium text-red-600"
+                            >
+                                {{ form.errors.name }}
+                            </p>
+                        </div>
+
+                        <!-- ==================== Category ==================== -->
+
+                        <div>
+                            <label
+                                for="category"
+                                class="mb-2 block text-sm font-bold text-heading"
+                            >
+                                Category
+                            </label>
+
+                            <select
+                                id="category"
+                                v-model="form.category_id"
+                                class="w-full rounded-xl border border-border bg-background px-4 py-3 text-sm text-heading outline-none transition focus:border-brand-500 focus:bg-surface focus:ring-2 focus:ring-brand-100"
+                            >
+                                <option value="" disabled>
+                                    Select a category
+                                </option>
+
+                                <option
+                                    v-for="category in categories"
+                                    :key="category.id"
+                                    :value="category.id"
+                                >
+                                    {{ category.name }}
+                                </option>
+                            </select>
+
+                            <p
+                                v-if="form.errors.category_id"
+                                class="mt-1.5 text-sm font-medium text-red-600"
+                            >
+                                {{ form.errors.category_id }}
+                            </p>
+                        </div>
+
+                        <!-- ==================== Description ==================== -->
+
+                        <div>
+                            <label
+                                for="description"
+                                class="mb-2 block text-sm font-bold text-heading"
+                            >
+                                Description
+                            </label>
+
+                            <textarea
+                                id="description"
+                                v-model="form.description"
+                                rows="5"
+                                placeholder="Describe your product..."
+                                class="w-full resize-none rounded-xl border border-border bg-background px-4 py-3 text-sm leading-6 text-heading outline-none transition placeholder:text-muted focus:border-brand-500 focus:bg-surface focus:ring-2 focus:ring-brand-100"
+                            ></textarea>
+
+                            <p
+                                v-if="form.errors.description"
+                                class="mt-1.5 text-sm font-medium text-red-600"
+                            >
+                                {{ form.errors.description }}
+                            </p>
+                        </div>
+
+                        <!-- ==================== Price / Stock ==================== -->
+
+                        <div class="grid grid-cols-1 gap-5 sm:grid-cols-2">
+                            <div>
+                                <label
+                                    for="price"
+                                    class="mb-2 block text-sm font-bold text-heading"
+                                >
+                                    Price
+                                </label>
+
+                                <input
+                                    id="price"
+                                    v-model="form.price"
+                                    type="number"
+                                    min="0"
+                                    step="0.01"
+                                    placeholder="0.00"
+                                    class="w-full rounded-xl border border-border bg-background px-4 py-3 text-sm text-heading outline-none transition placeholder:text-muted focus:border-brand-500 focus:bg-surface focus:ring-2 focus:ring-brand-100"
+                                />
+
+                                <p
+                                    v-if="form.errors.price"
+                                    class="mt-1.5 text-sm font-medium text-red-600"
+                                >
+                                    {{ form.errors.price }}
+                                </p>
+                            </div>
+
+                            <div v-if="!hasVariants">
+                                <label
+                                    for="stock"
+                                    class="mb-2 block text-sm font-bold text-heading"
+                                >
+                                    Stock
+                                </label>
+
+                                <input
+                                    id="stock"
+                                    v-model="form.stock"
+                                    type="number"
+                                    min="0"
+                                    placeholder="0"
+                                    class="w-full rounded-xl border border-border bg-background px-4 py-3 text-sm text-heading outline-none transition placeholder:text-muted focus:border-brand-500 focus:bg-surface focus:ring-2 focus:ring-brand-100"
+                                />
+
+                                <p
+                                    v-if="form.errors.stock"
+                                    class="mt-1.5 text-sm font-medium text-red-600"
+                                >
+                                    {{ form.errors.stock }}
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- ==================== Unit ==================== -->
+
+                        <div>
+                            <label
+                                for="unit"
+                                class="mb-2 block text-sm font-bold text-heading"
+                            >
+                                Unit
+                            </label>
+
+                            <input
+                                id="unit"
+                                v-model="form.unit"
+                                type="text"
+                                placeholder="e.g. piece, kg, liter"
+                                class="w-full rounded-xl border border-border bg-background px-4 py-3 text-sm text-heading outline-none transition placeholder:text-muted focus:border-brand-500 focus:bg-surface focus:ring-2 focus:ring-brand-100"
+                            />
+
+                            <p
+                                v-if="form.errors.unit"
+                                class="mt-1.5 text-sm font-medium text-red-600"
+                            >
+                                {{ form.errors.unit }}
+                            </p>
+                        </div>
                     </div>
-                </div>
-
-                <!-- ==================== Unit ==================== -->
-
-                <div>
-                    <label
-                        for="unit"
-                        class="mb-2 block text-sm font-semibold text-gray-900"
-                    >
-                        Unit
-                    </label>
-
-                    <input
-                        id="unit"
-                        v-model="form.unit"
-                        type="text"
-                        placeholder="e.g. piece, kg, liter"
-                        class="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 text-sm text-gray-900 outline-none transition placeholder:text-gray-400 focus:border-gray-400 focus:bg-white"
-                    />
-
-                    <p
-                        v-if="form.errors.unit"
-                        class="mt-1.5 text-sm text-red-600"
-                    >
-                        {{ form.errors.unit }}
-                    </p>
-                </div>
+                </section>
 
                 <!-- ==================== Product Variants ==================== -->
 
-                <div
-                    class="rounded-2xl border border-gray-100 bg-gray-50 p-4 sm:p-5"
+                <section
+                    class="rounded-2xl border border-border bg-surface p-5 shadow-sm sm:p-6"
                 >
                     <div>
-                        <h3 class="text-sm font-semibold text-gray-900">
+                        <h2 class="text-base font-extrabold text-heading">
                             Product Variants
-                        </h3>
+                        </h2>
 
-                        <p class="mt-1 text-sm text-gray-500">
-                            Does this product have different options such as
-                            size or color?
+                        <p class="mt-1 text-sm leading-6 text-muted">
+                            Add options such as size, color, storage, or other
+                            product combinations.
                         </p>
                     </div>
 
                     <!-- ==================== Variant Choice ==================== -->
 
-                    <div class="mt-4 flex flex-col gap-3 sm:flex-row">
+                    <div class="mt-5 grid grid-cols-1 gap-3 sm:grid-cols-2">
                         <label
-                            class="flex cursor-pointer items-center gap-3 rounded-xl border border-gray-200 bg-white p-3"
+                            class="flex cursor-pointer items-center gap-3 rounded-xl border border-border bg-background p-4 transition hover:border-slate-300 hover:bg-surface"
+                            :class="
+                                !hasVariants
+                                    ? 'border-brand-300 bg-brand-50/50 ring-1 ring-brand-200'
+                                    : ''
+                            "
                         >
                             <input
                                 v-model="hasVariants"
                                 type="radio"
                                 :value="false"
-                                class="h-4 w-4"
+                                class="h-4 w-4 accent-blue-600"
                             />
 
-                            <span class="text-sm font-medium text-gray-900">
-                                No variants
-                            </span>
+                            <div>
+                                <p class="text-sm font-bold text-heading">
+                                    No variants
+                                </p>
+
+                                <p class="mt-0.5 text-xs text-muted">
+                                    One price and stock level
+                                </p>
+                            </div>
                         </label>
 
                         <label
-                            class="flex cursor-pointer items-center gap-3 rounded-xl border border-gray-200 bg-white p-3"
+                            class="flex cursor-pointer items-center gap-3 rounded-xl border border-border bg-background p-4 transition hover:border-slate-300 hover:bg-surface"
+                            :class="
+                                hasVariants
+                                    ? 'border-brand-300 bg-brand-50/50 ring-1 ring-brand-200'
+                                    : ''
+                            "
                         >
                             <input
                                 v-model="hasVariants"
                                 type="radio"
                                 :value="true"
-                                class="h-4 w-4"
+                                class="h-4 w-4 accent-blue-600"
                             />
 
-                            <span class="text-sm font-medium text-gray-900">
-                                Has variants
-                            </span>
+                            <div>
+                                <p class="text-sm font-bold text-heading">
+                                    Has variants
+                                </p>
+
+                                <p class="mt-0.5 text-xs text-muted">
+                                    Different options and stock
+                                </p>
+                            </div>
                         </label>
                     </div>
 
-                    <!-- ==================== Variant Builder Placeholder ==================== -->
+                    <!-- ==================== Variant Options ==================== -->
 
-                    <div v-if="hasVariants" class="mt-5 space-y-4">
-                        <!-- ==================== Options ==================== -->
-
+                    <div v-if="hasVariants" class="mt-6 space-y-4">
                         <div
                             v-for="(option, optionIndex) in options"
                             :key="optionIndex"
-                            class="rounded-xl border border-gray-200 bg-white p-4"
+                            class="rounded-2xl border border-border bg-background p-4 sm:p-5"
                         >
                             <!-- ==================== Option Header ==================== -->
 
-                            <div class="flex items-start justify-between gap-3">
+                            <div
+                                class="flex flex-col gap-3 sm:flex-row sm:items-end"
+                            >
                                 <div class="flex-1">
                                     <label
-                                        class="mb-2 block text-sm font-semibold text-gray-900"
+                                        class="mb-2 block text-sm font-bold text-heading"
                                     >
                                         Option Name
                                     </label>
@@ -527,13 +610,13 @@ const submit = () => {
                                         v-model="option.name"
                                         type="text"
                                         placeholder="e.g. Color, Size, Storage"
-                                        class="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 text-sm outline-none transition focus:border-gray-400 focus:bg-white"
+                                        class="w-full rounded-xl border border-border bg-surface px-4 py-3 text-sm text-heading outline-none transition placeholder:text-muted focus:border-brand-500 focus:ring-2 focus:ring-brand-100"
                                     />
                                 </div>
 
                                 <button
                                     type="button"
-                                    class="mt-7 text-sm font-medium text-red-600 hover:text-red-700"
+                                    class="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm font-bold text-red-700 transition hover:bg-red-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-500"
                                     @click="removeOption(optionIndex)"
                                 >
                                     Remove
@@ -542,10 +625,8 @@ const submit = () => {
 
                             <!-- ==================== Option Values ==================== -->
 
-                            <div class="mt-4">
-                                <p
-                                    class="mb-2 text-sm font-semibold text-gray-900"
-                                >
+                            <div class="mt-5">
+                                <p class="mb-2 text-sm font-bold text-heading">
                                     Values
                                 </p>
 
@@ -561,12 +642,13 @@ const submit = () => {
                                             v-model="option.values[valueIndex]"
                                             type="text"
                                             placeholder="e.g. Black"
-                                            class="min-w-0 flex-1 rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 text-sm outline-none transition focus:border-gray-400 focus:bg-white"
+                                            class="min-w-0 flex-1 rounded-xl border border-border bg-surface px-4 py-3 text-sm text-heading outline-none transition placeholder:text-muted focus:border-brand-500 focus:ring-2 focus:ring-brand-100"
                                         />
 
                                         <button
                                             type="button"
-                                            class="rounded-xl border border-gray-200 px-4 text-sm text-gray-500 transition hover:bg-gray-50 hover:text-red-600"
+                                            aria-label="Remove value"
+                                            class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-border bg-surface text-lg text-muted transition hover:border-red-200 hover:bg-red-50 hover:text-red-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500"
                                             @click="
                                                 removeOptionValue(
                                                     optionIndex,
@@ -579,11 +661,9 @@ const submit = () => {
                                     </div>
                                 </div>
 
-                                <!-- ==================== Add Value ==================== -->
-
                                 <button
                                     type="button"
-                                    class="mt-3 text-sm font-semibold text-gray-700 hover:text-gray-900"
+                                    class="mt-3 inline-flex items-center rounded-lg px-1 py-1 text-sm font-bold text-brand-600 transition hover:text-brand-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500"
                                     @click="addOptionValue(optionIndex)"
                                 >
                                     + Add value
@@ -595,158 +675,184 @@ const submit = () => {
 
                         <button
                             type="button"
-                            class="w-full rounded-xl border border-dashed border-gray-300 bg-white px-4 py-3 text-sm font-semibold text-gray-700 transition hover:bg-gray-50"
+                            class="w-full rounded-xl border border-dashed border-border bg-background px-4 py-3.5 text-sm font-bold text-body transition hover:border-brand-300 hover:bg-brand-50/50 hover:text-brand-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500"
                             @click="addOption"
                         >
                             + Add another option
                         </button>
                     </div>
-                </div>
 
-                <!-- ==================== Generate Variants ==================== -->
+                    <!-- ==================== Generate Variants ==================== -->
 
-                <div v-if="hasVariants && options.length" class="mt-5">
-                    <Button
-                        type="button"
-                        variant="outline"
-                        fullWidth
-                        @click="generateCombinations"
-                    >
-                        Generate Variants
-                    </Button>
-                </div>
-
-                <!-- ==================== Generated Variants ==================== -->
-
-                <div
-                    v-if="variants.length && hasVariants"
-                    class="mt-5 space-y-4"
-                >
-                    <div>
-                        <h3 class="text-sm font-semibold text-gray-900">
-                            Variants
-                        </h3>
-
-                        <p class="mt-1 text-sm text-gray-500">
-                            Set the SKU, price, and stock for each combination.
-                        </p>
-                        <!-- ==================== Total Variant Stock ==================== -->
-
-                        <div
-                            class="mt-4 rounded-xl border border-gray-200 bg-gray-50 px-4 py-3"
+                    <div v-if="hasVariants && options.length" class="mt-5">
+                        <Button
+                            type="button"
+                            variant="outline"
+                            fullWidth
+                            @click="generateCombinations"
                         >
-                            <div class="flex items-center justify-between">
-                                <span class="text-sm font-medium text-gray-600">
-                                    Total Stock
-                                </span>
+                            Generate Variants
+                        </Button>
+                    </div>
 
-                                <span class="text-lg font-bold text-gray-900">
+                    <!-- ==================== Generated Variants ==================== -->
+
+                    <div
+                        v-if="variants.length && hasVariants"
+                        class="mt-6 space-y-4"
+                    >
+                        <div>
+                            <h3 class="text-sm font-extrabold text-heading">
+                                Generated Variants
+                            </h3>
+
+                            <p class="mt-1 text-sm text-muted">
+                                Set the SKU, price, and stock for each
+                                combination.
+                            </p>
+
+                            <!-- ==================== Total Variant Stock ==================== -->
+
+                            <div
+                                class="mt-4 flex items-center justify-between rounded-xl border border-brand-100 bg-brand-50 px-4 py-3"
+                            >
+                                <div>
+                                    <p class="text-sm font-bold text-brand-700">
+                                        Total Stock
+                                    </p>
+
+                                    <p class="mt-0.5 text-xs text-brand-600">
+                                        Calculated from all variants
+                                    </p>
+                                </div>
+
+                                <span
+                                    class="text-xl font-extrabold text-brand-700"
+                                >
                                     {{ totalVariantStock }}
                                 </span>
                             </div>
+                        </div>
 
-                            <p class="mt-1 text-xs text-gray-500">
-                                Calculated automatically from all variant
-                                stocks.
-                            </p>
+                        <!-- ==================== Variant Rows ==================== -->
+
+                        <div
+                            v-for="(variant, index) in variants"
+                            :key="index"
+                            class="rounded-2xl border border-border bg-background p-4 sm:p-5"
+                        >
+                            <div
+                                class="mb-4 rounded-xl border border-border bg-surface px-4 py-3"
+                            >
+                                <p class="text-sm font-extrabold text-heading">
+                                    {{ variant.values.join(" / ") }}
+                                </p>
+                            </div>
+
+                            <div class="grid grid-cols-1 gap-4 sm:grid-cols-3">
+                                <!-- ==================== SKU ==================== -->
+
+                                <div>
+                                    <label
+                                        class="mb-2 block text-xs font-bold uppercase tracking-wide text-muted"
+                                    >
+                                        SKU
+                                    </label>
+
+                                    <input
+                                        v-model="variant.sku"
+                                        type="text"
+                                        placeholder="e.g. TS-BLK-M"
+                                        class="w-full rounded-xl border border-border bg-surface px-3 py-2.5 text-sm text-heading outline-none transition placeholder:text-muted focus:border-brand-500 focus:ring-2 focus:ring-brand-100"
+                                    />
+
+                                    <p
+                                        v-if="
+                                            form.errors[`variants.${index}.sku`]
+                                        "
+                                        class="mt-1.5 text-sm font-medium text-red-600"
+                                    >
+                                        {{
+                                            form.errors[`variants.${index}.sku`]
+                                        }}
+                                    </p>
+                                </div>
+
+                                <!-- ==================== Variant Price ==================== -->
+
+                                <div>
+                                    <label
+                                        class="mb-2 block text-xs font-bold uppercase tracking-wide text-muted"
+                                    >
+                                        Price
+                                    </label>
+
+                                    <input
+                                        v-model="variant.price"
+                                        type="number"
+                                        min="0"
+                                        step="0.01"
+                                        placeholder="0.00"
+                                        class="w-full rounded-xl border border-border bg-surface px-3 py-2.5 text-sm text-heading outline-none transition placeholder:text-muted focus:border-brand-500 focus:ring-2 focus:ring-brand-100"
+                                    />
+
+                                    <p
+                                        v-if="
+                                            form.errors[
+                                                `variants.${index}.price`
+                                            ]
+                                        "
+                                        class="mt-1.5 text-sm font-medium text-red-600"
+                                    >
+                                        {{
+                                            form.errors[
+                                                `variants.${index}.price`
+                                            ]
+                                        }}
+                                    </p>
+                                </div>
+
+                                <!-- ==================== Variant Stock ==================== -->
+
+                                <div>
+                                    <label
+                                        class="mb-2 block text-xs font-bold uppercase tracking-wide text-muted"
+                                    >
+                                        Stock
+                                    </label>
+
+                                    <input
+                                        v-model="variant.stock"
+                                        type="number"
+                                        min="0"
+                                        placeholder="0"
+                                        class="w-full rounded-xl border border-border bg-surface px-3 py-2.5 text-sm text-heading outline-none transition placeholder:text-muted focus:border-brand-500 focus:ring-2 focus:ring-brand-100"
+                                    />
+
+                                    <p
+                                        v-if="
+                                            form.errors[
+                                                `variants.${index}.stock`
+                                            ]
+                                        "
+                                        class="mt-1.5 text-sm font-medium text-red-600"
+                                    >
+                                        {{
+                                            form.errors[
+                                                `variants.${index}.stock`
+                                            ]
+                                        }}
+                                    </p>
+                                </div>
+                            </div>
                         </div>
                     </div>
+                </section>
 
-                    <div
-                        v-for="(variant, index) in variants"
-                        :key="index"
-                        class="rounded-xl border border-gray-200 bg-white p-4"
-                    >
-                        <!-- ==================== Variant Name ==================== -->
-
-                        <div class="mb-4">
-                            <p class="text-sm font-semibold text-gray-900">
-                                {{ variant.values.join(" / ") }}
-                            </p>
-                        </div>
-
-                        <!-- ==================== Variant Fields ==================== -->
-
-                        <div class="grid grid-cols-1 gap-4 sm:grid-cols-3">
-                            <div>
-                                <label
-                                    class="mb-2 block text-xs font-semibold text-gray-700"
-                                >
-                                    SKU
-                                </label>
-
-                                <input
-                                    v-model="variant.sku"
-                                    type="text"
-                                    placeholder="e.g. TS-BLK-M"
-                                    class="w-full rounded-xl border border-gray-200 bg-gray-50 px-3 py-2.5 text-sm outline-none transition focus:border-gray-400 focus:bg-white"
-                                />
-                                <p
-                                    v-if="
-                                        form.errors[`variants.${index}.price`]
-                                    "
-                                    class="mt-1.5 text-sm text-red-600"
-                                >
-                                    {{ "Combination field is required." }}
-                                </p>
-                            </div>
-
-                            <div>
-                                <label
-                                    class="mb-2 block text-xs font-semibold text-gray-700"
-                                >
-                                    Price
-                                </label>
-
-                                <input
-                                    v-model="variant.price"
-                                    type="number"
-                                    min="0"
-                                    step="0.01"
-                                    placeholder="0.00"
-                                    class="w-full rounded-xl border border-gray-200 bg-gray-50 px-3 py-2.5 text-sm outline-none transition focus:border-gray-400 focus:bg-white"
-                                />
-                                <p
-                                    v-if="
-                                        form.errors[`variants.${index}.price`]
-                                    "
-                                    class="mt-1.5 text-sm text-red-600"
-                                >
-                                    {{ "Price field is required." }}
-                                </p>
-                            </div>
-
-                            <div>
-                                <label
-                                    class="mb-2 block text-xs font-semibold text-gray-700"
-                                >
-                                    Stock
-                                </label>
-
-                                <input
-                                    v-model="variant.stock"
-                                    type="number"
-                                    min="0"
-                                    placeholder="0"
-                                    class="w-full rounded-xl border border-gray-200 bg-gray-50 px-3 py-2.5 text-sm outline-none transition focus:border-gray-400 focus:bg-white"
-                                />
-                                <p
-                                    v-if="
-                                        form.errors[`variants.${index}.stock`]
-                                    "
-                                    class="mt-1.5 text-sm text-red-600"
-                                >
-                                    {{ "stock field is required." }}
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- ==================== Submit ==================== -->
+                <!-- ==================== Form Actions ==================== -->
 
                 <div
-                    class="flex flex-col-reverse gap-3 pt-2 sm:flex-row sm:justify-end"
+                    class="flex flex-col-reverse gap-3 pb-2 sm:flex-row sm:justify-end"
                 >
                     <Button
                         type="button"

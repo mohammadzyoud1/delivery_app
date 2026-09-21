@@ -2,15 +2,16 @@
 // ==================== Imports ====================
 
 import { Link, usePage } from "@inertiajs/vue3";
-import Button from "@/Components/UI/Button.vue";
 import { ref } from "vue";
+
+import Button from "@/Components/UI/Button.vue";
+
 import {
+    ArrowLeft,
     Bell,
-    Boxes,
     ClipboardList,
     FolderTree,
     LayoutDashboard,
-    LogOut,
     Menu,
     MessageSquare,
     Package,
@@ -113,37 +114,49 @@ const closeSidebar = () => {
 </script>
 
 <template>
-    <div class="min-h-screen bg-gray-50">
+    <!-- ==================== Admin Layout ==================== -->
+
+    <div class="min-h-screen bg-background">
         <!-- ==================== Mobile Overlay ==================== -->
 
         <div
             v-if="sidebarOpen"
-            class="fixed inset-0 z-40 bg-black/40 lg:hidden"
+            class="fixed inset-0 z-40 bg-slate-950/40 backdrop-blur-[2px] lg:hidden"
             @click="closeSidebar"
-        />
+        ></div>
 
         <!-- ==================== Sidebar ==================== -->
 
         <aside
-            class="fixed inset-y-0 left-0 z-50 flex w-72 flex-col border-r border-gray-200 bg-white transition-transform duration-200 lg:translate-x-0"
-            :class="sidebarOpen ? 'translate-x-0' : '-translate-x-full'"
+            class="fixed inset-y-0 left-0 z-50 flex w-72 flex-col border-r border-border bg-surface transition-transform duration-200 lg:translate-x-0"
+            :class="
+                sidebarOpen
+                    ? 'translate-x-0'
+                    : '-translate-x-full lg:translate-x-0'
+            "
         >
-            <!-- ==================== Logo ==================== -->
+            <!-- ==================== Sidebar Header ==================== -->
 
             <div
-                class="flex h-20 items-center justify-between border-b border-gray-100 px-6"
+                class="flex h-20 items-center justify-between border-b border-border px-6"
             >
                 <Link
                     href="/admin"
-                    class="text-2xl font-black tracking-tight text-gray-900"
+                    class="flex items-center gap-2 text-xl font-black tracking-tight text-heading"
                     @click="closeSidebar"
                 >
-                    DELIVER
+                    <span
+                        class="flex h-9 w-9 items-center justify-center rounded-xl bg-brand-600 text-sm font-black text-white"
+                    >
+                        D
+                    </span>
+
+                    <span>ELIVER</span>
                 </Link>
 
                 <Button
                     type="button"
-                    class="rounded-lg p-2 text-gray-500 hover:bg-gray-100 lg:hidden"
+                    class="rounded-xl p-2 text-muted hover:bg-background hover:text-heading lg:hidden"
                     @click="closeSidebar"
                 >
                     <X class="h-5 w-5" />
@@ -157,11 +170,11 @@ const closeSidebar = () => {
                     v-for="item in navigation"
                     :key="item.href"
                     :href="item.href"
-                    class="flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium transition"
+                    class="flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium transition focus-visible:outline-none"
                     :class="
                         isActive(item.href)
-                            ? 'bg-gray-900 text-white'
-                            : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'
+                            ? 'bg-brand-600 text-white shadow-sm'
+                            : 'text-muted hover:bg-background hover:text-heading'
                     "
                     @click="closeSidebar"
                 >
@@ -173,12 +186,15 @@ const closeSidebar = () => {
 
             <!-- ==================== Sidebar Footer ==================== -->
 
-            <div class="border-t border-gray-100 p-4">
+            <div class="border-t border-border p-4">
                 <Link
                     href="/"
-                    class="flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium text-gray-600 hover:bg-gray-100 hover:text-gray-900"
+                    class="group flex items-center gap-3 rounded-xl border border-border px-4 py-3 text-sm font-semibold text-body transition hover:border-brand-200 hover:bg-brand-50 hover:text-brand-700"
+                    @click="closeSidebar"
                 >
-                    <LogOut class="h-5 w-5" />
+                    <ArrowLeft
+                        class="h-5 w-5 transition-transform group-hover:-translate-x-0.5"
+                    />
 
                     <span>Back to Store</span>
                 </Link>
@@ -191,12 +207,14 @@ const closeSidebar = () => {
             <!-- ==================== Header ==================== -->
 
             <header
-                class="sticky top-0 z-30 flex h-20 items-center justify-between border-b border-gray-200 bg-white/95 px-4 backdrop-blur sm:px-6 lg:px-8"
+                class="sticky top-0 z-30 flex h-20 items-center justify-between border-b border-border bg-surface/95 px-4 backdrop-blur sm:px-6 lg:px-8"
             >
+                <!-- Header Title -->
+
                 <div class="flex items-center gap-3">
                     <Button
                         type="button"
-                        class="rounded-xl p-2 text-gray-600 hover:bg-gray-100 lg:hidden"
+                        class="rounded-xl p-2 text-muted hover:bg-background hover:text-heading lg:hidden"
                         @click="sidebarOpen = true"
                     >
                         <Menu class="h-6 w-6" />
@@ -204,12 +222,14 @@ const closeSidebar = () => {
 
                     <div>
                         <p
-                            class="text-xs font-medium uppercase tracking-wide text-gray-400"
+                            class="text-[10px] font-bold uppercase tracking-[0.18em] text-brand-600 sm:text-xs"
                         >
                             Admin Panel
                         </p>
 
-                        <h1 class="text-lg font-semibold text-gray-900">
+                        <h1
+                            class="text-lg font-bold tracking-tight text-heading"
+                        >
                             Deliver
                         </h1>
                     </div>
@@ -220,26 +240,28 @@ const closeSidebar = () => {
                 <div class="flex items-center gap-2">
                     <Link
                         href="/admin/notifications"
-                        class="rounded-xl p-2.5 text-gray-600 hover:bg-gray-100"
+                        aria-label="Open notifications"
+                        class="rounded-xl p-2.5 text-muted transition hover:bg-background hover:text-heading focus-visible:outline-none"
                     >
                         <Bell class="h-5 w-5" />
                     </Link>
 
                     <div
-                        class="hidden items-center gap-2 rounded-xl bg-gray-50 px-3 py-2 sm:flex"
+                        class="hidden items-center gap-2 rounded-xl bg-background px-3 py-2 sm:flex"
                     >
                         <div
-                            class="flex h-8 w-8 items-center justify-center rounded-full bg-gray-900 text-xs font-semibold text-white"
+                            class="flex h-8 w-8 items-center justify-center rounded-full bg-brand-600 text-xs font-bold text-white"
                         >
                             A
                         </div>
 
-                        <span class="text-sm font-medium text-gray-700">
+                        <span class="text-sm font-semibold text-body">
                             Admin
                         </span>
                     </div>
                 </div>
             </header>
+
             <!-- ==================== Flash Messages ==================== -->
 
             <div class="mx-auto w-full max-w-7xl px-5 pt-4 sm:px-8">
@@ -257,6 +279,7 @@ const closeSidebar = () => {
                     {{ page.props.flash.error }}
                 </div>
             </div>
+
             <!-- ==================== Page Content ==================== -->
 
             <main class="p-4 sm:p-6 lg:p-8">

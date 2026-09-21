@@ -1,4 +1,3 @@
-```vue
 <script setup lang="ts">
 // ==================== Imports ====================
 
@@ -90,25 +89,46 @@ const statusClasses = (status: string): string => {
         <!-- ==================== Page Header ==================== -->
 
         <div class="mb-8">
-            <h1 class="text-2xl font-bold tracking-tight text-gray-900">
+            <p
+                class="mb-2 text-xs font-bold uppercase tracking-[0.18em] text-brand-600"
+            >
+                Admin Panel
+            </p>
+
+            <h1
+                class="text-2xl font-bold tracking-tight text-heading sm:text-3xl"
+            >
                 Orders
             </h1>
 
-            <p class="mt-1 text-sm text-gray-500">
+            <p class="mt-2 text-sm text-muted sm:text-base">
                 Manage and monitor all customer orders.
             </p>
         </div>
 
-        <!-- ==================== Orders Table ==================== -->
+        <!-- ==================== Orders Container ==================== -->
 
         <div
-            class="overflow-hidden rounded-2xl border border-gray-200 bg-white"
+            class="overflow-hidden rounded-2xl border border-border bg-surface shadow-sm"
         >
             <!-- ==================== Empty State ==================== -->
 
-            <div v-if="props.orders.length === 0" class="p-10 text-center">
-                <p class="text-sm text-gray-500">
-                    No orders have been placed yet.
+            <div
+                v-if="props.orders.length === 0"
+                class="px-6 py-14 text-center"
+            >
+                <div
+                    class="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-brand-50 text-brand-600"
+                >
+                    <ClipboardList class="h-6 w-6" />
+                </div>
+
+                <h2 class="mt-4 text-base font-semibold text-heading">
+                    No orders yet
+                </h2>
+
+                <p class="mt-1 text-sm text-muted">
+                    Customer orders will appear here once they are placed.
                 </p>
             </div>
 
@@ -116,121 +136,125 @@ const statusClasses = (status: string): string => {
 
             <div v-else class="hidden overflow-x-auto md:block">
                 <table class="w-full text-left">
-                    <thead class="border-b border-gray-100 bg-gray-50">
+                    <!-- Table Header -->
+
+                    <thead class="border-b border-border bg-background">
                         <tr>
                             <th
-                                class="px-6 py-4 text-xs font-semibold uppercase tracking-wide text-gray-500"
+                                class="px-6 py-4 text-xs font-bold uppercase tracking-wide text-muted"
                             >
                                 Order
                             </th>
 
                             <th
-                                class="px-6 py-4 text-xs font-semibold uppercase tracking-wide text-gray-500"
+                                class="px-6 py-4 text-xs font-bold uppercase tracking-wide text-muted"
                             >
                                 Customer
                             </th>
 
                             <th
-                                class="px-6 py-4 text-xs font-semibold uppercase tracking-wide text-gray-500"
+                                class="px-6 py-4 text-xs font-bold uppercase tracking-wide text-muted"
                             >
                                 Items
                             </th>
 
                             <th
-                                class="px-6 py-4 text-xs font-semibold uppercase tracking-wide text-gray-500"
+                                class="px-6 py-4 text-xs font-bold uppercase tracking-wide text-muted"
                             >
                                 Total
                             </th>
 
                             <th
-                                class="px-6 py-4 text-xs font-semibold uppercase tracking-wide text-gray-500"
+                                class="px-6 py-4 text-xs font-bold uppercase tracking-wide text-muted"
                             >
                                 Status
                             </th>
 
                             <th
-                                class="px-6 py-4 text-xs font-semibold uppercase tracking-wide text-gray-500"
+                                class="px-6 py-4 text-xs font-bold uppercase tracking-wide text-muted"
                             >
                                 Date
                             </th>
 
                             <th
-                                class="px-6 py-4 text-right text-xs font-semibold uppercase tracking-wide text-gray-500"
+                                class="px-6 py-4 text-right text-xs font-bold uppercase tracking-wide text-muted"
                             >
                                 Action
                             </th>
                         </tr>
                     </thead>
 
-                    <tbody class="divide-y divide-gray-100">
+                    <!-- Table Body -->
+
+                    <tbody class="divide-y divide-border">
                         <tr
                             v-for="order in props.orders"
                             :key="order.id"
-                            class="transition hover:bg-gray-50"
+                            class="transition-colors hover:bg-background"
                         >
-                            <!-- ==================== Order ==================== -->
+                            <!-- Order -->
 
                             <td class="whitespace-nowrap px-6 py-4">
-                                <p class="font-semibold text-gray-900">
+                                <p class="font-semibold text-heading">
                                     #{{ order.id }}
                                 </p>
                             </td>
 
-                            <!-- ==================== Customer ==================== -->
+                            <!-- Customer -->
 
                             <td class="px-6 py-4">
-                                <p class="font-medium text-gray-900">
+                                <p class="font-medium text-heading">
                                     {{ order.customer.first_name }}
                                     {{ order.customer.last_name }}
                                 </p>
                             </td>
 
-                            <!-- ==================== Items ==================== -->
+                            <!-- Items -->
 
                             <td class="px-6 py-4">
-                                <p class="text-sm text-gray-700">
+                                <span class="text-sm text-body">
                                     {{ order.items.length }}
                                     {{
                                         order.items.length === 1
                                             ? "item"
                                             : "items"
                                     }}
-                                </p>
+                                </span>
                             </td>
 
-                            <!-- ==================== Total ==================== -->
+                            <!-- Total -->
 
                             <td class="whitespace-nowrap px-6 py-4">
-                                <p class="font-semibold text-gray-900">
+                                <p class="font-semibold text-heading">
                                     {{ Number(order.total_amount).toFixed(2) }}
                                 </p>
                             </td>
 
-                            <!-- ==================== Status ==================== -->
+                            <!-- Status -->
 
                             <td class="px-6 py-4">
                                 <span
-                                    class="inline-flex rounded-full px-3 py-1 text-xs font-semibold capitalize"
+                                    class="inline-flex rounded-full border px-3 py-1 text-xs font-bold capitalize"
                                     :class="statusClasses(order.status)"
                                 >
                                     {{ formatStatus(order.status) }}
                                 </span>
                             </td>
 
-                            <!-- ==================== Date ==================== -->
+                            <!-- Date -->
 
                             <td
-                                class="whitespace-nowrap px-6 py-4 text-sm text-gray-500"
+                                class="whitespace-nowrap px-6 py-4 text-sm text-muted"
                             >
                                 {{ formatDate(order.created_at) }}
                             </td>
 
-                            <!-- ==================== Action ==================== -->
+                            <!-- Action -->
 
                             <td class="px-6 py-4 text-right">
                                 <Link
                                     :href="`/admin/orders/${order.id}`"
-                                    class="inline-flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium text-gray-700 transition hover:bg-gray-100 hover:text-gray-900"
+                                    class="inline-flex items-center gap-2 rounded-xl border border-border px-3 py-2 text-sm font-semibold text-body transition hover:border-brand-200 hover:bg-brand-50 hover:text-brand-700 focus-visible:outline-none"
                                 >
                                     <Eye class="h-4 w-4" />
                                     View
@@ -245,58 +269,82 @@ const statusClasses = (status: string): string => {
 
             <div
                 v-if="props.orders.length > 0"
-                class="divide-y divide-gray-100 md:hidden"
+                class="divide-y divide-border md:hidden"
             >
-                <div v-for="order in props.orders" :key="order.id" class="p-5">
+                <div
+                    v-for="order in props.orders"
+                    :key="order.id"
+                    class="p-5 transition-colors hover:bg-background"
+                >
+                    <!-- Order Header -->
+
                     <div class="flex items-start justify-between gap-4">
-                        <div>
-                            <p class="font-semibold text-gray-900">
+                        <div class="min-w-0">
+                            <p class="font-semibold text-heading">
                                 Order #{{ order.id }}
                             </p>
 
-                            <p class="mt-1 text-sm text-gray-500">
+                            <p class="mt-1 truncate text-sm text-muted">
                                 {{ order.customer.first_name }}
                                 {{ order.customer.last_name }}
                             </p>
                         </div>
 
                         <span
-                            class="inline-flex rounded-full px-3 py-1 text-xs font-semibold capitalize"
+                            class="shrink-0 rounded-full border px-3 py-1 text-xs font-bold capitalize"
                             :class="statusClasses(order.status)"
                         >
                             {{ formatStatus(order.status) }}
                         </span>
                     </div>
 
-                    <div class="mt-4 grid grid-cols-2 gap-4">
-                        <div>
-                            <p class="text-xs text-gray-400">Items</p>
+                    <!-- Order Information -->
 
-                            <p class="mt-1 text-sm font-medium text-gray-900">
+                    <div
+                        class="mt-5 grid grid-cols-2 gap-4 rounded-xl bg-background p-4"
+                    >
+                        <div>
+                            <p
+                                class="text-[11px] font-bold uppercase tracking-wide text-muted"
+                            >
+                                Items
+                            </p>
+
+                            <p class="mt-1 text-sm font-semibold text-heading">
                                 {{ order.items.length }}
                             </p>
                         </div>
 
                         <div>
-                            <p class="text-xs text-gray-400">Total</p>
+                            <p
+                                class="text-[11px] font-bold uppercase tracking-wide text-muted"
+                            >
+                                Total
+                            </p>
 
-                            <p class="mt-1 text-sm font-semibold text-gray-900">
+                            <p class="mt-1 text-sm font-semibold text-heading">
                                 {{ Number(order.total_amount).toFixed(2) }}
                             </p>
                         </div>
 
                         <div>
-                            <p class="text-xs text-gray-400">Date</p>
+                            <p
+                                class="text-[11px] font-bold uppercase tracking-wide text-muted"
+                            >
+                                Date
+                            </p>
 
-                            <p class="mt-1 text-sm font-medium text-gray-900">
+                            <p class="mt-1 text-sm font-medium text-heading">
                                 {{ formatDate(order.created_at) }}
                             </p>
                         </div>
                     </div>
 
+                    <!-- View Order -->
+
                     <Link
                         :href="`/admin/orders/${order.id}`"
-                        class="mt-4 flex w-full items-center justify-center gap-2 rounded-xl border border-gray-200 px-4 py-3 text-sm font-medium text-gray-700 transition hover:bg-gray-50"
+                        class="mt-4 flex w-full items-center justify-center gap-2 rounded-xl border border-border px-4 py-3 text-sm font-semibold text-body transition hover:border-brand-200 hover:bg-brand-50 hover:text-brand-700 focus-visible:outline-none"
                     >
                         <Eye class="h-4 w-4" />
                         View Order
@@ -306,4 +354,3 @@ const statusClasses = (status: string): string => {
         </div>
     </AdminLayout>
 </template>
-```

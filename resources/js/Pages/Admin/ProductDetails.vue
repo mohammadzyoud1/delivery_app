@@ -89,278 +89,502 @@ const variantName = (variant: ProductVariant): string => {
     <Head :title="`Product #${product.id}`" />
 
     <AdminLayout>
-        <!-- ==================== Header ==================== -->
-
-        <div class="mb-6">
-            <Link
-                href="/admin/products"
-                class="mb-4 inline-flex items-center gap-2 text-sm font-medium text-gray-600 hover:text-gray-900"
-            >
-                <ArrowLeft class="h-4 w-4" />
-                Back to Products
-            </Link>
+        <div class="space-y-6">
+            <!-- ==================== Page Header ==================== -->
 
             <div>
-                <p
-                    class="text-xs font-semibold uppercase tracking-wide text-gray-400"
+                <Link
+                    href="/admin/products"
+                    class="inline-flex items-center gap-2 text-sm font-semibold text-muted transition hover:text-brand-700"
                 >
-                    Product Details
-                </p>
+                    <ArrowLeft class="h-4 w-4" />
+                    Back to Products
+                </Link>
 
-                <h1 class="mt-1 text-2xl font-bold text-gray-900">
-                    {{ product.name }}
-                </h1>
+                <div
+                    class="mt-5 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between"
+                >
+                    <div class="min-w-0">
+                        <p
+                            class="text-xs font-bold uppercase tracking-[0.16em] text-brand-600"
+                        >
+                            Product Details
+                        </p>
+
+                        <h1
+                            class="mt-1 truncate text-2xl font-bold tracking-tight text-heading"
+                        >
+                            {{ product.name }}
+                        </h1>
+
+                        <p class="mt-1 text-sm text-muted">
+                            Product #{{ product.id }}
+                        </p>
+                    </div>
+
+                    <span
+                        class="inline-flex w-fit shrink-0 rounded-full px-3 py-1.5 text-xs font-bold"
+                        :class="
+                            product.is_active
+                                ? 'border border-green-100 bg-green-50 text-green-700'
+                                : 'border border-border bg-background text-muted'
+                        "
+                    >
+                        {{ product.is_active ? "Active" : "Inactive" }}
+                    </span>
+                </div>
             </div>
-        </div>
 
-        <!-- ==================== Product Overview ==================== -->
+            <!-- ==================== Main Overview ==================== -->
 
-        <div class="grid gap-6 lg:grid-cols-3">
-            <section
-                class="overflow-hidden rounded-2xl border border-gray-200 bg-white lg:col-span-2"
-            >
-                <div class="p-5 sm:p-6">
-                    <div class="flex items-start justify-between gap-4">
+            <div class="grid gap-6 lg:grid-cols-3">
+                <!-- ==================== Product Information ==================== -->
+
+                <section
+                    class="overflow-hidden rounded-2xl border border-border bg-surface shadow-sm lg:col-span-2"
+                >
+                    <div class="p-5 sm:p-6">
                         <div class="flex items-center gap-3">
                             <div
-                                class="flex h-11 w-11 items-center justify-center rounded-xl bg-gray-100"
+                                class="flex h-11 w-11 items-center justify-center rounded-xl bg-brand-50 text-brand-600"
                             >
-                                <Package class="h-5 w-5 text-gray-600" />
+                                <Package class="h-5 w-5" />
                             </div>
 
                             <div>
-                                <h2 class="font-semibold text-gray-900">
+                                <h2 class="font-semibold text-heading">
                                     Product Information
                                 </h2>
-                                <p class="text-sm text-gray-500">
-                                    Product #{{ product.id }}
+
+                                <p class="text-sm text-muted">
+                                    Overview and product images
                                 </p>
                             </div>
                         </div>
 
-                        <span
-                            class="rounded-full px-3 py-1 text-xs font-semibold"
-                            :class="
-                                product.is_active
-                                    ? 'bg-green-50 text-green-700'
-                                    : 'bg-gray-100 text-gray-600'
-                            "
+                        <!-- ==================== Product Images ==================== -->
+
+                        <div
+                            v-if="product.images.length"
+                            class="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4"
                         >
-                            {{ product.is_active ? "Active" : "Inactive" }}
-                        </span>
+                            <div
+                                v-for="image in product.images"
+                                :key="image.id"
+                                class="group aspect-square overflow-hidden rounded-xl border border-border bg-background"
+                            >
+                                <img
+                                    :src="`/storage/${image.image}`"
+                                    :alt="product.name"
+                                    class="h-full w-full object-cover transition duration-300 group-hover:scale-105"
+                                />
+                            </div>
+                        </div>
+
+                        <!-- ==================== No Images ==================== -->
+
+                        <div
+                            v-else
+                            class="mt-6 flex aspect-[16/7] items-center justify-center rounded-xl border border-dashed border-border bg-background"
+                        >
+                            <div class="text-center">
+                                <Package class="mx-auto h-8 w-8 text-muted" />
+
+                                <p class="mt-2 text-sm font-medium text-body">
+                                    No product images
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- ==================== Description ==================== -->
+
+                        <div class="mt-6 border-t border-border pt-6">
+                            <h3 class="text-sm font-bold text-heading">
+                                Description
+                            </h3>
+
+                            <p
+                                class="mt-2 whitespace-pre-line text-sm leading-6 text-body"
+                            >
+                                {{
+                                    product.description ||
+                                    "No description provided."
+                                }}
+                            </p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ==================== Seller Information ==================== -->
+
+                <section
+                    class="rounded-2xl border border-border bg-surface p-5 shadow-sm sm:p-6"
+                >
+                    <div class="flex items-center gap-3">
+                        <div
+                            class="flex h-11 w-11 items-center justify-center rounded-xl bg-purple-50 text-purple-600"
+                        >
+                            <UserRound class="h-5 w-5" />
+                        </div>
+
+                        <div>
+                            <h2 class="font-semibold text-heading">Seller</h2>
+
+                            <p class="text-sm text-muted">Product owner</p>
+                        </div>
                     </div>
 
-                    <!-- ==================== Product Images ==================== -->
+                    <Link
+                        :href="`/admin/users/${product.seller.id}`"
+                        class="mt-5 flex items-center gap-3 rounded-xl border border-border bg-background p-4 transition hover:border-brand-100 hover:bg-brand-50"
+                    >
+                        <div
+                            class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-brand-600 text-white"
+                        >
+                            <UserRound class="h-5 w-5" />
+                        </div>
+
+                        <div class="min-w-0">
+                            <p class="truncate text-sm font-bold text-heading">
+                                {{ sellerName() }}
+                            </p>
+
+                            <p class="mt-0.5 text-xs text-muted">
+                                View seller profile
+                            </p>
+                        </div>
+
+                        <ArrowLeft
+                            class="ml-auto h-4 w-4 rotate-180 text-muted"
+                        />
+                    </Link>
+                </section>
+            </div>
+
+            <!-- ==================== Product Details ==================== -->
+
+            <section
+                class="rounded-2xl border border-border bg-surface p-5 shadow-sm sm:p-6"
+            >
+                <div>
+                    <h2 class="font-semibold text-heading">Product Details</h2>
+
+                    <p class="mt-1 text-sm text-muted">
+                        Pricing, inventory, category and unit information.
+                    </p>
+                </div>
+
+                <div class="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+                    <!-- Category -->
 
                     <div
-                        v-if="product.images.length"
-                        class="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-3"
+                        class="rounded-xl border border-border bg-background p-4"
                     >
-                        <img
-                            v-for="image in product.images"
-                            :key="image.id"
-                            :src="`/storage/${image.image}`"
-                            alt=""
-                            class="aspect-square w-full rounded-xl object-cover"
-                        />
-                    </div>
-
-                    <!-- ==================== Description ==================== -->
-
-                    <div class="mt-6">
-                        <h3 class="text-sm font-semibold text-gray-900">
-                            Description
-                        </h3>
+                        <p
+                            class="text-xs font-bold uppercase tracking-wide text-muted"
+                        >
+                            Category
+                        </p>
 
                         <p
-                            class="mt-2 whitespace-pre-line text-sm leading-6 text-gray-600"
+                            class="mt-2 truncate text-sm font-semibold text-heading"
                         >
-                            {{
-                                product.description ||
-                                "No description provided."
-                            }}
+                            {{ product.category?.name || "—" }}
+                        </p>
+                    </div>
+
+                    <!-- Price -->
+
+                    <div
+                        class="rounded-xl border border-border bg-background p-4"
+                    >
+                        <p
+                            class="text-xs font-bold uppercase tracking-wide text-muted"
+                        >
+                            Price
+                        </p>
+
+                        <p class="mt-2 text-sm font-semibold text-heading">
+                            {{ product.price }}
+                        </p>
+                    </div>
+
+                    <!-- Stock -->
+
+                    <div
+                        class="rounded-xl border border-border bg-background p-4"
+                    >
+                        <p
+                            class="text-xs font-bold uppercase tracking-wide text-muted"
+                        >
+                            Stock
+                        </p>
+
+                        <p
+                            class="mt-2 text-sm font-bold"
+                            :class="
+                                product.stock > 0
+                                    ? 'text-green-600'
+                                    : 'text-red-600'
+                            "
+                        >
+                            {{ product.stock }}
+                        </p>
+                    </div>
+
+                    <!-- Unit -->
+
+                    <div
+                        class="rounded-xl border border-border bg-background p-4"
+                    >
+                        <p
+                            class="text-xs font-bold uppercase tracking-wide text-muted"
+                        >
+                            Unit
+                        </p>
+
+                        <p class="mt-2 text-sm font-semibold text-heading">
+                            {{ product.unit || "—" }}
                         </p>
                     </div>
                 </div>
             </section>
 
-            <!-- ==================== Seller Information ==================== -->
+            <!-- ==================== Options ==================== -->
 
             <section
-                class="rounded-2xl border border-gray-200 bg-white p-5 sm:p-6"
+                v-if="product.options.length"
+                class="rounded-2xl border border-border bg-surface p-5 shadow-sm sm:p-6"
             >
-                <h2 class="font-semibold text-gray-900">Seller</h2>
+                <div>
+                    <h2 class="font-semibold text-heading">Options</h2>
 
-                <Link
-                    :href="`/admin/users/${product.seller.id}`"
-                    class="mt-4 flex items-center gap-3 rounded-xl bg-gray-50 p-4 hover:bg-gray-100"
+                    <p class="mt-1 text-sm text-muted">
+                        Available choices configured for this product.
+                    </p>
+                </div>
+
+                <div class="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+                    <div
+                        v-for="option in product.options"
+                        :key="option.id"
+                        class="rounded-xl border border-border bg-background p-4"
+                    >
+                        <p class="text-sm font-bold text-heading">
+                            {{ option.name }}
+                        </p>
+
+                        <div class="mt-3 flex flex-wrap gap-2">
+                            <span
+                                v-for="value in option.values"
+                                :key="value.id"
+                                class="rounded-lg border border-border bg-surface px-2.5 py-1 text-xs font-medium text-body"
+                            >
+                                {{ value.value }}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ==================== Variants ==================== -->
+
+            <section
+                v-if="product.variants.length"
+                class="rounded-2xl border border-border bg-surface p-5 shadow-sm sm:p-6"
+            >
+                <div>
+                    <h2 class="font-semibold text-heading">Variants</h2>
+
+                    <p class="mt-1 text-sm text-muted">
+                        Variant-specific pricing, stock and SKU information.
+                    </p>
+                </div>
+
+                <!-- ==================== Desktop Variants ==================== -->
+
+                <div
+                    class="mt-5 hidden overflow-hidden rounded-xl border border-border md:block"
+                >
+                    <div class="overflow-x-auto">
+                        <table class="w-full min-w-[650px] text-left">
+                            <thead class="border-b border-border bg-background">
+                                <tr>
+                                    <th
+                                        class="px-4 py-3 text-xs font-bold uppercase tracking-wide text-muted"
+                                    >
+                                        Variant
+                                    </th>
+
+                                    <th
+                                        class="px-4 py-3 text-xs font-bold uppercase tracking-wide text-muted"
+                                    >
+                                        SKU
+                                    </th>
+
+                                    <th
+                                        class="px-4 py-3 text-xs font-bold uppercase tracking-wide text-muted"
+                                    >
+                                        Price
+                                    </th>
+
+                                    <th
+                                        class="px-4 py-3 text-xs font-bold uppercase tracking-wide text-muted"
+                                    >
+                                        Stock
+                                    </th>
+                                </tr>
+                            </thead>
+
+                            <tbody class="divide-y divide-border">
+                                <tr
+                                    v-for="variant in product.variants"
+                                    :key="variant.id"
+                                    class="transition-colors hover:bg-background"
+                                >
+                                    <td class="px-4 py-4">
+                                        <p class="font-semibold text-heading">
+                                            {{ variantName(variant) }}
+                                        </p>
+                                    </td>
+
+                                    <td class="px-4 py-4">
+                                        <span
+                                            class="text-sm font-medium text-body"
+                                        >
+                                            {{ variant.sku || "—" }}
+                                        </span>
+                                    </td>
+
+                                    <td class="px-4 py-4">
+                                        <span
+                                            class="text-sm font-bold text-heading"
+                                        >
+                                            {{ variant.price }}
+                                        </span>
+                                    </td>
+
+                                    <td class="px-4 py-4">
+                                        <span
+                                            class="text-sm font-bold"
+                                            :class="
+                                                variant.stock > 0
+                                                    ? 'text-green-600'
+                                                    : 'text-red-600'
+                                            "
+                                        >
+                                            {{ variant.stock }}
+                                        </span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- ==================== Mobile Variants ==================== -->
+
+                <div class="mt-5 space-y-3 md:hidden">
+                    <div
+                        v-for="variant in product.variants"
+                        :key="variant.id"
+                        class="rounded-xl border border-border bg-background p-4"
+                    >
+                        <div class="flex items-start justify-between gap-3">
+                            <p class="font-semibold text-heading">
+                                {{ variantName(variant) }}
+                            </p>
+
+                            <span
+                                class="shrink-0 rounded-full px-2.5 py-1 text-xs font-bold"
+                                :class="
+                                    variant.stock > 0
+                                        ? 'bg-green-50 text-green-700'
+                                        : 'bg-red-50 text-red-700'
+                                "
+                            >
+                                {{
+                                    variant.stock > 0
+                                        ? "In stock"
+                                        : "Out of stock"
+                                }}
+                            </span>
+                        </div>
+
+                        <div class="mt-4 grid grid-cols-2 gap-4">
+                            <div>
+                                <p
+                                    class="text-xs font-bold uppercase tracking-wide text-muted"
+                                >
+                                    SKU
+                                </p>
+
+                                <p class="mt-1 text-sm font-medium text-body">
+                                    {{ variant.sku || "—" }}
+                                </p>
+                            </div>
+
+                            <div>
+                                <p
+                                    class="text-xs font-bold uppercase tracking-wide text-muted"
+                                >
+                                    Price
+                                </p>
+
+                                <p class="mt-1 text-sm font-bold text-heading">
+                                    {{ variant.price }}
+                                </p>
+                            </div>
+
+                            <div>
+                                <p
+                                    class="text-xs font-bold uppercase tracking-wide text-muted"
+                                >
+                                    Stock
+                                </p>
+
+                                <p
+                                    class="mt-1 text-sm font-bold"
+                                    :class="
+                                        variant.stock > 0
+                                            ? 'text-green-600'
+                                            : 'text-red-600'
+                                    "
+                                >
+                                    {{ variant.stock }}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ==================== No Variants ==================== -->
+
+            <section
+                v-else
+                class="rounded-2xl border border-border bg-surface p-5 shadow-sm sm:p-6"
+            >
+                <div
+                    class="flex items-center gap-3 rounded-xl border border-border bg-background p-4"
                 >
                     <div
-                        class="flex h-10 w-10 items-center justify-center rounded-full bg-gray-900 text-white"
+                        class="flex h-10 w-10 items-center justify-center rounded-xl bg-brand-50 text-brand-600"
                     >
-                        <UserRound class="h-5 w-5" />
+                        <Package class="h-5 w-5" />
                     </div>
 
                     <div>
-                        <p class="text-sm font-semibold text-gray-900">
-                            {{ sellerName() }}
+                        <p class="text-sm font-semibold text-heading">
+                            No variants
                         </p>
-                        <p class="text-xs text-gray-500">View seller</p>
+
+                        <p class="mt-0.5 text-xs text-muted">
+                            This product uses its base price and stock.
+                        </p>
                     </div>
-                </Link>
+                </div>
             </section>
         </div>
-
-        <!-- ==================== Basic Details ==================== -->
-
-        <section
-            class="mt-6 rounded-2xl border border-gray-200 bg-white p-5 sm:p-6"
-        >
-            <h2 class="font-semibold text-gray-900">Product Details</h2>
-
-            <div class="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-                <div>
-                    <p class="text-xs text-gray-500">Category</p>
-                    <p class="mt-1 text-sm font-semibold text-gray-900">
-                        {{ product.category?.name || "—" }}
-                    </p>
-                </div>
-
-                <div>
-                    <p class="text-xs text-gray-500">Price</p>
-                    <p class="mt-1 text-sm font-semibold text-gray-900">
-                        {{ product.price }}
-                    </p>
-                </div>
-
-                <div>
-                    <p class="text-xs text-gray-500">Stock</p>
-                    <p class="mt-1 text-sm font-semibold text-gray-900">
-                        {{ product.stock }}
-                    </p>
-                </div>
-
-                <div>
-                    <p class="text-xs text-gray-500">Unit</p>
-                    <p class="mt-1 text-sm font-semibold text-gray-900">
-                        {{ product.unit || "—" }}
-                    </p>
-                </div>
-            </div>
-        </section>
-
-        <!-- ==================== Options ==================== -->
-
-        <section
-            v-if="product.options.length"
-            class="mt-6 rounded-2xl border border-gray-200 bg-white p-5 sm:p-6"
-        >
-            <h2 class="font-semibold text-gray-900">Options</h2>
-
-            <div class="mt-4 flex flex-wrap gap-3">
-                <div
-                    v-for="option in product.options"
-                    :key="option.id"
-                    class="rounded-xl bg-gray-50 px-4 py-3"
-                >
-                    <p class="text-sm font-semibold text-gray-900">
-                        {{ option.name }}
-                    </p>
-
-                    <p class="mt-1 text-xs text-gray-500">
-                        {{
-                            option.values.map((value) => value.value).join(", ")
-                        }}
-                    </p>
-                </div>
-            </div>
-        </section>
-
-        <!-- ==================== Variants ==================== -->
-
-        <section
-            v-if="product.variants.length"
-            class="mt-6 rounded-2xl border border-gray-200 bg-white p-5 sm:p-6"
-        >
-            <h2 class="font-semibold text-gray-900">Variants</h2>
-
-            <!-- ==================== Desktop Variants ==================== -->
-
-            <div class="mt-4 hidden overflow-x-auto md:block">
-                <table class="w-full text-left text-sm">
-                    <thead>
-                        <tr
-                            class="border-b border-gray-100 text-xs text-gray-500"
-                        >
-                            <th class="px-4 py-3 font-medium">Variant</th>
-                            <th class="px-4 py-3 font-medium">SKU</th>
-                            <th class="px-4 py-3 font-medium">Price</th>
-                            <th class="px-4 py-3 font-medium">Stock</th>
-                        </tr>
-                    </thead>
-
-                    <tbody>
-                        <tr
-                            v-for="variant in product.variants"
-                            :key="variant.id"
-                            class="border-b border-gray-50 last:border-0"
-                        >
-                            <td class="px-4 py-4 font-medium text-gray-900">
-                                {{ variantName(variant) }}
-                            </td>
-
-                            <td class="px-4 py-4 text-gray-600">
-                                {{ variant.sku || "—" }}
-                            </td>
-
-                            <td class="px-4 py-4 text-gray-600">
-                                {{ variant.price }}
-                            </td>
-
-                            <td class="px-4 py-4 text-gray-600">
-                                {{ variant.stock }}
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-
-            <!-- ==================== Mobile Variants ==================== -->
-
-            <div class="mt-4 space-y-3 md:hidden">
-                <div
-                    v-for="variant in product.variants"
-                    :key="variant.id"
-                    class="rounded-xl bg-gray-50 p-4"
-                >
-                    <p class="font-semibold text-gray-900">
-                        {{ variantName(variant) }}
-                    </p>
-
-                    <div class="mt-2 grid grid-cols-2 gap-3 text-sm">
-                        <div>
-                            <p class="text-xs text-gray-500">SKU</p>
-                            <p class="text-gray-700">
-                                {{ variant.sku || "—" }}
-                            </p>
-                        </div>
-
-                        <div>
-                            <p class="text-xs text-gray-500">Price</p>
-                            <p class="text-gray-700">
-                                {{ variant.price }}
-                            </p>
-                        </div>
-
-                        <div>
-                            <p class="text-xs text-gray-500">Stock</p>
-                            <p class="text-gray-700">
-                                {{ variant.stock }}
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
     </AdminLayout>
 </template>

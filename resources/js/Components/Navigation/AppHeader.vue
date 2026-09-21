@@ -102,21 +102,23 @@ onBeforeUnmount(() => {
 <template>
     <!-- ==================== Header ==================== -->
 
-    <header class="border-b border-gray-100 bg-white">
+    <header
+        class="relative z-50 border-b border-border/80 bg-surface/95 backdrop-blur-sm"
+    >
         <div
-            class="mx-auto flex h-16 w-full max-w-7xl items-center justify-between px-5 sm:px-8"
+            class="mx-auto flex h-[68px] w-full max-w-7xl items-center justify-between px-5 sm:px-8"
         >
             <!-- ==================== Brand Logo ==================== -->
 
             <Link
                 href="/"
-                class="group flex items-center gap-2"
+                class="group flex items-center gap-2.5"
                 aria-label="Delivery4U home"
             >
                 <!-- ==================== Bicycle Icon ==================== -->
 
                 <div
-                    class="flex h-9 w-9 items-center justify-center rounded-xl bg-blue-600 text-white shadow-sm transition duration-200 group-hover:scale-105 group-hover:bg-blue-700"
+                    class="flex h-10 w-10 items-center justify-center rounded-xl bg-brand-600 text-white shadow-sm shadow-brand-600/20 transition-all duration-200 group-hover:scale-105 group-hover:bg-brand-700"
                 >
                     <Bike :size="21" :stroke-width="2.2" />
                 </div>
@@ -124,9 +126,9 @@ onBeforeUnmount(() => {
                 <!-- ==================== Brand Name ==================== -->
 
                 <span
-                    class="text-xl font-extrabold tracking-tight text-gray-900"
+                    class="text-[21px] font-extrabold tracking-[-0.03em] text-heading"
                 >
-                    delivery<span class="text-blue-600">4u</span>
+                    delivery<span class="text-brand-600">4u</span>
                 </span>
             </Link>
 
@@ -138,11 +140,13 @@ onBeforeUnmount(() => {
                 <button
                     type="button"
                     aria-label="Open profile menu"
-                    class="flex items-center gap-2 rounded-full p-1.5 transition hover:bg-gray-100"
+                    class="group flex items-center gap-2 rounded-full p-1.5 transition-colors duration-200 hover:bg-brand-50 focus-visible:outline-none"
                     @click.stop="toggleMenu"
                 >
+                    <!-- ==================== Profile Avatar ==================== -->
+
                     <div
-                        class="flex h-9 w-9 items-center justify-center overflow-hidden rounded-full bg-gray-100 text-gray-700"
+                        class="flex h-9 w-9 items-center justify-center overflow-hidden rounded-full bg-brand-50 text-brand-600 ring-1 ring-border transition-all duration-200 group-hover:ring-brand-100"
                     >
                         <img
                             v-if="user?.profile_image"
@@ -151,13 +155,16 @@ onBeforeUnmount(() => {
                             class="h-full w-full object-cover"
                         />
 
-                        <User v-else :size="19" :stroke-width="2" />
+                        <User v-else :size="18" :stroke-width="2" />
                     </div>
+
+                    <!-- ==================== Dropdown Indicator ==================== -->
 
                     <ChevronDown
                         :size="16"
                         :stroke-width="2"
-                        class="hidden text-gray-500 sm:block"
+                        class="hidden text-muted transition-transform duration-200 sm:block"
+                        :class="{ 'rotate-180': isMenuOpen }"
                     />
                 </button>
 
@@ -165,16 +172,18 @@ onBeforeUnmount(() => {
 
                 <div
                     v-if="isMenuOpen"
-                    class="absolute right-0 z-50 mt-2 w-72 overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-xl shadow-gray-200/50"
+                    class="absolute right-0 z-[60] mt-3 w-72 overflow-hidden rounded-2xl border border-border bg-surface shadow-2xl shadow-slate-900/10"
                 >
                     <!-- ==================== User Information ==================== -->
 
-                    <div class="border-b border-gray-100 px-4 py-4">
-                        <p class="truncate text-sm font-semibold text-gray-900">
+                    <div
+                        class="border-b border-border bg-background/60 px-4 py-4"
+                    >
+                        <p class="truncate text-sm font-semibold text-heading">
                             {{ displayName }}
                         </p>
 
-                        <p class="mt-0.5 truncate text-xs text-gray-500">
+                        <p class="mt-1 truncate text-xs text-muted">
                             {{ user?.email }}
                         </p>
                     </div>
@@ -185,12 +194,15 @@ onBeforeUnmount(() => {
                         <!-- ==================== Seller Dashboard ==================== -->
 
                         <Link
-                            v-if="isSeller"
+                            v-if="isSeller || isAdmin"
                             href="/seller"
-                            class="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-gray-700 transition hover:bg-gray-50"
+                            class="group flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-body transition-colors duration-150 hover:bg-brand-50 hover:text-brand-700"
                             @click="closeMenu"
                         >
-                            <Store :size="18" class="text-gray-500" />
+                            <Store
+                                :size="18"
+                                class="text-muted transition-colors group-hover:text-brand-600"
+                            />
                             Seller Dashboard
                         </Link>
 
@@ -199,22 +211,28 @@ onBeforeUnmount(() => {
                         <Link
                             v-if="isAdmin"
                             href="/admin"
-                            class="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-gray-700 transition hover:bg-gray-50"
+                            class="group flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-body transition-colors duration-150 hover:bg-brand-50 hover:text-brand-700"
                             @click="closeMenu"
                         >
-                            <ShieldCheck :size="18" class="text-gray-500" />
+                            <ShieldCheck
+                                :size="18"
+                                class="text-muted transition-colors group-hover:text-brand-600"
+                            />
                             Admin Dashboard
                         </Link>
 
                         <!-- ==================== Apply As Seller ==================== -->
 
                         <Link
-                            v-if="!isSeller"
+                            v-if="!isSeller && !isAdmin"
                             href="/seller/apply"
-                            class="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-gray-700 transition hover:bg-gray-50"
+                            class="group flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-body transition-colors duration-150 hover:bg-brand-50 hover:text-brand-700"
                             @click="closeMenu"
                         >
-                            <UserPlus :size="18" class="text-gray-500" />
+                            <UserPlus
+                                :size="18"
+                                class="text-muted transition-colors group-hover:text-brand-600"
+                            />
                             Apply to Become a Seller
                         </Link>
 
@@ -222,10 +240,13 @@ onBeforeUnmount(() => {
 
                         <Link
                             href="/profile"
-                            class="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-gray-700 transition hover:bg-gray-50"
+                            class="group flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-body transition-colors duration-150 hover:bg-brand-50 hover:text-brand-700"
                             @click="closeMenu"
                         >
-                            <User :size="18" class="text-gray-500" />
+                            <User
+                                :size="18"
+                                class="text-muted transition-colors group-hover:text-brand-600"
+                            />
                             My Profile
                         </Link>
 
@@ -233,22 +254,25 @@ onBeforeUnmount(() => {
 
                         <Link
                             href="/settings"
-                            class="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-gray-700 transition hover:bg-gray-50"
+                            class="group flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-body transition-colors duration-150 hover:bg-brand-50 hover:text-brand-700"
                             @click="closeMenu"
                         >
-                            <Settings :size="18" class="text-gray-500" />
+                            <Settings
+                                :size="18"
+                                class="text-muted transition-colors group-hover:text-brand-600"
+                            />
                             Settings
                         </Link>
                     </div>
 
                     <!-- ==================== Logout ==================== -->
 
-                    <div class="border-t border-gray-100 p-2">
+                    <div class="border-t border-border p-2">
                         <Link
                             href="/logout"
                             method="post"
                             as="button"
-                            class="flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-red-600 transition hover:bg-red-50"
+                            class="flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-red-600 transition-colors duration-150 hover:bg-red-50"
                             @click="closeMenu"
                         >
                             <LogOut :size="18" />

@@ -46,197 +46,324 @@ defineProps<{
     <Head title="Category Details" />
 
     <AdminLayout>
-        <!-- ==================== Header ==================== -->
+        <div class="space-y-6">
+            <!-- ==================== Page Header ==================== -->
 
-        <div class="mb-6">
-            <Link
-                href="/admin/categories"
-                class="mb-4 inline-flex items-center gap-2 text-sm font-medium text-gray-600 hover:text-gray-900"
-            >
-                <ArrowLeft class="h-4 w-4" />
-                Back to Categories
-            </Link>
+            <div>
+                <Link
+                    href="/admin/categories"
+                    class="inline-flex items-center gap-2 text-sm font-semibold text-muted transition hover:text-brand-700"
+                >
+                    <ArrowLeft class="h-4 w-4" />
+                    Back to Categories
+                </Link>
 
-            <div
-                class="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between"
+                <div
+                    class="mt-5 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between"
+                >
+                    <div class="flex min-w-0 items-center gap-4">
+                        <div
+                            class="flex h-14 w-14 shrink-0 items-center justify-center overflow-hidden rounded-2xl bg-background ring-1 ring-border"
+                        >
+                            <img
+                                v-if="category.image"
+                                :src="`/storage/${category.image}`"
+                                :alt="category.name"
+                                class="h-full w-full object-cover"
+                            />
+
+                            <FolderTree v-else class="h-6 w-6 text-brand-600" />
+                        </div>
+
+                        <div class="min-w-0">
+                            <p
+                                class="text-xs font-bold uppercase tracking-[0.16em] text-brand-600"
+                            >
+                                Category Details
+                            </p>
+
+                            <h1
+                                class="mt-1 truncate text-2xl font-bold tracking-tight text-heading"
+                            >
+                                {{ category.name }}
+                            </h1>
+
+                            <p class="mt-1 text-sm text-muted">
+                                Category #{{ category.id }}
+                            </p>
+                        </div>
+                    </div>
+
+                    <span
+                        class="inline-flex w-fit shrink-0 rounded-full px-3 py-1.5 text-xs font-bold"
+                        :class="
+                            category.is_active
+                                ? 'border border-green-100 bg-green-50 text-green-700'
+                                : 'border border-border bg-background text-muted'
+                        "
+                    >
+                        {{ category.is_active ? "Active" : "Inactive" }}
+                    </span>
+                </div>
+            </div>
+
+            <!-- ==================== Category Information ==================== -->
+
+            <section
+                class="rounded-2xl border border-border bg-surface p-5 shadow-sm sm:p-6"
             >
-                <div class="flex items-center gap-4">
+                <div>
+                    <h2 class="font-semibold text-heading">
+                        Category Information
+                    </h2>
+
+                    <p class="mt-1 text-sm text-muted">
+                        Basic information and category hierarchy.
+                    </p>
+                </div>
+
+                <div class="mt-5 grid gap-4 sm:grid-cols-2">
                     <div
-                        class="flex h-14 w-14 shrink-0 items-center justify-center overflow-hidden rounded-2xl bg-gray-100"
+                        class="rounded-xl border border-border bg-background p-4"
                     >
-                        <img
-                            v-if="category.image"
-                            :src="`/storage/${category.image}`"
-                            alt=""
-                            class="h-full w-full object-cover"
-                        />
-
-                        <FolderTree v-else class="h-6 w-6 text-gray-400" />
-                    </div>
-
-                    <div>
                         <p
-                            class="text-xs font-semibold uppercase tracking-wide text-gray-400"
+                            class="text-xs font-bold uppercase tracking-wide text-muted"
                         >
-                            Category Details
+                            Parent Category
                         </p>
 
-                        <h1 class="mt-1 text-2xl font-bold text-gray-900">
-                            {{ category.name }}
-                        </h1>
-                    </div>
-                </div>
-
-                <span
-                    class="w-fit rounded-full px-3 py-1 text-xs font-semibold"
-                    :class="
-                        category.is_active
-                            ? 'bg-green-50 text-green-700'
-                            : 'bg-gray-100 text-gray-600'
-                    "
-                >
-                    {{ category.is_active ? "Active" : "Inactive" }}
-                </span>
-            </div>
-        </div>
-
-        <!-- ==================== Category Information ==================== -->
-
-        <section class="rounded-2xl border border-gray-200 bg-white p-5 sm:p-6">
-            <h2 class="font-semibold text-gray-900">Category Information</h2>
-
-            <div class="mt-5 grid gap-5 sm:grid-cols-2">
-                <div>
-                    <p class="text-xs text-gray-500">Parent Category</p>
-
-                    <p class="mt-1 text-sm font-semibold text-gray-900">
-                        {{ category.parent?.name || "Main Category" }}
-                    </p>
-                </div>
-
-                <div>
-                    <p class="text-xs text-gray-500">Category ID</p>
-
-                    <p class="mt-1 text-sm font-semibold text-gray-900">
-                        #{{ category.id }}
-                    </p>
-                </div>
-            </div>
-
-            <div class="mt-5">
-                <p class="text-xs text-gray-500">Description</p>
-
-                <p
-                    class="mt-1 whitespace-pre-line text-sm leading-6 text-gray-600"
-                >
-                    {{ category.description || "No description provided." }}
-                </p>
-            </div>
-        </section>
-
-        <!-- ==================== Subcategories ==================== -->
-
-        <section
-            class="mt-6 rounded-2xl border border-gray-200 bg-white p-5 sm:p-6"
-        >
-            <div class="flex items-center justify-between">
-                <div>
-                    <h2 class="font-semibold text-gray-900">Subcategories</h2>
-
-                    <p class="mt-1 text-sm text-gray-500">
-                        {{ category.children.length }} subcategories
-                    </p>
-                </div>
-            </div>
-
-            <div
-                v-if="category.children.length"
-                class="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-3"
-            >
-                <div
-                    v-for="child in category.children"
-                    :key="child.id"
-                    class="rounded-xl bg-gray-50 p-4"
-                >
-                    <div class="flex items-center justify-between gap-3">
-                        <p class="text-sm font-semibold text-gray-900">
-                            {{ child.name }}
-                        </p>
-
-                        <span
-                            class="rounded-full px-2 py-1 text-[11px] font-semibold"
-                            :class="
-                                child.is_active
-                                    ? 'bg-green-50 text-green-700'
-                                    : 'bg-gray-200 text-gray-600'
-                            "
-                        >
-                            {{ child.is_active ? "Active" : "Inactive" }}
-                        </span>
-                    </div>
-                </div>
-            </div>
-
-            <div v-else class="mt-4 rounded-xl bg-gray-50 p-6 text-center">
-                <p class="text-sm text-gray-500">No subcategories.</p>
-            </div>
-        </section>
-
-        <!-- ==================== Products ==================== -->
-
-        <section
-            class="mt-6 rounded-2xl border border-gray-200 bg-white p-5 sm:p-6"
-        >
-            <div class="flex items-center gap-3">
-                <div
-                    class="flex h-10 w-10 items-center justify-center rounded-xl bg-gray-100"
-                >
-                    <Package class="h-5 w-5 text-gray-600" />
-                </div>
-
-                <div>
-                    <h2 class="font-semibold text-gray-900">Products</h2>
-
-                    <p class="text-sm text-gray-500">
-                        {{ category.products.length }} products in this category
-                    </p>
-                </div>
-            </div>
-
-            <div
-                v-if="category.products.length"
-                class="mt-5 divide-y divide-gray-100"
-            >
-                <div
-                    v-for="product in category.products"
-                    :key="product.id"
-                    class="flex items-center justify-between gap-4 py-4"
-                >
-                    <div class="min-w-0">
-                        <p class="truncate text-sm font-semibold text-gray-900">
-                            {{ product.name }}
-                        </p>
-
-                        <p class="mt-1 text-xs text-gray-500">
-                            Stock: {{ product.stock }} · Price:
-                            {{ product.price }}
+                        <p class="mt-2 text-sm font-semibold text-heading">
+                            {{ category.parent?.name || "Main Category" }}
                         </p>
                     </div>
 
-                    <Link
-                        :href="`/admin/products/${product.id}`"
-                        class="shrink-0 text-sm font-semibold text-gray-900 hover:underline"
+                    <div
+                        class="rounded-xl border border-border bg-background p-4"
                     >
-                        View
-                    </Link>
-                </div>
-            </div>
+                        <p
+                            class="text-xs font-bold uppercase tracking-wide text-muted"
+                        >
+                            Category ID
+                        </p>
 
-            <div v-else class="mt-5 rounded-xl bg-gray-50 p-6 text-center">
-                <p class="text-sm text-gray-500">
-                    No products in this category.
-                </p>
-            </div>
-        </section>
+                        <p class="mt-2 text-sm font-semibold text-heading">
+                            #{{ category.id }}
+                        </p>
+                    </div>
+                </div>
+
+                <div
+                    class="mt-4 rounded-xl border border-border bg-background p-4"
+                >
+                    <p
+                        class="text-xs font-bold uppercase tracking-wide text-muted"
+                    >
+                        Description
+                    </p>
+
+                    <p
+                        class="mt-2 whitespace-pre-line text-sm leading-6 text-body"
+                    >
+                        {{ category.description || "No description provided." }}
+                    </p>
+                </div>
+            </section>
+
+            <!-- ==================== Subcategories ==================== -->
+
+            <section
+                class="rounded-2xl border border-border bg-surface p-5 shadow-sm sm:p-6"
+            >
+                <div class="flex items-center justify-between gap-4">
+                    <div>
+                        <h2 class="font-semibold text-heading">
+                            Subcategories
+                        </h2>
+
+                        <p class="mt-1 text-sm text-muted">
+                            {{ category.children.length }}
+                            {{
+                                category.children.length === 1
+                                    ? "subcategory"
+                                    : "subcategories"
+                            }}
+                        </p>
+                    </div>
+
+                    <div
+                        class="flex h-10 w-10 items-center justify-center rounded-xl bg-brand-50 text-brand-600"
+                    >
+                        <FolderTree class="h-5 w-5" />
+                    </div>
+                </div>
+
+                <!-- ==================== Subcategory List ==================== -->
+
+                <div
+                    v-if="category.children.length"
+                    class="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-3"
+                >
+                    <div
+                        v-for="child in category.children"
+                        :key="child.id"
+                        class="rounded-xl border border-border bg-background p-4 transition hover:border-brand-100 hover:bg-brand-50"
+                    >
+                        <div class="flex items-start justify-between gap-3">
+                            <div class="min-w-0">
+                                <p
+                                    class="truncate text-sm font-bold text-heading"
+                                >
+                                    {{ child.name }}
+                                </p>
+
+                                <p class="mt-1 text-xs text-muted">
+                                    Category #{{ child.id }}
+                                </p>
+                            </div>
+
+                            <span
+                                v-if="child.is_active"
+                                class="shrink-0 rounded-full border border-green-100 bg-green-50 px-2 py-1 text-[11px] font-bold text-green-700"
+                            >
+                                Active
+                            </span>
+
+                            <span
+                                v-else
+                                class="shrink-0 rounded-full border border-border bg-surface px-2 py-1 text-[11px] font-bold text-muted"
+                            >
+                                Inactive
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ==================== Empty Subcategories ==================== -->
+
+                <div
+                    v-else
+                    class="mt-5 rounded-xl border border-dashed border-border bg-background p-8 text-center"
+                >
+                    <FolderTree class="mx-auto h-7 w-7 text-muted" />
+
+                    <p class="mt-2 text-sm font-medium text-body">
+                        No subcategories
+                    </p>
+
+                    <p class="mt-1 text-xs text-muted">
+                        This category does not have any child categories.
+                    </p>
+                </div>
+            </section>
+
+            <!-- ==================== Products ==================== -->
+
+            <section
+                class="rounded-2xl border border-border bg-surface p-5 shadow-sm sm:p-6"
+            >
+                <div class="flex items-center justify-between gap-4">
+                    <div class="flex items-center gap-3">
+                        <div
+                            class="flex h-10 w-10 items-center justify-center rounded-xl bg-brand-50 text-brand-600"
+                        >
+                            <Package class="h-5 w-5" />
+                        </div>
+
+                        <div>
+                            <h2 class="font-semibold text-heading">Products</h2>
+
+                            <p class="text-sm text-muted">
+                                {{ category.products.length }}
+                                {{
+                                    category.products.length === 1
+                                        ? "product"
+                                        : "products"
+                                }}
+                                in this category
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ==================== Product List ==================== -->
+
+                <div
+                    v-if="category.products.length"
+                    class="mt-5 divide-y divide-border overflow-hidden rounded-xl border border-border"
+                >
+                    <div
+                        v-for="product in category.products"
+                        :key="product.id"
+                        class="flex flex-col gap-4 bg-surface p-4 transition hover:bg-background sm:flex-row sm:items-center sm:justify-between"
+                    >
+                        <div class="min-w-0">
+                            <div class="flex flex-wrap items-center gap-2">
+                                <p
+                                    class="truncate text-sm font-bold text-heading"
+                                >
+                                    {{ product.name }}
+                                </p>
+
+                                <span
+                                    v-if="product.is_active"
+                                    class="rounded-full bg-green-50 px-2 py-0.5 text-[10px] font-bold text-green-700"
+                                >
+                                    Active
+                                </span>
+
+                                <span
+                                    v-else
+                                    class="rounded-full bg-background px-2 py-0.5 text-[10px] font-bold text-muted"
+                                >
+                                    Inactive
+                                </span>
+                            </div>
+
+                            <p class="mt-1 text-xs text-muted">
+                                Product #{{ product.id }}
+                            </p>
+
+                            <div
+                                class="mt-2 flex flex-wrap gap-x-4 gap-y-1 text-xs text-body"
+                            >
+                                <span>
+                                    Stock:
+                                    <strong>{{ product.stock }}</strong>
+                                </span>
+
+                                <span>
+                                    Price:
+                                    <strong>{{ product.price }}</strong>
+                                </span>
+                            </div>
+                        </div>
+
+                        <Link
+                            :href="`/admin/products/${product.id}`"
+                            class="inline-flex w-full shrink-0 items-center justify-center rounded-xl border border-border bg-surface px-4 py-2.5 text-sm font-semibold text-body transition hover:border-brand-100 hover:bg-brand-50 hover:text-brand-700 sm:w-auto"
+                        >
+                            View Product
+                        </Link>
+                    </div>
+                </div>
+
+                <!-- ==================== Empty Products ==================== -->
+
+                <div
+                    v-else
+                    class="mt-5 rounded-xl border border-dashed border-border bg-background p-8 text-center"
+                >
+                    <Package class="mx-auto h-7 w-7 text-muted" />
+
+                    <p class="mt-2 text-sm font-medium text-body">
+                        No products in this category
+                    </p>
+
+                    <p class="mt-1 text-xs text-muted">
+                        Products assigned to this category will appear here.
+                    </p>
+                </div>
+            </section>
+        </div>
     </AdminLayout>
 </template>

@@ -1,9 +1,11 @@
 <script setup lang="ts">
 // ==================== Imports ====================
+
+import { computed, ref } from "vue";
 import { router } from "@inertiajs/vue3";
 import CustomerLayout from "@/Layouts/CustomerLayout.vue";
 import Button from "@/Components/UI/Button.vue";
-import { ref } from "vue";
+import { MapPin, ShoppingBag } from "lucide-vue-next";
 
 // ==================== Types ====================
 
@@ -56,7 +58,22 @@ const props = defineProps<{
     cart: Cart;
 }>();
 
+// ==================== State ====================
+
 const deliveryAddress = ref("");
+
+// ==================== Total ====================
+
+const checkoutTotal = computed(() => {
+    return props.cart.items.reduce((total, item) => {
+        const price = Number(item.variant?.price ?? item.product.price);
+
+        return total + price * item.quantity;
+    }, 0);
+});
+
+// ==================== Place Order ====================
+
 const placeOrder = () => {
     router.post(
         "/checkout",
@@ -68,170 +85,249 @@ const placeOrder = () => {
         },
     );
 };
-// ==================== Total ====================
-
-const checkoutTotal = () => {
-    return props.cart.items.reduce((total, item) => {
-        const price = Number(item.variant?.price ?? item.product.price);
-
-        return total + price * item.quantity;
-    }, 0);
-};
 </script>
 
 <template>
     <CustomerLayout>
-        <div class="mx-auto w-full max-w-6xl">
-            <!-- ==================== Page Header ==================== -->
+        <!-- ==================== Checkout ==================== -->
 
-            <div class="mb-6">
-                <h1 class="text-2xl font-bold text-gray-900 sm:text-3xl">
-                    Checkout
-                </h1>
+        <main class="bg-background">
+            <div
+                class="mx-auto w-full max-w-7xl px-5 py-6 sm:px-8 sm:py-8 lg:py-10"
+            >
+                <!-- ==================== Page Header ==================== -->
 
-                <p class="mt-1 text-sm text-gray-500">
-                    Review your order and delivery details.
-                </p>
-            </div>
+                <div class="mb-7">
+                    <h1
+                        class="text-2xl font-extrabold tracking-tight text-heading sm:text-3xl"
+                    >
+                        Checkout
+                    </h1>
 
-            <!-- ==================== Checkout Content ==================== -->
+                    <p class="mt-1.5 text-sm text-muted">
+                        Review your order and delivery details.
+                    </p>
+                </div>
 
-            <div class="grid gap-6 lg:grid-cols-[1fr_360px]">
-                <!-- ==================== Order Details ==================== -->
+                <!-- ==================== Checkout Layout ==================== -->
 
-                <div class="rounded-2xl bg-white p-5 shadow-sm">
-                    <h2 class="text-lg font-semibold text-gray-900">
-                        Your Order
-                    </h2>
+                <div
+                    class="grid gap-6 lg:grid-cols-[minmax(0,1fr)_360px] lg:items-start"
+                >
+                    <!-- ==================== Order Details ==================== -->
 
-                    <div class="mt-5 space-y-4">
-                        <div
-                            v-for="item in props.cart.items"
-                            :key="item.id"
-                            class="flex gap-4 border-b border-gray-100 pb-4 last:border-b-0 last:pb-0"
-                        >
-                            <!-- ==================== Product Image ==================== -->
+                    <section
+                        class="rounded-2xl border border-border bg-surface p-5 shadow-sm sm:p-6"
+                    >
+                        <!-- ==================== Section Header ==================== -->
 
+                        <div class="flex items-center gap-3">
                             <div
-                                class="h-20 w-20 shrink-0 overflow-hidden rounded-xl bg-gray-100"
+                                class="flex h-10 w-10 items-center justify-center rounded-xl bg-brand-50 text-brand-600"
                             >
-                                <img
-                                    v-if="item.product.images.length"
-                                    :src="`/storage/${item.product.images[0].image}`"
-                                    :alt="item.product.name"
-                                    class="h-full w-full object-cover"
-                                />
-
-                                <div
-                                    v-else
-                                    class="flex h-full items-center justify-center text-xs text-gray-400"
-                                >
-                                    No image
-                                </div>
+                                <ShoppingBag :size="20" :stroke-width="2" />
                             </div>
 
-                            <!-- ==================== Product Information ==================== -->
-
-                            <div class="min-w-0 flex-1">
-                                <h3
-                                    class="truncate font-semibold text-gray-900"
+                            <div>
+                                <h2
+                                    class="text-base font-bold text-heading sm:text-lg"
                                 >
-                                    {{ item.product.name }}
-                                </h3>
+                                    Your Order
+                                </h2>
 
-                                <!-- ==================== Variant ==================== -->
-
-                                <div
-                                    v-if="item.variant"
-                                    class="mt-1 flex flex-wrap gap-1"
-                                >
-                                    <span
-                                        v-for="value in item.variant
-                                            .variant_values"
-                                        :key="value.id"
-                                        class="rounded-md bg-gray-100 px-2 py-1 text-xs text-gray-600"
-                                    >
-                                        {{ value.option_value.value }}
-                                    </span>
-                                </div>
-
-                                <p class="mt-2 text-sm text-gray-500">
-                                    Quantity: {{ item.quantity }}
+                                <p class="mt-0.5 text-xs text-muted">
+                                    {{ props.cart.items.length }}
+                                    {{
+                                        props.cart.items.length === 1
+                                            ? "item"
+                                            : "items"
+                                    }}
                                 </p>
                             </div>
+                        </div>
 
-                            <!-- ==================== Item Total ==================== -->
+                        <!-- ==================== Order Items ==================== -->
 
+                        <div class="mt-6 space-y-4">
                             <div
-                                class="shrink-0 text-right font-semibold text-gray-900"
+                                v-for="item in props.cart.items"
+                                :key="item.id"
+                                class="flex gap-4 border-b border-border pb-4 last:border-b-0 last:pb-0"
                             >
-                                {{
-                                    (
-                                        Number(
-                                            item.variant?.price ??
-                                                item.product.price,
-                                        ) * item.quantity
-                                    ).toFixed(2)
-                                }}
+                                <!-- ==================== Product Image ==================== -->
+
+                                <div
+                                    class="h-20 w-20 shrink-0 overflow-hidden rounded-xl border border-border bg-background sm:h-24 sm:w-24"
+                                >
+                                    <img
+                                        v-if="item.product.images.length"
+                                        :src="`/storage/${item.product.images[0].image}`"
+                                        :alt="item.product.name"
+                                        class="h-full w-full object-cover"
+                                    />
+
+                                    <div
+                                        v-else
+                                        class="flex h-full flex-col items-center justify-center gap-1 text-muted"
+                                    >
+                                        <ShoppingBag
+                                            :size="19"
+                                            :stroke-width="1.5"
+                                        />
+
+                                        <span class="text-[10px] font-medium">
+                                            No image
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <!-- ==================== Product Information ==================== -->
+
+                                <div class="min-w-0 flex-1">
+                                    <h3
+                                        class="truncate text-sm font-bold text-heading sm:text-base"
+                                    >
+                                        {{ item.product.name }}
+                                    </h3>
+
+                                    <!-- ==================== Variant ==================== -->
+
+                                    <div
+                                        v-if="item.variant"
+                                        class="mt-2 flex flex-wrap gap-1.5"
+                                    >
+                                        <span
+                                            v-for="value in item.variant
+                                                .variant_values"
+                                            :key="value.id"
+                                            class="rounded-lg border border-border bg-background px-2 py-1 text-[11px] font-medium text-muted"
+                                        >
+                                            {{ value.option_value.value }}
+                                        </span>
+                                    </div>
+
+                                    <p
+                                        class="mt-2 text-xs font-medium text-muted"
+                                    >
+                                        Quantity:
+                                        <span class="font-bold text-body">
+                                            {{ item.quantity }}
+                                        </span>
+                                    </p>
+                                </div>
+
+                                <!-- ==================== Item Total ==================== -->
+
+                                <div class="shrink-0 text-right">
+                                    <p
+                                        class="text-sm font-extrabold tracking-tight text-heading sm:text-base"
+                                    >
+                                        {{
+                                            (
+                                                Number(
+                                                    item.variant?.price ??
+                                                        item.product.price,
+                                                ) * item.quantity
+                                            ).toFixed(2)
+                                        }}
+                                    </p>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </div>
+                    </section>
 
-                <!-- ==================== Delivery & Summary ==================== -->
+                    <!-- ==================== Delivery & Summary ==================== -->
 
-                <div class="space-y-6">
-                    <!-- ==================== Delivery Address ==================== -->
+                    <aside class="space-y-5 lg:sticky lg:top-6">
+                        <!-- ==================== Delivery Address ==================== -->
 
-                    <div class="rounded-2xl bg-white p-5 shadow-sm">
-                        <h2 class="text-lg font-semibold text-gray-900">
-                            Delivery Address
-                        </h2>
-
-                        <textarea
-                            v-model="deliveryAddress"
-                            rows="4"
-                            placeholder="Enter your delivery address"
-                            class="mt-4 w-full rounded-xl border border-gray-200 px-4 py-3 text-sm outline-none transition focus:border-gray-400 focus:ring-0"
-                        ></textarea>
-                    </div>
-
-                    <!-- ==================== Order Summary ==================== -->
-
-                    <div class="rounded-2xl bg-white p-5 shadow-sm">
-                        <h2 class="text-lg font-semibold text-gray-900">
-                            Order Summary
-                        </h2>
-
-                        <div
-                            class="mt-4 flex items-center justify-between border-t border-gray-100 pt-4"
+                        <section
+                            class="rounded-2xl border border-border bg-surface p-5 shadow-sm sm:p-6"
                         >
-                            <span class="font-medium text-gray-600">
-                                Total
-                            </span>
+                            <!-- ==================== Section Header ==================== -->
 
-                            <span class="text-xl font-bold text-gray-900">
-                                {{ checkoutTotal().toFixed(2) }}
-                            </span>
-                        </div>
+                            <div class="flex items-center gap-3">
+                                <div
+                                    class="flex h-10 w-10 items-center justify-center rounded-xl bg-brand-50 text-brand-600"
+                                >
+                                    <MapPin :size="20" :stroke-width="2" />
+                                </div>
 
-                        <!-- ==================== Place Order ==================== -->
+                                <div>
+                                    <h2
+                                        class="text-base font-bold text-heading"
+                                    >
+                                        Delivery Address
+                                    </h2>
 
-                        <div class="mt-5">
-                            <Button
-                                type="button"
-                                variant="primary"
-                                size="lg"
-                                fullWidth
-                                :disabled="!deliveryAddress.trim()"
-                                @click="placeOrder"
+                                    <p class="mt-0.5 text-xs text-muted">
+                                        Where should we deliver your order?
+                                    </p>
+                                </div>
+                            </div>
+
+                            <!-- ==================== Address Input ==================== -->
+
+                            <textarea
+                                v-model="deliveryAddress"
+                                rows="4"
+                                placeholder="Enter your delivery address..."
+                                class="mt-5 w-full resize-none rounded-xl border border-border bg-background px-4 py-3 text-sm leading-6 text-heading outline-none transition-all duration-200 placeholder:text-muted hover:border-slate-300 focus:border-brand-500 focus:bg-surface focus:ring-4 focus:ring-brand-500/10"
+                            ></textarea>
+                        </section>
+
+                        <!-- ==================== Order Summary ==================== -->
+
+                        <section
+                            class="rounded-2xl border border-border bg-surface p-5 shadow-sm sm:p-6"
+                        >
+                            <h2 class="text-base font-bold text-heading">
+                                Order Summary
+                            </h2>
+
+                            <div class="mt-5 border-t border-border pt-4">
+                                <div
+                                    class="flex items-center justify-between gap-4"
+                                >
+                                    <span
+                                        class="text-sm font-medium text-muted"
+                                    >
+                                        Total
+                                    </span>
+
+                                    <span
+                                        class="text-xl font-extrabold tracking-tight text-heading"
+                                    >
+                                        {{ checkoutTotal.toFixed(2) }}
+                                    </span>
+                                </div>
+                            </div>
+
+                            <!-- ==================== Place Order ==================== -->
+
+                            <div class="mt-5">
+                                <Button
+                                    type="button"
+                                    variant="primary"
+                                    size="lg"
+                                    fullWidth
+                                    :disabled="!deliveryAddress.trim()"
+                                    @click="placeOrder"
+                                >
+                                    Place Order
+                                </Button>
+                            </div>
+
+                            <p
+                                class="mt-3 text-center text-xs leading-5 text-muted"
                             >
-                                Place Order
-                            </Button>
-                        </div>
-                    </div>
+                                Your order will be submitted immediately after
+                                confirmation.
+                            </p>
+                        </section>
+                    </aside>
                 </div>
             </div>
-        </div>
+        </main>
     </CustomerLayout>
 </template>
