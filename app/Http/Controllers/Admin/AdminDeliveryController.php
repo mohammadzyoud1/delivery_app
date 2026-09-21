@@ -88,4 +88,81 @@ class AdminDeliveryController extends Controller
             "Order #{$order->id} has been assigned successfully."
         );
     }
+
+    // ==================== Reassign Delivery ====================
+
+    public function reassign(Request $request, Order $order)
+    {
+        $validated = $request->validate([
+            'delivery_user_id' => [
+                'required',
+                'integer',
+                'exists:users,id',
+            ],
+            'admin_note' => [
+                'nullable',
+                'string',
+                'max:1000',
+            ],
+        ]);
+
+        DB::transaction(function () use ($request, $order, $validated) {
+            // ==================== Lock Order ====================
+
+            $order = Order::query()
+                ->lockForUpdate()
+                ->findOrFail($order->id);
+
+            // ==================== Validate Order ====================
+
+            if ($order->status === 'rejected') {
+                abort(422, 'A rejected order cannot be reassigned.');
+            }
+
+            if ($order->status === 'delivered') {
+                abort(422, 'A delivered order cannot be reassigned.');
+            }
+
+            // ==================== Load Assignment ====================
+
+            $assignment = $order->deliveryAssignment;
+
+            if (!$assignment) {
+                abort(422, 'This order does not have a delivery assignment.');
+            }
+
+            // ==================== Validate Delivery User ====================
+
+            $deliveryUser = User::query()
+                ->where('id', $validated['delivery_user_id'])
+                ->whereHas('roles', function ($query) {
+                    $query->where('name', 'delivery');
+                })
+                ->first();
+
+            if (!$deliveryUser) {
+                abort(422, 'The selected user is not a delivery user.');
+            }
+
+            // ==================== Prevent Same User ====================
+
+            if ($assignment->delivery_user_id === $deliveryUser->id) {
+                abort(422, 'This delivery user is already assigned to the order.');
+            }
+
+            // ==================== Reassign Delivery ====================
+
+            $assignment->update([
+                'delivery_user_id' => $deliveryUser->id,
+                'assigned_by' => $request->user()->id,
+                'type' => 'admin',
+                'admin_note' => $validated['admin_note'] ?? null,
+            ]);
+        });
+
+        return back()->with(
+            'success',
+            "Order #{$order->id} has been reassigned successfully."
+        );
+    }
 }

@@ -1,9 +1,15 @@
 <?php
 
+use App\Http\Controllers\Admin\AdminCategoryController;
 use App\Http\Controllers\Admin\AdminDashboardController;
 use App\Http\Controllers\Admin\AdminDeliveryController;
+use App\Http\Controllers\Admin\AdminDeliveryPageController;
 use App\Http\Controllers\Admin\AdminOrderController;
 use App\Http\Controllers\Admin\AdminOrderDetailsController;
+use App\Http\Controllers\Admin\AdminProductController;
+use App\Http\Controllers\Admin\AdminSellerApplicationController;
+use App\Http\Controllers\Admin\AdminSellerController;
+use App\Http\Controllers\Admin\AdminUserController;
 use App\Http\Controllers\Seller\ProductController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CartController;
@@ -14,6 +20,7 @@ use App\Http\Controllers\DeliveryController;
 use App\Http\Controllers\EmailVerificationController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\SellerApplicationController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -72,6 +79,16 @@ Route::middleware(['auth', 'verified.email'])->group(function () {
         DeliveryController::class,
         'updateStatus',
     ])->name('delivery.orders.status');
+
+    Route::get('/seller/apply', [
+        SellerApplicationController::class,
+        'create',
+    ])->name('seller.apply');
+
+    Route::post('/seller/apply', [
+        SellerApplicationController::class,
+        'store',
+    ])->name('seller.apply.store');
 });
 
 Route::get('/register', function () {
@@ -199,4 +216,77 @@ Route::middleware(['auth', 'verified.email', 'admin'])->group(function () {
         AdminDeliveryController::class,
         'assign',
     ])->name('admin.orders.delivery.assign');
+
+    Route::get('/admin/delivery', [
+        AdminDeliveryPageController::class,
+        'index',
+    ])->name('admin.delivery.index');
+
+    Route::patch('/admin/orders/{order}/delivery', [
+        AdminDeliveryController::class,
+        'reassign',
+    ])->name('admin.orders.delivery.reassign');
+
+    Route::get('/admin/users', [
+        AdminUserController::class,
+        'index',
+    ])->name('admin.users.index');
+
+    Route::get('/admin/users/{user}', [
+        AdminUserController::class,
+        'show',
+    ])->name('admin.users.show');
+
+    Route::get('/admin/seller-applications', [
+        AdminSellerApplicationController::class,
+        'index',
+    ])->name('admin.seller-applications.index');
+
+    Route::get('/admin/seller-applications/{sellerApplication}', [
+        AdminSellerApplicationController::class,
+        'show',
+    ])->name('admin.seller-applications.show');
+
+    Route::patch('/admin/seller-applications/{sellerApplication}/approve', [
+        AdminSellerApplicationController::class,
+        'approve',
+    ])->name('admin.seller-applications.approve');
+    Route::patch('/admin/seller-applications/{sellerApplication}/reject', [
+        AdminSellerApplicationController::class,
+        'reject',
+    ])->name('admin.seller-applications.reject');
+
+    Route::get('/admin/sellers', [
+        AdminSellerController::class,
+        'index',
+    ])->name('admin.sellers.index');
+    Route::get('/admin/products', [
+        AdminProductController::class,
+        'index',
+    ])->name('admin.products.index');
+
+    Route::get('/admin/products/{product}', [
+        AdminProductController::class,
+        'show',
+    ])->name('admin.products.show');
+
+    Route::get('/admin/categories', [
+        AdminCategoryController::class,
+        'index',
+    ])->name('admin.categories.index');
+
+    Route::get('/admin/categories/create', [
+        AdminCategoryController::class,
+        'create',
+    ])->name('admin.categories.create');
+
+    Route::post('/admin/categories', [
+        AdminCategoryController::class,
+        'store',
+    ])->name('admin.categories.store');
+
+    Route::get('/admin/categories/{category}', [
+        AdminCategoryController::class,
+        'show',
+    ])->name('admin.categories.show');
 });

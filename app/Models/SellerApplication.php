@@ -13,6 +13,7 @@ class SellerApplication extends Model
         'user_id',
         'status',
         'reason',
+        'rejection_reason',
         'reviewed_by',
         'reviewed_at',
     ];

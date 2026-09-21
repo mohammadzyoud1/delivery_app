@@ -135,6 +135,11 @@ const selectedDeliveryUser = ref<number | null>(null);
 const adminNote = ref("");
 const assigningDelivery = ref(false);
 
+// ==================== Reassignment State ====================
+
+const reassigningDelivery = ref(false);
+const reassignNote = ref("");
+
 // ==================== Assign Delivery ====================
 
 const assignDelivery = () => {
@@ -154,6 +159,30 @@ const assignDelivery = () => {
             preserveScroll: true,
             onFinish: () => {
                 assigningDelivery.value = false;
+            },
+        },
+    );
+};
+
+// ==================== Reassign Delivery ====================
+
+const reassignDelivery = () => {
+    if (!selectedDeliveryUser.value) {
+        return;
+    }
+
+    reassigningDelivery.value = true;
+
+    router.patch(
+        `/admin/orders/${props.order.id}/delivery`,
+        {
+            delivery_user_id: selectedDeliveryUser.value,
+            admin_note: reassignNote.value || null,
+        },
+        {
+            preserveScroll: true,
+            onFinish: () => {
+                reassigningDelivery.value = false;
             },
         },
     );
@@ -487,6 +516,97 @@ const statusClasses = (status: string): string => {
                             </p>
                         </div>
                     </div>
+                </div>
+
+                <!-- ==================== Reassign Delivery ==================== -->
+
+                <div
+                    v-if="
+                        props.order.delivery_assignment &&
+                        props.order.status !== 'delivered' &&
+                        props.order.status !== 'rejected'
+                    "
+                    class="rounded-2xl border border-gray-200 bg-white p-5"
+                >
+                    <!-- ==================== Card Header ==================== -->
+
+                    <div class="mb-4">
+                        <h2 class="text-base font-semibold text-gray-900">
+                            Reassign Delivery
+                        </h2>
+
+                        <p class="mt-1 text-sm text-gray-500">
+                            Assign this order to another delivery user.
+                        </p>
+                    </div>
+
+                    <!-- ==================== Delivery User ==================== -->
+
+                    <div>
+                        <label
+                            for="reassign-delivery-user"
+                            class="mb-2 block text-sm font-medium text-gray-700"
+                        >
+                            Delivery User
+                        </label>
+
+                        <select
+                            id="reassign-delivery-user"
+                            v-model="selectedDeliveryUser"
+                            class="w-full rounded-xl border border-gray-300 bg-white px-4 py-3 text-sm text-gray-900 outline-none transition focus:border-gray-900 focus:ring-1 focus:ring-gray-900"
+                        >
+                            <option :value="null">Select delivery user</option>
+
+                            <option
+                                v-for="deliveryUser in props.deliveryUsers"
+                                :key="deliveryUser.id"
+                                :value="deliveryUser.id"
+                            >
+                                {{ deliveryUser.first_name }}
+                                {{ deliveryUser.last_name }}
+                            </option>
+                        </select>
+                    </div>
+
+                    <!-- ==================== Admin Note ==================== -->
+
+                    <div class="mt-4">
+                        <label
+                            for="reassign-note"
+                            class="mb-2 block text-sm font-medium text-gray-700"
+                        >
+                            Admin Note
+                        </label>
+
+                        <textarea
+                            id="reassign-note"
+                            v-model="reassignNote"
+                            rows="3"
+                            placeholder="Optional note..."
+                            class="w-full resize-none rounded-xl border border-gray-300 px-4 py-3 text-sm text-gray-900 outline-none transition placeholder:text-gray-400 focus:border-gray-900 focus:ring-1 focus:ring-gray-900"
+                        />
+                    </div>
+
+                    <!-- ==================== Reassign Button ==================== -->
+
+                    <Button
+                        type="button"
+                        class="mt-4 w-full rounded-xl bg-black px-4 py-3 text-sm font-semibold text-white transition hover:bg-gray-800 disabled:cursor-not-allowed disabled:opacity-50"
+                        :disabled="
+                            !selectedDeliveryUser ||
+                            selectedDeliveryUser ===
+                                props.order.delivery_assignment.delivery_user
+                                    ?.id ||
+                            reassigningDelivery
+                        "
+                        @click="reassignDelivery"
+                    >
+                        {{
+                            reassigningDelivery
+                                ? "Reassigning..."
+                                : "Reassign Delivery"
+                        }}
+                    </Button>
                 </div>
 
                 <!-- ==================== Rejection ==================== -->
