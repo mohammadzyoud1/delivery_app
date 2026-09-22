@@ -29,6 +29,33 @@ Route::middleware([])->group(function () {
         ->name('home');
 });
 
+Route::get('/register', function () {
+    return Inertia::render('Auth/Register');
+})->middleware('guest')->name('register');
+
+Route::post('/register', [AuthController::class, 'register'])
+    ->name('register.store');
+
+// ==================== Email Verification ====================
+
+Route::middleware('auth')->group(function () {
+    Route::get('/verify-email', [EmailVerificationController::class, 'show'])
+        ->name('verify.email');
+
+    Route::post('/verify-email', [EmailVerificationController::class, 'verify'])
+        ->name('verify.email.verify');
+});
+
+Route::get('/login', function () {
+    return Inertia::render('Auth/Login');
+})->middleware('guest')->name('login');
+
+Route::post('/login', [AuthController::class, 'login'])
+    ->name('login.store');
+
+Route::post('/logout', [AuthController::class, 'logout'])
+    ->name('logout');
+
 Route::middleware(['auth', 'verified.email'])->group(function () {
     // ==================== Cart ====================
     Route::get('/cart', [
@@ -91,28 +118,6 @@ Route::middleware(['auth', 'verified.email'])->group(function () {
     ])->name('seller.apply.store');
 });
 
-Route::get('/register', function () {
-    return Inertia::render('Auth/Register');
-})->middleware('guest')->name('register');
-
-Route::post('/register', [AuthController::class, 'register'])
-    ->name('register.store');
-
-Route::get('/verify-email', [EmailVerificationController::class, 'show'])
-    ->name('verify.email');
-
-Route::post('/verify-email', [EmailVerificationController::class, 'verify'])
-    ->name('verify.email.verify');
-
-Route::get('/login', function () {
-    return Inertia::render('Auth/Login');
-})->middleware('guest')->name('login');
-
-Route::post('/login', [AuthController::class, 'login'])
-    ->name('login.store');
-
-Route::post('/logout', [AuthController::class, 'logout'])
-    ->name('logout');
 Route::get('/categories/{category}', [CategoryController::class, 'show'])
     ->name('categories.show');
 Route::middleware(['auth', 'verified.email', 'seller.access'])->group(function () {
