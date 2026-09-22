@@ -5,7 +5,7 @@ import path from "path";
 import fs from "fs";
 import tailwindcss from "@tailwindcss/vite";
 
-export default defineConfig({
+export default defineConfig(({ command }) => ({
     plugins: [
         laravel({
             input: ["resources/css/app.css", "resources/js/app.js"],
@@ -21,17 +21,23 @@ export default defineConfig({
         },
     },
 
+    // ==================== Local Development Server ====================
+
     server: {
         host: "0.0.0.0",
         port: 5173,
 
-        origin: "https://www.deliver-dev.com:5173",
+        ...(command === "serve"
+            ? {
+                  origin: "https://www.deliver-dev.com:5173",
 
-        https: {
-            key: fs.readFileSync("D:/laragon/etc/ssl/laragon.key"),
-            cert: fs.readFileSync("D:/laragon/etc/ssl/laragon.crt"),
-        },
+                  https: {
+                      key: fs.readFileSync("D:/laragon/etc/ssl/laragon.key"),
+                      cert: fs.readFileSync("D:/laragon/etc/ssl/laragon.crt"),
+                  },
 
-        cors: true,
+                  cors: true,
+              }
+            : {}),
     },
-});
+}));
