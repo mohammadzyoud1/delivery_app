@@ -4,7 +4,7 @@ import vue from "@vitejs/plugin-vue";
 import path from "path";
 import fs from "fs";
 import tailwindcss from "@tailwindcss/vite";
-
+import { VitePWA } from "vite-plugin-pwa";
 export default defineConfig(({ command }) => ({
     plugins: [
         laravel({
@@ -13,6 +13,35 @@ export default defineConfig(({ command }) => ({
         }),
         vue(),
         tailwindcss({}),
+
+        VitePWA({
+            registerType: "autoUpdate",
+
+            manifest: {
+                id: "/",
+                name: "DELIVER",
+                short_name: "DELIVER",
+                description: "A marketplace and delivery platform.",
+                theme_color: "#2563eb",
+                background_color: "#f8fafc",
+                display: "standalone",
+                start_url: "/",
+                scope: "/",
+
+                icons: [
+                    {
+                        src: "/pwa-192x192.png",
+                        sizes: "192x192",
+                        type: "image/png",
+                    },
+                    {
+                        src: "/pwa-512x512.png",
+                        sizes: "512x512",
+                        type: "image/png",
+                    },
+                ],
+            },
+        }),
     ],
 
     resolve: {

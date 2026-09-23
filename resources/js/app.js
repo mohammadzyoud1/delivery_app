@@ -2,7 +2,7 @@ import "./bootstrap";
 import "../css/app.css";
 import { createApp, h } from "vue";
 import { createInertiaApp } from "@inertiajs/vue3";
-
+import { registerSW } from "virtual:pwa-register";
 createInertiaApp({
     resolve: (name) => {
         const pages = import.meta.glob("./Pages/**/*.vue", { eager: true });
@@ -13,5 +13,9 @@ createInertiaApp({
         createApp({ render: () => h(App, props) })
             .use(plugin)
             .mount(el);
+
+        registerSW({
+            immediate: true,
+        });
     },
 });
