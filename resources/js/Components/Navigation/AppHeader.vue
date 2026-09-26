@@ -11,6 +11,7 @@ import {
     Store,
     User,
     UserPlus,
+    Truck,
 } from "lucide-vue-next";
 import { ref, computed, onMounted, onBeforeUnmount } from "vue";
 
@@ -234,6 +235,20 @@ onBeforeUnmount(() => {
                                 class="text-muted transition-colors group-hover:text-brand-600"
                             />
                             Apply to Become a Seller
+                        </Link>
+                        <!-- ==================== Delivery ==================== -->
+
+                        <Link
+                            v-if="user?.roles.includes('delivery')"
+                            href="/delivery/orders"
+                            class="group flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-body transition-colors duration-150 hover:bg-brand-50 hover:text-brand-700"
+                            @click="closeMenu"
+                        >
+                            <Truck
+                                :size="18"
+                                class="text-muted transition-colors group-hover:text-brand-600"
+                            />
+                            Delivery Orders
                         </Link>
 
                         <!-- ==================== Profile ==================== -->

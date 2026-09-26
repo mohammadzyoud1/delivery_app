@@ -9,6 +9,16 @@ class Conversation extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'type',
+        'order_id',
+    ];
+
+    public function order()
+    {
+        return $this->belongsTo(Order::class);
+    }
+
     public function participants()
     {
         return $this->belongsToMany(

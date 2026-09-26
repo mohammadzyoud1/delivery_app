@@ -16,6 +16,7 @@ use App\Http\Controllers\CartController;
 use App\Http\Controllers\CatalogController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CheckoutController;
+use App\Http\Controllers\ConversationController;
 use App\Http\Controllers\DeliveryController;
 use App\Http\Controllers\EmailVerificationController;
 use App\Http\Controllers\HomeController;
@@ -83,6 +84,18 @@ Route::middleware(['auth', 'verified.email'])->group(function () {
         'index',
     ])->name('orders.index');
 
+    Route::get('/checkout', [
+        CheckoutController::class,
+        'index',
+    ])->name('checkout.index');
+
+    // ==================== Place Order ====================
+
+    Route::post('/checkout', [
+        CheckoutController::class,
+        'store',
+    ])->name('checkout.store');
+
     // ==================== Order Details ====================
 
     Route::get('/orders/{order}', [
@@ -116,6 +129,26 @@ Route::middleware(['auth', 'verified.email'])->group(function () {
         SellerApplicationController::class,
         'store',
     ])->name('seller.apply.store');
+
+    Route::get('/messages', [
+        ConversationController::class,
+        'index',
+    ])->name('messages.index');
+
+    Route::get('/messages/support', [
+        ConversationController::class,
+        'startSupport',
+    ])->name('messages.support');
+
+    Route::get('/messages/{conversation}', [
+        ConversationController::class,
+        'show',
+    ])->name('messages.show');
+
+    Route::post('/messages/{conversation}', [
+        ConversationController::class,
+        'send',
+    ])->name('messages.send');
 });
 
 Route::get('/categories/{category}', [CategoryController::class, 'show'])
@@ -175,18 +208,6 @@ Route::middleware(['auth', 'verified.email', 'seller.access'])->group(function (
     ])->name('seller.products.toggle-status');
 
     // ==================== Checkout ====================
-
-    Route::get('/checkout', [
-        CheckoutController::class,
-        'index',
-    ])->name('checkout.index');
-
-    // ==================== Place Order ====================
-
-    Route::post('/checkout', [
-        CheckoutController::class,
-        'store',
-    ])->name('checkout.store');
 });
 
 Route::get('/products/{product}', [
@@ -294,4 +315,9 @@ Route::middleware(['auth', 'verified.email', 'admin'])->group(function () {
         AdminCategoryController::class,
         'show',
     ])->name('admin.categories.show');
+
+    Route::get('/admin/messages', [
+        ConversationController::class,
+        'adminIndex',
+    ])->name('admin.messages');
 });

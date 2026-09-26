@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Conversation;
 use App\Models\DeliveryAssignment;
 use App\Models\Order;
 use App\Models\OrderStatusHistory;
@@ -26,6 +27,7 @@ class DeliveryController extends Controller
                 'items.product.images',
                 'items.variant',
                 'deliveryAssignment',
+                'conversation',
             ])
             ->whereIn('status', [
                 'accepted',
@@ -116,6 +118,21 @@ class DeliveryController extends Controller
                 'changed_by' => $request->user()->id,
                 'note' => 'Order taken by delivery.',
                 'created_at' => now(),
+            ]);
+
+            // ==================== Delivery Conversation ====================
+
+            $conversation = Conversation::query()
+                ->firstOrCreate([
+                    'type' => 'delivery',
+                    'order_id' => $order->id,
+                ]);
+
+            // ==================== Conversation Participants ====================
+
+            $conversation->participants()->syncWithoutDetaching([
+                $order->customer_id,
+                $assignment->delivery_user_id,
             ]);
         });
 

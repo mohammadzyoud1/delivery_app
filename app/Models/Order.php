@@ -51,4 +51,9 @@ class Order extends Model
     {
         return $this->hasOne(DeliveryVerification::class);
     }
+
+    public function conversation()
+    {
+        return $this->hasOne(Conversation::class);
+    }
 }
