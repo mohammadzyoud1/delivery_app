@@ -103,23 +103,6 @@ Route::middleware(['auth', 'verified.email'])->group(function () {
         'show',
     ])->name('orders.show');
 
-    // ==================== Delivery ====================
-
-    Route::get('/delivery/orders', [
-        DeliveryController::class,
-        'index',
-    ])->name('delivery.orders');
-    Route::post('/delivery/orders/{order}/take', [
-        DeliveryController::class,
-        'take',
-    ])->name('delivery.orders.take');
-    // ==================== Delivery Status ====================
-
-    Route::patch('/delivery/orders/{order}/status', [
-        DeliveryController::class,
-        'updateStatus',
-    ])->name('delivery.orders.status');
-
     Route::get('/seller/apply', [
         SellerApplicationController::class,
         'create',
@@ -153,6 +136,26 @@ Route::middleware(['auth', 'verified.email'])->group(function () {
 
 Route::get('/categories/{category}', [CategoryController::class, 'show'])
     ->name('categories.show');
+
+// ==================== Delivery Routes====================
+
+Route::middleware(['auth', 'verified.email', 'delivery.access'])->group(function () {
+    Route::get('/delivery/orders', [
+        DeliveryController::class,
+        'index',
+    ])->name('delivery.orders');
+    Route::post('/delivery/orders/{order}/take', [
+        DeliveryController::class,
+        'take',
+    ])->name('delivery.orders.take');
+    // ==================== Delivery Status ====================
+
+    Route::patch('/delivery/orders/{order}/status', [
+        DeliveryController::class,
+        'updateStatus',
+    ])->name('delivery.orders.status');
+});
+
 Route::middleware(['auth', 'verified.email', 'seller.access'])->group(function () {
     // ==================== Seller Routes ====================
 

@@ -39,26 +39,27 @@ interface Conversation {
 const props = defineProps<{
     conversations: Conversation[];
 }>();
+console.log("My conversations:", props.conversations);
 </script>
 
 <template>
     <CustomerLayout>
-        <!-- ==================== Contact Support ==================== -->
-
-        <div class="mb-6">
-            <Link
-                href="/messages/support"
-                class="inline-flex items-center gap-2 rounded-xl bg-brand-600 px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-brand-700"
-            >
-                <Headphones :size="18" />
-
-                Contact Support
-            </Link>
-        </div>
         <!-- ==================== Messages Page ==================== -->
 
         <main class="min-h-screen bg-background">
             <div class="mx-auto w-full max-w-3xl px-5 py-6 sm:px-8 sm:py-8">
+                <!-- ==================== Contact Support ==================== -->
+
+                <div class="mb-6">
+                    <Link
+                        href="/messages/support"
+                        class="inline-flex items-center gap-2 rounded-xl bg-brand-600 px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-brand-700"
+                    >
+                        <Headphones :size="18" />
+
+                        Contact Support
+                    </Link>
+                </div>
                 <!-- ==================== Header ==================== -->
 
                 <div class="mb-6">

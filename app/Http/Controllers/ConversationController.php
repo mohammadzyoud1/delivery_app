@@ -129,7 +129,7 @@ class ConversationController extends Controller
         // ==================== Load Conversation ====================
 
         $conversation->load([
-            'participants',
+            'participants.roles',
             'order',
             'messages.sender',
         ]);
@@ -195,9 +195,12 @@ class ConversationController extends Controller
         // ==================== Support Conversations ====================
 
         $conversations = Conversation::query()
-            ->where('type', 'support')
+            ->where(
+                'type',
+                'support',
+            )
             ->with([
-                'participants',
+                'participants.roles',
                 'messages' => function ($query) {
                     $query->latest()->limit(1);
                 },

@@ -4,6 +4,7 @@
 import CustomerLayout from "@/Layouts/CustomerLayout.vue";
 import { Head, Link, router } from "@inertiajs/vue3";
 import Button from "@/Components/UI/Button.vue";
+import { MessageCircle } from "lucide-vue-next";
 // ==================== Types ====================
 
 interface ProductImage {

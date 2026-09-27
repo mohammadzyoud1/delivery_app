@@ -14,6 +14,10 @@ interface User {
     last_name: string;
     email?: string;
     profile_image: string | null;
+    roles: {
+        id: number;
+        name: string;
+    }[];
 }
 
 interface Message {
@@ -48,7 +52,23 @@ const props = defineProps<{
 
 // ==================== Customer ====================
 
-const customer = props.conversation.participants[0] ?? null;
+const conversationUser = props.conversation.participants[0] ?? null;
+
+const conversationRole = () => {
+    if (!conversationUser) {
+        return "User";
+    }
+
+    if (conversationUser.roles.some((role) => role.name === "seller")) {
+        return "Seller";
+    }
+
+    if (conversationUser.roles.some((role) => role.name === "delivery")) {
+        return "Delivery";
+    }
+
+    return "Customer";
+};
 
 // ==================== Back ====================
 
@@ -84,9 +104,9 @@ const goBack = () => {
                             class="flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-full bg-brand-50 text-brand-600"
                         >
                             <img
-                                v-if="customer?.profile_image"
-                                :src="`/storage/${customer.profile_image}`"
-                                :alt="`${customer.first_name} ${customer.last_name}`"
+                                v-if="conversationUser?.profile_image"
+                                :src="`/storage/${conversationUser.profile_image}`"
+                                :alt="`${conversationUser.first_name} ${conversationUser.last_name}`"
                                 class="h-full w-full object-cover"
                             />
 
@@ -98,13 +118,16 @@ const goBack = () => {
                                 class="truncate text-base font-bold text-heading"
                             >
                                 {{
-                                    customer
-                                        ? `${customer.first_name} ${customer.last_name}`
-                                        : "Customer"
+                                    conversationUser
+                                        ? `${conversationUser.first_name} ${conversationUser.last_name}`
+                                        : "User"
                                 }}
                             </h1>
 
-                            <p class="text-xs text-muted">Customer Support</p>
+                            <p class="text-xs text-muted">
+                                {{ conversationRole() }} Support ·
+                                {{ conversationUser.email }}
+                            </p>
                         </div>
                     </div>
                 </div>

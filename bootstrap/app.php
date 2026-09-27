@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Middleware\AdminMiddleware;
+use App\Http\Middleware\EnsureDeliveryAccess;
 use App\Http\Middleware\EnsureEmailIsVerified;
 use App\Http\Middleware\EnsureSellerAccess;
 use App\Http\Middleware\HandleInertiaRequests;
@@ -22,6 +23,7 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->alias([
             'verified.email' => EnsureEmailIsVerified::class,
             'seller.access' => EnsureSellerAccess::class,
+            'delivery.access' => EnsureDeliveryAccess::class,
             'admin' => AdminMiddleware::class,
         ]);
     })

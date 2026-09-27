@@ -4,6 +4,7 @@
 import AdminLayout from "@/Layouts/AdminLayout.vue";
 import { Link } from "@inertiajs/vue3";
 import { ChevronRight, MessageCircle, User } from "lucide-vue-next";
+import { computed, ref } from "vue";
 
 // ==================== Types ====================
 
@@ -13,7 +14,10 @@ interface User {
     last_name: string;
     email: string;
     profile_image: string | null;
-    roles: string[];
+    roles: {
+        id: number;
+        name: string;
+    }[];
 }
 
 interface Message {
@@ -36,12 +40,63 @@ interface Conversation {
 const props = defineProps<{
     conversations: Conversation[];
 }>();
+// ==================== Filter ====================
+
+type ConversationFilter = "all" | "customer" | "seller" | "delivery";
+
+const activeFilter = ref<ConversationFilter>("all");
+
+const filters: {
+    value: ConversationFilter;
+    label: string;
+}[] = [
+    { value: "all", label: "All" },
+    { value: "customer", label: "Customers" },
+    { value: "seller", label: "Sellers" },
+    { value: "delivery", label: "Delivery" },
+];
 
 // ==================== Customer Name ====================
 
-const getCustomer = (conversation: Conversation) => {
+const getConversationUser = (conversation: Conversation) => {
     return conversation.participants[0] ?? null;
 };
+// ==================== Conversation Role ====================
+
+const getConversationRole = (
+    conversation: Conversation,
+): Exclude<ConversationFilter, "all"> | null => {
+    const user = getConversationUser(conversation);
+
+    console.log("Conversation user:", user);
+    console.log("User roles:", user?.roles);
+
+    if (!user) {
+        return null;
+    }
+
+    if (user.roles.some((role) => role.name === "seller")) {
+        return "seller";
+    }
+
+    if (user.roles.some((role) => role.name === "delivery")) {
+        return "delivery";
+    }
+
+    return "customer";
+};
+
+// ==================== Filtered Conversations ====================
+
+const filteredConversations = computed(() => {
+    if (activeFilter.value === "all") {
+        return props.conversations;
+    }
+
+    return props.conversations.filter((conversation) => {
+        return getConversationRole(conversation) === activeFilter.value;
+    });
+});
 
 // ==================== Latest Message ====================
 
@@ -66,35 +121,67 @@ const getLatestMessage = (conversation: Conversation) => {
                     </h1>
 
                     <p class="mt-1 text-sm text-muted">
-                        Manage customer support conversations.
+                        Manage support conversations with customers, sellers,
+                        and delivery users.
                     </p>
+                </div>
+
+                <!-- ==================== Conversation Filters ==================== -->
+
+                <div class="mb-5 flex flex-wrap gap-2">
+                    <button
+                        v-for="filter in filters"
+                        :key="filter.value"
+                        type="button"
+                        class="rounded-xl border px-4 py-2 text-sm font-semibold transition-colors"
+                        :class="
+                            activeFilter === filter.value
+                                ? 'border-brand-600 bg-brand-600 text-white'
+                                : 'border-border bg-surface text-body hover:border-brand-200 hover:bg-brand-50 hover:text-brand-700'
+                        "
+                        @click="activeFilter = filter.value"
+                    >
+                        {{ filter.label }}
+                    </button>
                 </div>
 
                 <!-- ==================== Conversations ==================== -->
 
                 <div
-                    v-if="props.conversations.length"
+                    v-if="filteredConversations.length"
                     class="overflow-hidden rounded-2xl border border-border bg-surface shadow-sm"
                 >
                     <Link
-                        v-for="conversation in props.conversations"
+                        v-for="conversation in filteredConversations"
                         :key="conversation.id"
                         :href="`/messages/${conversation.id}`"
                         class="flex items-center gap-4 border-b border-border p-4 transition-colors last:border-b-0 hover:bg-background sm:p-5"
                     >
-                        <!-- ==================== Customer Avatar ==================== -->
+                        <!-- ==================== Conversation Avatar ==================== -->
 
                         <div
                             class="flex h-12 w-12 shrink-0 items-center justify-center overflow-hidden rounded-full bg-brand-50 text-brand-600"
                         >
                             <img
-                                v-if="getCustomer(conversation)?.profile_image"
-                                :src="`/storage/${getCustomer(conversation)?.profile_image}`"
-                                :alt="`${getCustomer(conversation)?.first_name} ${getCustomer(conversation)?.last_name}`"
+                                v-if="
+                                    getConversationUser(conversation)
+                                        ?.profile_image
+                                "
+                                :src="`/storage/${getConversationUser(conversation)?.profile_image}`"
+                                :alt="`${getConversationUser(conversation)?.first_name} ${getConversationUser(conversation)?.last_name}`"
                                 class="h-full w-full object-cover"
                             />
 
-                            <User v-else :size="21" :stroke-width="2" />
+                            <!-- ==================== Customer Support ==================== -->
+
+                            <User
+                                v-else-if="
+                                    !getConversationUser(conversation)
+                                        ?.profile_image
+                                "
+                                :size="21"
+                                :stroke-width="2"
+                            />
                         </div>
 
                         <!-- ==================== Conversation Information ==================== -->
@@ -104,11 +191,16 @@ const getLatestMessage = (conversation: Conversation) => {
                                 class="truncate text-sm font-bold text-heading sm:text-base"
                             >
                                 {{
-                                    getCustomer(conversation)
-                                        ? `${getCustomer(conversation)?.first_name} ${getCustomer(conversation)?.last_name}`
+                                    getConversationUser(conversation)
+                                        ? `${getConversationUser(conversation)?.first_name} ${getConversationUser(conversation)?.last_name} `
                                         : "Unknown Customer"
                                 }}
                             </h2>
+                            <span
+                                class="mt-1 inline-flex w-fit rounded-full bg-brand-50 px-2.5 py-1 text-xs font-semibold capitalize text-brand-700"
+                            >
+                                {{ getConversationRole(conversation) }}
+                            </span>
 
                             <p class="mt-1 truncate text-sm text-muted">
                                 {{
@@ -143,14 +235,14 @@ const getLatestMessage = (conversation: Conversation) => {
                     </div>
 
                     <h2 class="mt-4 text-base font-bold text-heading">
-                        No customer messages
+                        No conversations found
                     </h2>
 
                     <p
                         class="mx-auto mt-2 max-w-sm text-sm leading-6 text-muted"
                     >
-                        Customer support conversations will appear here when
-                        customers contact DELIVER.
+                        Support conversations will appear here when users
+                        contact DELIVER.
                     </p>
                 </div>
             </div>
