@@ -57,6 +57,25 @@ Route::post('/login', [AuthController::class, 'login'])
 Route::post('/logout', [AuthController::class, 'logout'])
     ->name('logout');
 
+Route::get('/forgot-password', function () {
+    return Inertia::render('Auth/ForgotPassword');
+})->name('password.request');
+
+Route::post('/forgot-password', [
+    AuthController::class,
+    'forgotPassword',
+])->name('password.email');
+
+Route::get('/reset-password/{token}', [
+    AuthController::class,
+    'showResetPassword',
+])->name('password.reset');
+
+Route::post('/reset-password', [
+    AuthController::class,
+    'resetPassword',
+])->name('password.update');
+
 Route::middleware(['auth', 'verified.email'])->group(function () {
     // ==================== Cart ====================
     Route::get('/cart', [

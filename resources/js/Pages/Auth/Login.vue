@@ -1,11 +1,20 @@
 <script setup lang="ts">
-import { Link, useForm } from "@inertiajs/vue3";
+import { Link, useForm, usePage } from "@inertiajs/vue3";
 import { Mail } from "lucide-vue-next";
 
 import AuthHeader from "@/Components/Auth/AuthHeader.vue";
 import AuthInput from "@/Components/Auth/AuthInput.vue";
 import PasswordInput from "@/Components/Auth/PasswordInput.vue";
 import Button from "@/Components/UI/Button.vue";
+
+interface PageProps {
+    flash: {
+        success?: string | null;
+        error?: string | null;
+    };
+}
+
+const page = usePage<PageProps>();
 // ==================== Form ====================
 
 const form = useForm({
@@ -39,6 +48,21 @@ const handleSubmit = () => {
                 :on-back="goBack"
             />
 
+            <!-- ==================== Flash Message ==================== -->
+
+            <div
+                v-if="page.props.flash?.success"
+                class="mt-6 rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm font-medium text-emerald-700"
+            >
+                {{ page.props.flash.success }}
+            </div>
+
+            <div
+                v-if="page.props.flash?.error"
+                class="mt-6 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm font-medium text-red-700"
+            >
+                {{ page.props.flash.error }}
+            </div>
             <!-- ==================== Login Form ==================== -->
 
             <form class="mt-10 space-y-5" @submit.prevent="handleSubmit">
