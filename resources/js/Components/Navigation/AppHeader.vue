@@ -12,6 +12,7 @@ import {
     User,
     UserPlus,
     Truck,
+    LogIn,
 } from "lucide-vue-next";
 import { ref, computed, onMounted, onBeforeUnmount } from "vue";
 
@@ -21,7 +22,7 @@ interface Props {
     title?: string;
 }
 
-withDefaults(defineProps<Props>(), {
+const props = withDefaults(defineProps<Props>(), {
     title: "Deliver",
 });
 
@@ -225,7 +226,9 @@ onBeforeUnmount(() => {
                         <!-- ==================== Apply As Seller ==================== -->
 
                         <Link
-                            v-if="!isSeller && !isAdmin"
+                            v-if="
+                                !isSeller && !isAdmin && page.props.auth?.user
+                            "
                             href="/seller/apply"
                             class="group flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-body transition-colors duration-150 hover:bg-brand-50 hover:text-brand-700"
                             @click="closeMenu"
@@ -254,6 +257,7 @@ onBeforeUnmount(() => {
                         <!-- ==================== Profile ==================== -->
 
                         <Link
+                            v-if="page.props.auth?.user"
                             href="/profile"
                             class="group flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-body transition-colors duration-150 hover:bg-brand-50 hover:text-brand-700"
                             @click="closeMenu"
@@ -268,6 +272,7 @@ onBeforeUnmount(() => {
                         <!-- ==================== Settings ==================== -->
 
                         <Link
+                            v-if="page.props.auth?.user"
                             href="/settings"
                             class="group flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-body transition-colors duration-150 hover:bg-brand-50 hover:text-brand-700"
                             @click="closeMenu"
@@ -284,6 +289,7 @@ onBeforeUnmount(() => {
 
                     <div class="border-t border-border p-2">
                         <Link
+                            v-if="page.props.auth?.user"
                             href="/logout"
                             method="post"
                             as="button"
@@ -292,6 +298,17 @@ onBeforeUnmount(() => {
                         >
                             <LogOut :size="18" />
                             Logout
+                        </Link>
+                        <Link
+                            v-else
+                            href="/login"
+                            method="get"
+                            as="button"
+                            class="flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-blue-600 transition-colors duration-150 hover:bg-red-50"
+                            @click="closeMenu"
+                        >
+                            <LogIn :size="18" />
+                            Login
                         </Link>
                     </div>
                 </div>

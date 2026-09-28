@@ -8,6 +8,7 @@ interface Props {
     placeholder?: string;
     icon?: Component;
     error?: string;
+    disabled?: boolean;
 }
 
 withDefaults(defineProps<Props>(), {
@@ -53,6 +54,7 @@ const emit = defineEmits<{
                         ($event.target as HTMLInputElement).value,
                     )
                 "
+                :disabled="disabled"
             />
         </div>
 

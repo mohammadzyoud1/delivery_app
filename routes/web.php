@@ -151,6 +151,9 @@ Route::middleware(['auth', 'verified.email'])->group(function () {
         ConversationController::class,
         'send',
     ])->name('messages.send');
+    Route::get('/profile', function () {
+        return inertia::render('Profile/Profile');
+    })->name('profile');
 });
 
 Route::get('/categories/{category}', [CategoryController::class, 'show'])
