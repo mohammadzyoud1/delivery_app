@@ -130,7 +130,7 @@ class AuthController extends Controller
 
         // ==================== Login User ====================
 
-        Auth::login($user);
+        Auth::login($user, true);
 
         $request->session()->regenerate();
 

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Conversation;
+use App\Services\NotificationService;
 use Illuminate\Http\Request;
 
 class ConversationController extends Controller
@@ -151,7 +152,8 @@ class ConversationController extends Controller
 
     public function send(
         Request $request,
-        Conversation $conversation
+        Conversation $conversation,
+        NotificationService $notificationService,
     ) {
         $user = $request->user();
 
@@ -173,6 +175,25 @@ class ConversationController extends Controller
             'sender_id' => $user->id,
             'message' => $validated['message'],
         ]);
+
+        // ==================== Notify Other Participants ====================
+
+        $recipients = $conversation
+            ->participants()
+            ->where('users.id', '!=', $user->id)
+            ->get();
+
+        foreach ($recipients as $recipient) {
+            $notificationService->create(
+                $recipient,
+                'message',
+                'New Message',
+                "{$user->first_name} sent you a new message.",
+                [
+                    'conversation_id' => $conversation->id,
+                ],
+            );
+        }
 
         // ==================== Return To Conversation ====================
 

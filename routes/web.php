@@ -20,6 +20,7 @@ use App\Http\Controllers\ConversationController;
 use App\Http\Controllers\DeliveryController;
 use App\Http\Controllers\EmailVerificationController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SellerApplicationController;
@@ -170,6 +171,14 @@ Route::middleware(['auth', 'verified.email'])->group(function () {
         ProfileController::class,
         'updatePicture',
     ])->name('profile.picture.update');
+    Route::get('/notifications', [
+        NotificationController::class,
+        'index',
+    ])->name('notifications.index');
+    Route::patch('/notifications/{notification}/read', [
+        NotificationController::class,
+        'markAsRead',
+    ])->name('notifications.read');
 });
 
 Route::get('/categories/{category}', [CategoryController::class, 'show'])

@@ -6,6 +6,7 @@ use App\Models\Conversation;
 use App\Models\DeliveryAssignment;
 use App\Models\Order;
 use App\Models\OrderStatusHistory;
+use App\Services\NotificationService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -144,7 +145,7 @@ class DeliveryController extends Controller
 
     // ==================== Update Delivery Status ====================
 
-    public function updateStatus(Request $request, Order $order)
+    public function updateStatus(Request $request, Order $order, NotificationService $notificationService)
     {
         // ==================== Validate Status ====================
 
@@ -158,7 +159,12 @@ class DeliveryController extends Controller
 
         // ==================== Update Status Transaction ====================
 
-        DB::transaction(function () use ($request, $order, $validated) {
+        DB::transaction(function () use (
+            $request,
+            $order,
+            $validated,
+            $notificationService,
+        ) {
             // ==================== Lock Order ====================
 
             $order = Order::query()
@@ -208,6 +214,33 @@ class DeliveryController extends Controller
             $order->update([
                 'status' => $newStatus,
             ]);
+
+            // ==================== Status Label ====================
+
+            $statusLabels = [
+                'accepted' => 'Accepted',
+                'preparing' => 'Being prepared',
+                'on_the_way' => 'On the way',
+                'at_the_door' => 'At your door',
+                'delivered' => 'Delivered',
+                'rejected' => 'Rejected',
+            ];
+
+            $statusLabel = $statusLabels[$newStatus]
+                ?? $newStatus;
+
+            // ==================== Notify Customer ====================
+
+            $notificationService->create(
+                $order->customer,
+                'order',
+                'Order Update',
+                "Your order #{$order->id} is now {$statusLabel}.",
+                [
+                    'order_id' => $order->id,
+                    'status' => $newStatus,
+                ],
+            );
 
             // ==================== Record Status History ====================
 

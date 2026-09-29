@@ -56,6 +56,11 @@ class HandleInertiaRequests extends Middleware
                         'notification_preferences' => $request
                             ->user()
                             ->notification_preferences,
+                        'notifications_unread_count' => $request
+                            ->user()
+                            ->notifications()
+                            ->whereNull('read_at')
+                            ->count(),
                     ]
                     : null,
             ],

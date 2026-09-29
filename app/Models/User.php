@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Notification;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -115,5 +116,10 @@ class User extends Authenticatable
         if ($roleModel) {
             $this->roles()->detach($roleModel->id);
         }
+    }
+
+    public function notifications()
+    {
+        return $this->hasMany(Notification::class);
     }
 }
