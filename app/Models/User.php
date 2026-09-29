@@ -18,6 +18,7 @@ class User extends Authenticatable
         'profile_image',
         'password',
         'email_verified_at',
+        'notification_preferences',
     ];
 
     protected $hidden = [
@@ -30,6 +31,7 @@ class User extends Authenticatable
         return [
             'password' => 'hashed',
             'email_verified_at' => 'datetime',
+            'notification_preferences' => 'array',
         ];
     }
 

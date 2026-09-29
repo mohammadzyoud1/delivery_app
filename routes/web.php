@@ -21,6 +21,7 @@ use App\Http\Controllers\DeliveryController;
 use App\Http\Controllers\EmailVerificationController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SellerApplicationController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -75,7 +76,7 @@ Route::post('/reset-password', [
     AuthController::class,
     'resetPassword',
 ])->name('password.update');
-
+// ==================== user ====================
 Route::middleware(['auth', 'verified.email'])->group(function () {
     // ==================== Cart ====================
     Route::get('/cart', [
@@ -154,6 +155,21 @@ Route::middleware(['auth', 'verified.email'])->group(function () {
     Route::get('/profile', function () {
         return inertia::render('Profile/Profile');
     })->name('profile');
+
+    Route::patch('/profile', [
+        ProfileController::class,
+        'update',
+    ])->name('profile.update');
+
+    Route::patch('/profile/notifications', [
+        ProfileController::class,
+        'updateNotifications',
+    ])->name('profile.notifications.update');
+
+    Route::patch('/profile/picture', [
+        ProfileController::class,
+        'updatePicture',
+    ])->name('profile.picture.update');
 });
 
 Route::get('/categories/{category}', [CategoryController::class, 'show'])

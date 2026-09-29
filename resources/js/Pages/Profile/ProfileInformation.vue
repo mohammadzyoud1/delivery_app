@@ -2,7 +2,7 @@
 // ==================== Imports ====================
 
 import { computed } from "vue";
-import { usePage } from "@inertiajs/vue3";
+import { usePage, useForm } from "@inertiajs/vue3";
 import { Mail, Phone, User } from "lucide-vue-next";
 
 import AuthInput from "@/Components/Auth/AuthInput.vue";
@@ -36,10 +36,17 @@ const user = computed(() => page.props.auth.user);
 
 // ==================== Form ====================
 
-const firstName = computed(() => user.value?.first_name ?? "");
-const lastName = computed(() => user.value?.last_name ?? "");
-const email = computed(() => user.value?.email ?? "");
-const phone = computed(() => user.value?.phone ?? "");
+const form = useForm({
+    first_name: user.value?.first_name ?? "",
+    last_name: user.value?.last_name ?? "",
+    phone: user.value?.phone ?? "",
+});
+
+// ==================== Submit ====================
+
+const handleSubmit = () => {
+    form.patch("/profile");
+};
 </script>
 
 <template>
@@ -56,31 +63,31 @@ const phone = computed(() => user.value?.phone ?? "");
 
         <!-- ==================== Form ==================== -->
 
-        <div class="mt-6 space-y-5">
+        <form class="mt-6 space-y-5" @submit.prevent="handleSubmit">
             <!-- ==================== First Name ==================== -->
 
             <AuthInput
-                :model-value="firstName"
+                :model-value="form.first_name"
                 label="First Name"
                 placeholder="Your first name"
                 :icon="User"
-                disabled
+                :error="form.errors.first_name"
             />
 
             <!-- ==================== Last Name ==================== -->
 
             <AuthInput
-                :model-value="lastName"
+                :model-value="form.last_name"
                 label="Last Name"
                 placeholder="Your last name"
                 :icon="User"
-                disabled
+                :error="form.errors.last_name"
             />
 
             <!-- ==================== Email ==================== -->
 
             <AuthInput
-                :model-value="email"
+                :model-value="user?.email ?? ''"
                 label="Email"
                 placeholder="Your email"
                 :icon="Mail"
@@ -91,20 +98,25 @@ const phone = computed(() => user.value?.phone ?? "");
             <!-- ==================== Phone ==================== -->
 
             <AuthInput
-                :model-value="phone"
+                :model-value="form.phone"
                 label="Phone"
                 placeholder="Your phone number"
                 :icon="Phone"
-                disabled
+                :error="form.errors.phone"
             />
 
             <!-- ==================== Save ==================== -->
 
             <div class="flex justify-end border-t border-border pt-5">
-                <Button type="button" variant="primary" disabled>
-                    Save Changes
+                <Button
+                    type="submit"
+                    variant="primary"
+                    :loading="form.processing"
+                    :disabled="form.processing"
+                >
+                    {{ form.processing ? "Saving..." : "Save Changes" }}
                 </Button>
             </div>
-        </div>
+        </form>
     </div>
 </template>

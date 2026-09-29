@@ -1,15 +1,20 @@
 <script setup lang="ts">
 // ==================== Imports ====================
 
-import { ref } from "vue";
-
+import { ref, inject } from "vue";
+import { saveLanguage, type Language } from "@/Utils/language";
 // ==================== State ====================
 
-const selectedLanguage = ref("English");
+const selectedLanguage = ref<Language>(
+    inject<Language>("language") ?? "English",
+);
 
 // ==================== Languages ====================
 
-const languages = [
+const languages: {
+    value: Language;
+    label: string;
+}[] = [
     {
         value: "English",
         label: "English",
@@ -19,6 +24,12 @@ const languages = [
         label: "العربية",
     },
 ];
+
+const changeLanguage = (language: Language) => {
+    selectedLanguage.value = language;
+
+    saveLanguage(language);
+};
 </script>
 
 <template>
@@ -46,7 +57,7 @@ const languages = [
                         ? 'border-brand-600 bg-brand-50'
                         : 'border-border bg-surface hover:bg-background'
                 "
-                @click="selectedLanguage = language.value"
+                @click="changeLanguage(language.value)"
             >
                 <span class="text-sm font-semibold text-heading">
                     {{ language.label }}

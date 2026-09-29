@@ -2,10 +2,28 @@
 // ==================== Imports ====================
 
 import { ref } from "vue";
-import { Camera, Trash2, User } from "lucide-vue-next";
-
+import { Camera, Trash2, Upload } from "lucide-vue-next";
+import { useForm, usePage } from "@inertiajs/vue3";
+import Button from "@/Components/UI/Button.vue";
 // ==================== State ====================
 
+// ==================== Types ====================
+
+interface AuthUser {
+    profile_image: string | null;
+}
+
+interface PageProps {
+    [key: string]: unknown;
+
+    auth: {
+        user: AuthUser | null;
+    };
+}
+const page = usePage<PageProps>();
+
+const user = page.props.auth.user;
+const selectedFile = ref<File | null>(null);
 const previewUrl = ref<string | null>(null);
 
 // ==================== File Selection ====================
@@ -19,13 +37,34 @@ const handleFileChange = (event: Event) => {
         return;
     }
 
+    selectedFile.value = file;
+
+    // ==================== Preview ====================
+
     previewUrl.value = URL.createObjectURL(file);
 };
 
 // ==================== Remove Preview ====================
 
-const removePicture = () => {
+const removePreview = () => {
+    selectedFile.value = null;
     previewUrl.value = null;
+};
+const form = useForm({
+    _method: "PATCH",
+    profile_image: null as File | null,
+});
+const uploadPicture = () => {
+    if (!selectedFile.value) {
+        console.log("heheheehhe");
+        return;
+    }
+
+    form.profile_image = selectedFile.value;
+
+    form.post("/profile/picture", {
+        forceFormData: true,
+    });
 };
 </script>
 
@@ -37,18 +76,18 @@ const removePicture = () => {
             <h2 class="text-lg font-bold text-heading">Profile Picture</h2>
 
             <p class="mt-1 text-sm text-muted">
-                Manage the picture displayed on your profile.
+                Upload a profile picture for your account.
             </p>
         </div>
 
-        <!-- ==================== Profile Picture ==================== -->
+        <!-- ==================== Picture Area ==================== -->
 
         <div class="mt-8 flex flex-col items-center">
-            <div
-                class="relative flex h-32 w-32 items-center justify-center overflow-hidden rounded-full border-4 border-white bg-background shadow-md ring-1 ring-border"
-            >
-                <!-- ==================== Preview ==================== -->
+            <!-- ==================== Preview ==================== -->
 
+            <div
+                class="relative flex h-32 w-32 items-center justify-center overflow-hidden rounded-full border-2 border-dashed border-border bg-background"
+            >
                 <img
                     v-if="previewUrl"
                     :src="previewUrl"
@@ -56,23 +95,28 @@ const removePicture = () => {
                     class="h-full w-full object-cover"
                 />
 
-                <!-- ==================== Empty State ==================== -->
+                <div v-else-if="user?.profile_image" class="h-full w-full">
+                    <img
+                        :src="`/storage/${user.profile_image}`"
+                        alt="Current profile picture"
+                        class="h-full w-full object-cover"
+                    />
+                </div>
 
-                <User
-                    v-else
-                    :size="48"
-                    :stroke-width="1.5"
-                    class="text-muted"
-                />
+                <div v-else class="flex flex-col items-center gap-2 text-muted">
+                    <Camera :size="32" :stroke-width="1.5" />
+
+                    <span class="text-xs font-medium"> No picture </span>
+                </div>
             </div>
 
             <!-- ==================== Actions ==================== -->
 
-            <div class="mt-6 flex flex-wrap justify-center gap-3">
+            <div class="mt-5 flex flex-wrap items-center justify-center gap-3">
                 <label
-                    class="inline-flex cursor-pointer items-center gap-2 rounded-xl border border-border bg-surface px-4 py-2.5 text-sm font-semibold text-body transition-colors duration-150 hover:bg-background"
+                    class="inline-flex cursor-pointer items-center gap-2 rounded-xl border border-border bg-surface px-4 py-2.5 text-sm font-semibold text-body transition hover:border-brand-200 hover:bg-brand-50 hover:text-brand-700"
                 >
-                    <Camera :size="18" :stroke-width="2" />
+                    <Upload :size="17" :stroke-width="2" />
 
                     Choose Picture
 
@@ -84,23 +128,48 @@ const removePicture = () => {
                     />
                 </label>
 
+                <Button
+                    v-if="selectedFile"
+                    type="button"
+                    variant="primary"
+                    :loading="form.processing"
+                    :disabled="form.processing"
+                    @click="uploadPicture"
+                >
+                    {{ form.processing ? "Uploading..." : "Save Picture" }}
+                    <p
+                        v-if="form.errors.profile_image"
+                        class="mt-3 text-sm text-red-500"
+                    >
+                        {{ form.errors.profile_image }}
+                    </p>
+                </Button>
+
                 <button
                     v-if="previewUrl"
                     type="button"
-                    class="inline-flex items-center gap-2 rounded-xl border border-red-200 bg-red-50 px-4 py-2.5 text-sm font-semibold text-red-600 transition-colors duration-150 hover:bg-red-100"
-                    @click="removePicture"
+                    class="inline-flex items-center gap-2 rounded-xl border border-red-200 bg-red-50 px-4 py-2.5 text-sm font-semibold text-red-600 transition hover:bg-red-100"
+                    @click="removePreview"
                 >
-                    <Trash2 :size="18" :stroke-width="2" />
+                    <Trash2 :size="17" :stroke-width="2" />
 
                     Remove
                 </button>
             </div>
 
-            <!-- ==================== Help Text ==================== -->
+            <!-- ==================== Selected File ==================== -->
 
-            <p class="mt-4 max-w-sm text-center text-xs leading-5 text-muted">
-                Choose a clear profile picture. JPG, PNG, and other common image
-                formats are supported.
+            <p
+                v-if="selectedFile"
+                class="mt-4 max-w-full truncate text-xs text-muted"
+            >
+                {{ selectedFile.name }}
+            </p>
+
+            <!-- ==================== Hint ==================== -->
+
+            <p class="mt-3 text-center text-xs text-muted">
+                JPG, PNG, or WEBP. Maximum size: 2 MB.
             </p>
         </div>
     </div>

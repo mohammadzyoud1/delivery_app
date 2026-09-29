@@ -46,12 +46,16 @@ class HandleInertiaRequests extends Middleware
                         'last_name' => $request->user()->last_name,
                         'email' => $request->user()->email,
                         'profile_image' => $request->user()->profile_image,
+                        'phone' => $request->user()->phone,
                         'roles' => $request
                             ->user()
                             ->roles()
                             ->pluck('name')
                             ->values()
                             ->all(),
+                        'notification_preferences' => $request
+                            ->user()
+                            ->notification_preferences,
                     ]
                     : null,
             ],

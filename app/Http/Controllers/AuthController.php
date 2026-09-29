@@ -68,6 +68,10 @@ class AuthController extends Controller
             'phone' => $validated['phone'],
             'password' => $validated['password'],
             'profile_image' => $profile_image,
+            'notification_preferences' => [
+                'messages' => true,
+                'orders' => true,
+            ],
         ]);
 
         $user->assignRole('customer');

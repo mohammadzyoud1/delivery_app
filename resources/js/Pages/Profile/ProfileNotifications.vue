@@ -1,5 +1,26 @@
 <script setup lang="ts">
+import { ref } from "vue";
+import { usePage, useForm } from "@inertiajs/vue3";
+
 // ==================== Types ====================
+
+interface NotificationPreferences {
+    messages: boolean;
+    orders: boolean;
+}
+interface AuthUser {
+    notification_preferences: NotificationPreferences;
+}
+interface PageProps {
+    [key: string]: unknown;
+
+    auth: {
+        user: AuthUser | null;
+    };
+}
+const page = usePage<PageProps>();
+
+const user = page.props.auth.user;
 
 interface NotificationSetting {
     key: string;
@@ -10,26 +31,43 @@ interface NotificationSetting {
 
 // ==================== State ====================
 
-const notificationSettings: NotificationSetting[] = [
-    {
-        key: "orders",
-        title: "Order Updates",
-        description: "Receive updates about your orders and delivery status.",
-        enabled: true,
-    },
+const notificationSettings = ref<NotificationSetting[]>([
     {
         key: "messages",
         title: "Messages",
         description: "Receive notifications when you receive a new message.",
-        enabled: true,
+        enabled: user?.notification_preferences.messages ?? true,
     },
     {
-        key: "seller",
-        title: "Seller Updates",
-        description: "Receive updates related to your seller activity.",
-        enabled: true,
+        key: "orders",
+        title: "Order Updates",
+        description: "Receive notifications when your order status changes.",
+        enabled: user?.notification_preferences.orders ?? true,
     },
-];
+]);
+
+const form = useForm({
+    messages: user?.notification_preferences.messages ?? true,
+    orders: user?.notification_preferences.orders ?? true,
+});
+
+// ==================== Change Notification ====================
+
+const toggleNotification = (key: "messages" | "orders") => {
+    const setting = notificationSettings.value.find(
+        (setting) => setting.key === key,
+    );
+
+    if (!setting) {
+        return;
+    }
+
+    setting.enabled = !setting.enabled;
+
+    form[key] = setting.enabled;
+
+    form.patch("/profile/notifications");
+};
 </script>
 
 <template>
@@ -74,12 +112,14 @@ const notificationSettings: NotificationSetting[] = [
                     :aria-checked="setting.enabled"
                     class="relative h-6 w-11 shrink-0 rounded-full transition-colors duration-200"
                     :class="setting.enabled ? 'bg-brand-600' : 'bg-slate-300'"
-                    @click="setting.enabled = !setting.enabled"
+                    @click="
+                        toggleNotification(setting.key as 'messages' | 'orders')
+                    "
                 >
                     <span
                         class="absolute top-1 h-4 w-4 rounded-full bg-white shadow-sm transition-transform duration-200"
                         :class="
-                            setting.enabled ? 'translate-x-6' : 'translate-x-1'
+                            setting.enabled ? 'translate-x-1' : '-translate-x-5'
                         "
                     ></span>
                 </button>
