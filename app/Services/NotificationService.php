@@ -87,13 +87,14 @@ class NotificationService
                 ),
             );
         } catch (\Throwable $exception) {
-            Log::error('WEB PUSH FAILED', [
-                'user_id' => $user->id,
-                'exception' => get_class($exception),
-                'message' => $exception->getMessage(),
-            ]);
-
-            throw $exception;
+            throw new \RuntimeException(
+                'WEB PUSH DEBUG: '
+                    . get_class($exception)
+                    . ' — '
+                    . $exception->getMessage(),
+                0,
+                $exception,
+            );
         }
     }
 }
