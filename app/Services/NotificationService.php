@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Models\User;
 use App\Notifications\WebPushNotification;
+use Illuminate\Support\Facades\Log;
 
 class NotificationService
 {
@@ -68,12 +69,31 @@ class NotificationService
 
         // ==================== Send Web Push ====================
 
-        $user->notify(
-            new WebPushNotification(
-                $title,
-                $message,
-                $url,
-            ),
-        );
+        // $user->notify(
+        //    new WebPushNotification(
+        //        $title,
+        //        $message,
+        //        $url,
+        //    ),
+        // );
+        // ==================== Send Web Push ====================
+
+        try {
+            $user->notify(
+                new WebPushNotification(
+                    $title,
+                    $message,
+                    $url,
+                ),
+            );
+        } catch (\Throwable $exception) {
+            Log::error('WEB PUSH FAILED', [
+                'user_id' => $user->id,
+                'exception' => get_class($exception),
+                'message' => $exception->getMessage(),
+            ]);
+
+            throw $exception;
+        }
     }
 }
