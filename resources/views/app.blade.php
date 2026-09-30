@@ -15,8 +15,10 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="csrf-token"content="{{ csrf_token() }}">
     
-    <meta name="apple-mobile-web-app-title" content="DELIVE
+    <meta name="apple-mobile-web-app-title" content="DELIVE 
+    
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 

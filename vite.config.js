@@ -16,6 +16,9 @@ export default defineConfig(({ command }) => ({
 
         VitePWA({
             registerType: "autoUpdate",
+            strategies: "injectManifest",
+            srcDir: "resources/js",
+            filename: "sw.ts",
 
             manifest: {
                 id: "/",

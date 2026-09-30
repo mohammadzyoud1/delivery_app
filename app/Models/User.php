@@ -6,9 +6,11 @@ use App\Models\Notification;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use NotificationChannels\WebPush\HasPushSubscriptions;
 
 class User extends Authenticatable
 {
+    use HasPushSubscriptions;
     use HasFactory, Notifiable;
 
     protected $fillable = [
@@ -86,7 +88,7 @@ class User extends Authenticatable
         return $this->belongsToMany(
             Conversation::class,
             'conversation_participants'
-        );
+        )->select('conversations.*');
     }
 
     public function emailVerifications()

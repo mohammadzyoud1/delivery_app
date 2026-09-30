@@ -24,8 +24,10 @@ use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SellerApplicationController;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+use NotificationChannels\WebPush\PushSubscription;
 
 Route::middleware([])->group(function () {
     Route::get('/', [HomeController::class, 'index'])
@@ -179,6 +181,26 @@ Route::middleware(['auth', 'verified.email'])->group(function () {
         NotificationController::class,
         'markAsRead',
     ])->name('notifications.read');
+
+    Route::post('/push-subscriptions', function (Request $request) {
+        $validated = $request->validate([
+            'endpoint' => 'required|string',
+            'publicKey' => 'required|string',
+            'authToken' => 'required|string',
+            'contentEncoding' => 'nullable|string',
+        ]);
+
+        $request->user()->updatePushSubscription(
+            $validated['endpoint'],
+            $validated['publicKey'],
+            $validated['authToken'],
+            $validated['contentEncoding'] ?? null,
+        );
+
+        return response()->json([
+            'success' => true,
+        ]);
+    })->name('push-subscriptions.store');
 });
 
 Route::get('/categories/{category}', [CategoryController::class, 'show'])

@@ -2,8 +2,8 @@
 
 namespace App\Services;
 
-use App\Models\Notification;
 use App\Models\User;
+use App\Notifications\WebPushNotification;
 
 class NotificationService
 {
@@ -16,9 +16,10 @@ class NotificationService
         string $message,
         array $data = [],
     ): void {
-        // ==================== Check User Preference ====================
+        // ==================== Notification Preferences ====================
 
-        $preferences = $user->notification_preferences ?? [];
+        $preferences =
+            $user->notification_preferences ?? [];
 
         if (
             $type === 'message' &&
@@ -34,7 +35,7 @@ class NotificationService
             return;
         }
 
-        // ==================== Create Notification ====================
+        // ==================== Save Database Notification ====================
 
         $user->notifications()->create([
             'type' => $type,
@@ -42,5 +43,37 @@ class NotificationService
             'message' => $message,
             'data' => $data ?: null,
         ]);
+
+        // ==================== Notification URL ====================
+
+        $url = '/';
+
+        if (
+            $type === 'message' &&
+            !empty($data['conversation_id'])
+        ) {
+            $url =
+                '/messages/'
+                . $data['conversation_id'];
+        }
+
+        if (
+            $type === 'order' &&
+            !empty($data['order_id'])
+        ) {
+            $url =
+                '/orders/'
+                . $data['order_id'];
+        }
+
+        // ==================== Send Web Push ====================
+
+        $user->notify(
+            new WebPushNotification(
+                $title,
+                $message,
+                $url,
+            ),
+        );
     }
 }
