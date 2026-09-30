@@ -34,18 +34,6 @@ Route::middleware([])->group(function () {
         ->name('home');
 });
 
-Route::get('/php-test', function () {
-    return response()->json([
-        'php_version' => PHP_VERSION,
-        'sapi' => PHP_SAPI,
-        'curl_loaded' => extension_loaded('curl'),
-        'curl_version' => function_exists('curl_version')
-            ? curl_version()['version']
-            : null,
-        'php_ini' => php_ini_loaded_file(),
-        'extension_dir' => ini_get('extension_dir'),
-    ]);
-});
 Route::get('/register', function () {
     return Inertia::render('Auth/Register');
 })->middleware('guest')->name('register');
