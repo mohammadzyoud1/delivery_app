@@ -6,6 +6,7 @@ use App\Events\MessageSent;
 use App\Models\Conversation;
 use App\Services\NotificationService;
 use Illuminate\Http\Request;
+use Laravel\Reverb\Loggers\Log;
 
 class ConversationController extends Controller
 {
@@ -178,7 +179,11 @@ class ConversationController extends Controller
         ]);
 
         // ==================== Notify Other Participants ====================
-        MessageSent::dispatch($conversation->id, $message->id);
+        try {
+            MessageSent::dispatch($conversation->id, $message->id);
+        } catch (\Throwable $e) {
+            Log::error('Broadcast failed', ['error' => $e->getMessage()]);
+        }
         $recipients = $conversation
             ->participants()
             ->where('users.id', '!=', $user->id)

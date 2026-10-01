@@ -30,11 +30,11 @@ return [
             'path' => env('REVERB_SERVER_PATH', ''),
             'hostname' => env('REVERB_HOST'),
             'options' => [
-                'tls' => [
+                'tls' => env('REVERB_TLS_CERT') ? [
                     'local_cert' => 'D:\laragon\etc\ssl\laragon.crt',
                     'local_pk' => 'D:\laragon\etc\ssl\laragon.key',
                     'verify_peer' => false,
-                ],
+                ] : [],
             ],
             'max_request_size' => env('REVERB_MAX_REQUEST_SIZE', 10_000),
             'scaling' => [
