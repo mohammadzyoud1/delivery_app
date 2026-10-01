@@ -50,8 +50,6 @@ self.addEventListener("notificationclick", (event) => {
 
     const url = new URL(notificationUrl, self.location.origin).href;
 
-    console.log("[Push] Notification clicked:", url);
-
     // ==================== Open Target URL ====================
 
     event.waitUntil(self.clients.openWindow(url));
