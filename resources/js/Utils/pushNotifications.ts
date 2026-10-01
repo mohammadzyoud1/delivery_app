@@ -32,8 +32,6 @@ const urlBase64ToArrayBuffer = (base64String: string): ArrayBuffer => {
 // ==================== Register Push Notifications ====================
 
 export const registerPushNotifications = async (): Promise<void> => {
-    console.log("[Push] Started");
-
     // ==================== Browser Support ====================
 
     if (
@@ -41,36 +39,22 @@ export const registerPushNotifications = async (): Promise<void> => {
         !("PushManager" in window) ||
         !("Notification" in window)
     ) {
-        console.log("[Push] Browser does not support push");
-
         return;
     }
-
-    console.log("[Push] Browser support OK");
 
     // ==================== VAPID Public Key ====================
 
     const publicKey = import.meta.env.VITE_VAPID_PUBLIC_KEY;
 
-    console.log("[Push] VAPID key exists:", !!publicKey);
-
     if (!publicKey) {
-        console.error("[Push] VITE_VAPID_PUBLIC_KEY is missing.");
-
         return;
     }
 
     // ==================== Notification Permission ====================
 
-    console.log("[Push] Permission:", Notification.permission);
-
     const permission = await Notification.requestPermission();
 
-    console.log("[Push] Permission result:", permission);
-
     if (permission !== "granted") {
-        console.log("[Push] Permission not granted");
-
         return;
     }
 
@@ -86,52 +70,35 @@ export const registerPushNotifications = async (): Promise<void> => {
     );
 
     if (!registration) {
-        console.error(
-            "[Push] PWA service worker registration not found.",
-            registrations,
-        );
+        console.error(registrations);
 
         return;
     }
-
-    console.log("[Push] Service worker found:", registration.scope);
 
     // ==================== Get Existing Subscription ====================
 
     let subscription = await registration.pushManager.getSubscription();
 
-    console.log("[Push] Existing subscription:", !!subscription);
-
     // ==================== Create Subscription ====================
 
     if (!subscription) {
-        console.log("[Push] Creating subscription...");
-
         subscription = await registration.pushManager.subscribe({
             userVisibleOnly: true,
             applicationServerKey: urlBase64ToArrayBuffer(publicKey),
         });
-
-        console.log("[Push] Subscription created");
     }
 
     // ==================== Subscription Data ====================
 
     const subscriptionJson = subscription.toJSON();
 
-    console.log("[Push] Subscription JSON:", subscriptionJson);
-
     const keys = subscriptionJson.keys;
 
     if (!subscriptionJson.endpoint || !keys?.p256dh || !keys?.auth) {
-        console.error("[Push] Invalid push subscription.");
-
         return;
     }
 
     // ==================== Send Subscription To Laravel ====================
-
-    console.log("[Push] Sending subscription to Laravel...");
 
     const response = await fetch("/push-subscriptions", {
         method: "POST",
@@ -151,6 +118,4 @@ export const registerPushNotifications = async (): Promise<void> => {
             contentEncoding: "aes128gcm",
         }),
     });
-
-    console.log("[Push] Laravel response:", response.status);
 };

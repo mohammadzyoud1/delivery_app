@@ -5,7 +5,7 @@ import CustomerLayout from "@/Layouts/CustomerLayout.vue";
 import ConversationChat from "@/Components/Messaging/ConversationChat.vue";
 import { router } from "@inertiajs/vue3";
 import { ArrowLeft, User, Truck } from "lucide-vue-next";
-
+import { nextTick, onMounted, onUnmounted, ref } from "vue";
 // ==================== Types ====================
 
 interface User {
@@ -55,19 +55,61 @@ const participant = props.conversation.participants[0] ?? null;
 const goBack = () => {
     router.visit("/messages");
 };
+
+const pageRoot = ref<HTMLElement | null>(null);
+
+// Space between the chat and the bottom nav (px)
+const BOTTOM_GAP = 8;
+
+const fitToScreen = () => {
+    const el = pageRoot.value;
+
+    if (!el) {
+        return;
+    }
+
+    window.scrollTo(0, 0);
+
+    // The layout's <main> reserves this space (pb-20) for the bottom nav
+    const main = el.closest("main");
+
+    const navSpace = main
+        ? parseFloat(getComputedStyle(main).paddingBottom)
+        : 0;
+
+    const top = el.getBoundingClientRect().top;
+
+    el.style.height = `${Math.max(
+        window.innerHeight - top - navSpace - BOTTOM_GAP,
+        200,
+    )}px`;
+};
+
+onMounted(() => {
+    // Lock the main page scroll only while this page is open
+    document.documentElement.style.overflow = "hidden";
+    document.body.style.overflow = "hidden";
+
+    nextTick(fitToScreen);
+    window.addEventListener("resize", fitToScreen);
+});
+
+onUnmounted(() => {
+    document.documentElement.style.overflow = "";
+    document.body.style.overflow = "";
+
+    window.removeEventListener("resize", fitToScreen);
+});
 </script>
 
 <template>
     <CustomerLayout>
         <!-- ==================== Conversation Page ==================== -->
-
-        <main class="min-h-screen bg-background">
-            <div
-                class="mx-auto flex w-full max-w-4xl flex-col px-5 py-6 sm:px-8 sm:py-8"
-            >
+        <div ref="pageRoot" class="overflow-hidden">
+            <div class="mx-auto flex h-full min-h-0 w-full max-w-4xl flex-col">
                 <!-- ==================== Header ==================== -->
 
-                <div class="mb-5 flex items-center gap-3">
+                <div class="mb-3 flex shrink-0 items-center gap-3">
                     <button
                         type="button"
                         aria-label="Back to messages"
@@ -120,13 +162,15 @@ const goBack = () => {
 
                 <!-- ==================== Reusable Chat ==================== -->
 
-                <ConversationChat
-                    :conversation="props.conversation"
-                    :current-user-id="$page.props.auth.user?.id ?? null"
-                    empty-title="No messages yet"
-                    empty-message="Start the conversation."
-                />
+                <div class="min-h-0 flex-1">
+                    <ConversationChat
+                        :conversation="props.conversation"
+                        :current-user-id="$page.props.auth.user?.id ?? null"
+                        empty-title="No messages yet"
+                        empty-message="Start the conversation."
+                    />
+                </div>
             </div>
-        </main>
+        </div>
     </CustomerLayout>
 </template>

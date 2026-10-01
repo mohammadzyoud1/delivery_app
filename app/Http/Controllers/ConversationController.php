@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\MessageSent;
 use App\Models\Conversation;
 use App\Services\NotificationService;
 use Illuminate\Http\Request;
@@ -171,13 +172,13 @@ class ConversationController extends Controller
 
         // ==================== Create Message ====================
 
-        $conversation->messages()->create([
+        $message = $conversation->messages()->create([
             'sender_id' => $user->id,
             'message' => $validated['message'],
         ]);
 
         // ==================== Notify Other Participants ====================
-
+        MessageSent::dispatch($conversation->id, $message->id);
         $recipients = $conversation
             ->participants()
             ->where('users.id', '!=', $user->id)
