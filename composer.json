@@ -12,6 +12,7 @@
         "php": "^8.2",
         "ext-bcmath": "*",
         "ext-gmp": "*",
+        "ext-pcntl": "*",
         "inertiajs/inertia-laravel": "^3.3",
         "laravel-notification-channels/webpush": "^13.0",
         "laravel/framework": "^12.0",
