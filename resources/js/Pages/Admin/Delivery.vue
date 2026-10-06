@@ -3,6 +3,7 @@
 
 import AdminLayout from "@/Layouts/AdminLayout.vue";
 import { Head } from "@inertiajs/vue3";
+import { t } from "@/Utils/i18n";
 
 // ==================== Types ====================
 
@@ -99,17 +100,17 @@ const statusClasses = (status: string): string => {
                     <p
                         class="text-xs font-bold uppercase tracking-[0.16em] text-brand-600"
                     >
-                        Admin Panel
+                        {{ t("adminPanel") }}
                     </p>
 
                     <h1
                         class="mt-1 text-2xl font-bold tracking-tight text-heading"
                     >
-                        Delivery
+                        {{ t("Delivery") }}
                     </h1>
 
                     <p class="mt-1 max-w-2xl text-sm text-muted">
-                        Manage delivery assignments and track delivery progress.
+                        {{ t("manageDeliveryDescription") }}
                     </p>
                 </div>
 
@@ -129,7 +130,7 @@ const statusClasses = (status: string): string => {
                     <p
                         class="text-xs font-bold uppercase tracking-wide text-muted"
                     >
-                        Delivery Orders
+                        {{ t("deliveryOrders") }}
                     </p>
 
                     <p class="mt-1 text-2xl font-bold text-heading">
@@ -143,7 +144,7 @@ const statusClasses = (status: string): string => {
                     <p
                         class="text-xs font-bold uppercase tracking-wide text-muted"
                     >
-                        Assigned
+                        {{ t("assigned") }}
                     </p>
 
                     <p class="mt-1 text-2xl font-bold text-heading">
@@ -161,7 +162,7 @@ const statusClasses = (status: string): string => {
                     <p
                         class="text-xs font-bold uppercase tracking-wide text-muted"
                     >
-                        Locked
+                        {{ t("locked") }}
                     </p>
 
                     <p class="mt-1 text-2xl font-bold text-heading">
@@ -187,11 +188,11 @@ const statusClasses = (status: string): string => {
                 </div>
 
                 <h2 class="mt-4 text-base font-semibold text-heading">
-                    No delivery orders
+                    {{ t("noDeliveryOrders") }}
                 </h2>
 
                 <p class="mt-1 text-sm text-muted">
-                    There are currently no orders in the delivery flow.
+                    {{ t("noOrdersInDeliveryFlow") }}
                 </p>
             </div>
 
@@ -208,49 +209,49 @@ const statusClasses = (status: string): string => {
                                 <th
                                     class="px-5 py-4 text-xs font-bold uppercase tracking-wide text-muted"
                                 >
-                                    Order
+                                    {{ t("order") }}
                                 </th>
 
                                 <th
                                     class="px-5 py-4 text-xs font-bold uppercase tracking-wide text-muted"
                                 >
-                                    Customer
+                                    {{ t("customer") }}
                                 </th>
 
                                 <th
                                     class="px-5 py-4 text-xs font-bold uppercase tracking-wide text-muted"
                                 >
-                                    Delivery User
+                                    {{ t("delivery") }}
                                 </th>
 
                                 <th
                                     class="px-5 py-4 text-xs font-bold uppercase tracking-wide text-muted"
                                 >
-                                    Type
+                                    {{ t("type") }}
                                 </th>
 
                                 <th
                                     class="px-5 py-4 text-xs font-bold uppercase tracking-wide text-muted"
                                 >
-                                    Status
+                                    {{ t("status") }}
                                 </th>
 
                                 <th
                                     class="px-5 py-4 text-xs font-bold uppercase tracking-wide text-muted"
                                 >
-                                    Lock
+                                    {{ t("lock") }}
                                 </th>
 
                                 <th
                                     class="px-5 py-4 text-xs font-bold uppercase tracking-wide text-muted"
                                 >
-                                    Taken
+                                    {{ t("taken") }}
                                 </th>
 
                                 <th
                                     class="px-5 py-4 text-xs font-bold uppercase tracking-wide text-muted"
                                 >
-                                    Date
+                                    {{ t("date") }}
                                 </th>
                             </tr>
                         </thead>
@@ -269,7 +270,9 @@ const statusClasses = (status: string): string => {
                                     </p>
 
                                     <p class="mt-0.5 text-xs text-muted">
-                                        Customer #{{ order.customer_id }}
+                                        {{ t("customer") }} #{{
+                                            order.customer_id
+                                        }}
                                     </p>
                                 </td>
 
@@ -313,7 +316,7 @@ const statusClasses = (status: string): string => {
                                             "
                                             class="mt-0.5 text-xs text-muted"
                                         >
-                                            Assigned by
+                                            {{ t("assignedBy") }}
                                             {{
                                                 order.delivery_assignment
                                                     .assigned_by_user.first_name
@@ -326,7 +329,7 @@ const statusClasses = (status: string): string => {
                                     </template>
 
                                     <span v-else class="text-sm text-muted">
-                                        Unassigned
+                                        {{ t("unassigned") }}
                                     </span>
                                 </td>
 
@@ -337,7 +340,7 @@ const statusClasses = (status: string): string => {
                                         v-if="order.delivery_assignment"
                                         class="inline-flex rounded-lg bg-background px-2.5 py-1 text-xs font-semibold capitalize text-body"
                                     >
-                                        {{ order.delivery_assignment.type }}
+                                        {{ t(order.delivery_assignment.type) }}
                                     </span>
 
                                     <span v-else class="text-sm text-muted">
@@ -352,7 +355,7 @@ const statusClasses = (status: string): string => {
                                         class="inline-flex rounded-full px-3 py-1 text-xs font-bold capitalize"
                                         :class="statusClasses(order.status)"
                                     >
-                                        {{ formatStatus(order.status) }}
+                                        {{ t(order.status) }}
                                     </span>
                                 </td>
 
@@ -363,11 +366,11 @@ const statusClasses = (status: string): string => {
                                         v-if="order.delivery_locked"
                                         class="inline-flex rounded-full border border-amber-100 bg-amber-50 px-3 py-1 text-xs font-bold text-amber-700"
                                     >
-                                        Locked
+                                        {{ t("locked") }}
                                     </span>
 
                                     <span v-else class="text-sm text-muted">
-                                        Not locked
+                                        {{ t("notLocked") }}
                                     </span>
                                 </td>
 
@@ -380,11 +383,11 @@ const statusClasses = (status: string): string => {
                                         "
                                         class="inline-flex rounded-full border border-green-100 bg-green-50 px-3 py-1 text-xs font-bold text-green-700"
                                     >
-                                        Taken
+                                        {{ t("taken") }}
                                     </span>
 
                                     <span v-else class="text-sm text-muted">
-                                        Not taken
+                                        {{ t("notTaken") }}
                                     </span>
                                 </td>
 
@@ -414,7 +417,7 @@ const statusClasses = (status: string): string => {
                     <div class="flex items-start justify-between gap-3">
                         <div>
                             <p class="font-semibold text-heading">
-                                Order #{{ order.id }}
+                                {{ t("order") }} #{{ order.id }}
                             </p>
 
                             <p class="mt-1 text-sm text-muted">
@@ -427,7 +430,7 @@ const statusClasses = (status: string): string => {
                             class="shrink-0 rounded-full px-3 py-1 text-xs font-bold capitalize"
                             :class="statusClasses(order.status)"
                         >
-                            {{ formatStatus(order.status) }}
+                            {{ t(order.status) }}
                         </span>
                     </div>
 
@@ -436,7 +439,7 @@ const statusClasses = (status: string): string => {
                     <div class="mt-5 space-y-4 border-t border-border pt-4">
                         <div class="flex justify-between gap-4">
                             <span class="text-sm text-muted">
-                                Delivery User
+                                {{ t("delivery") }}
                             </span>
 
                             <span
@@ -454,7 +457,7 @@ const statusClasses = (status: string): string => {
                             </span>
 
                             <span v-else class="text-sm text-muted">
-                                Unassigned
+                                {{ t("unassigned") }}
                             </span>
                         </div>
 
@@ -463,7 +466,7 @@ const statusClasses = (status: string): string => {
                             class="flex justify-between gap-4"
                         >
                             <span class="text-sm text-muted">
-                                Assigned By
+                                {{ t("assignedBy") }}
                             </span>
 
                             <span
@@ -481,7 +484,9 @@ const statusClasses = (status: string): string => {
                         </div>
 
                         <div class="flex justify-between gap-4">
-                            <span class="text-sm text-muted"> Type </span>
+                            <span class="text-sm text-muted">
+                                {{ t("type") }}
+                            </span>
 
                             <span
                                 class="text-sm font-semibold capitalize text-heading"
@@ -491,7 +496,9 @@ const statusClasses = (status: string): string => {
                         </div>
 
                         <div class="flex justify-between gap-4">
-                            <span class="text-sm text-muted"> Lock </span>
+                            <span class="text-sm text-muted">
+                                {{ t("lock") }}
+                            </span>
 
                             <span
                                 class="text-sm font-semibold"
@@ -503,14 +510,16 @@ const statusClasses = (status: string): string => {
                             >
                                 {{
                                     order.delivery_locked
-                                        ? "Locked"
-                                        : "Not locked"
+                                        ? t("tocked")
+                                        : t("notLocked")
                                 }}
                             </span>
                         </div>
 
                         <div class="flex justify-between gap-4">
-                            <span class="text-sm text-muted"> Taken </span>
+                            <span class="text-sm text-muted">
+                                {{ t("taken") }}
+                            </span>
 
                             <span
                                 class="text-sm font-semibold"
@@ -522,14 +531,16 @@ const statusClasses = (status: string): string => {
                             >
                                 {{
                                     order.delivery_assignment?.taken_at
-                                        ? "Taken"
-                                        : "Not taken"
+                                        ? t("taken")
+                                        : t("notTaken")
                                 }}
                             </span>
                         </div>
 
                         <div class="flex justify-between gap-4">
-                            <span class="text-sm text-muted"> Created </span>
+                            <span class="text-sm text-muted">
+                                {{ t("date") }}
+                            </span>
 
                             <span
                                 class="text-right text-sm font-medium text-body"
@@ -548,7 +559,7 @@ const statusClasses = (status: string): string => {
                         <p
                             class="text-[11px] font-bold uppercase tracking-wide text-brand-700"
                         >
-                            Admin Note
+                            {{ t("adminNote") }}
                         </p>
 
                         <p class="mt-1 text-sm leading-5 text-brand-700">

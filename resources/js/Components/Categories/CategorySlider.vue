@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { Link } from "@inertiajs/vue3";
-
+import { t } from "@/Utils/i18n";
 // ==================== Types ====================
 
 interface Category {
@@ -28,14 +28,14 @@ defineProps<Props>();
             <h2
                 class="text-lg font-bold tracking-tight text-heading sm:text-xl"
             >
-                Categories
+                {{ t("categories") }}
             </h2>
 
             <Link
                 href="/categories"
                 class="text-sm font-semibold text-brand-600 transition-colors duration-200 hover:text-brand-700"
             >
-                See all
+                {{ t("seeAll") }}
             </Link>
         </div>
 
@@ -72,7 +72,7 @@ defineProps<Props>();
                 <span
                     class="mt-3 w-full truncate text-center text-sm font-semibold text-body transition-colors duration-200 group-hover:text-brand-700"
                 >
-                    {{ category.name }}
+                    {{ t(`${category.name}`) }}
                 </span>
             </Link>
         </div>

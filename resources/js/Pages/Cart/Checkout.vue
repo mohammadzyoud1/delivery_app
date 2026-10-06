@@ -6,6 +6,7 @@ import { router } from "@inertiajs/vue3";
 import CustomerLayout from "@/Layouts/CustomerLayout.vue";
 import Button from "@/Components/UI/Button.vue";
 import { MapPin, ShoppingBag } from "lucide-vue-next";
+import { t } from "@/Utils/i18n";
 
 // ==================== Types ====================
 
@@ -101,11 +102,11 @@ const placeOrder = () => {
                     <h1
                         class="text-2xl font-extrabold tracking-tight text-heading sm:text-3xl"
                     >
-                        Checkout
+                        {{ t("checkout") }}
                     </h1>
 
                     <p class="mt-1.5 text-sm text-muted">
-                        Review your order and delivery details.
+                        {{ t("reviewOrder") }}
                     </p>
                 </div>
 
@@ -132,15 +133,15 @@ const placeOrder = () => {
                                 <h2
                                     class="text-base font-bold text-heading sm:text-lg"
                                 >
-                                    Your Order
+                                    {{ t("yourOrder") }}
                                 </h2>
 
                                 <p class="mt-0.5 text-xs text-muted">
                                     {{ props.cart.items.length }}
                                     {{
                                         props.cart.items.length === 1
-                                            ? "item"
-                                            : "items"
+                                            ? t("product")
+                                            : t("products")
                                     }}
                                 </p>
                             </div>
@@ -176,7 +177,7 @@ const placeOrder = () => {
                                         />
 
                                         <span class="text-[10px] font-medium">
-                                            No image
+                                            {{ t("noimg") }}
                                         </span>
                                     </div>
                                 </div>
@@ -202,14 +203,14 @@ const placeOrder = () => {
                                             :key="value.id"
                                             class="rounded-lg border border-border bg-background px-2 py-1 text-[11px] font-medium text-muted"
                                         >
-                                            {{ value.option_value.value }}
+                                            {{ t(value.option_value.value) }}
                                         </span>
                                     </div>
 
                                     <p
                                         class="mt-2 text-xs font-medium text-muted"
                                     >
-                                        Quantity:
+                                        {{ t("quantity") }}:
                                         <span class="font-bold text-body">
                                             {{ item.quantity }}
                                         </span>
@@ -257,11 +258,11 @@ const placeOrder = () => {
                                     <h2
                                         class="text-base font-bold text-heading"
                                     >
-                                        Delivery Address
+                                        {{ t("deliveryAddress") }}
                                     </h2>
 
                                     <p class="mt-0.5 text-xs text-muted">
-                                        Where should we deliver your order?
+                                        {{ t("whereToDeliver") }}
                                     </p>
                                 </div>
                             </div>
@@ -271,7 +272,6 @@ const placeOrder = () => {
                             <textarea
                                 v-model="deliveryAddress"
                                 rows="4"
-                                placeholder="Enter your delivery address..."
                                 class="mt-5 w-full resize-none rounded-xl border border-border bg-background px-4 py-3 text-sm leading-6 text-heading outline-none transition-all duration-200 placeholder:text-muted hover:border-slate-300 focus:border-brand-500 focus:bg-surface focus:ring-4 focus:ring-brand-500/10"
                             ></textarea>
                         </section>
@@ -282,7 +282,7 @@ const placeOrder = () => {
                             class="rounded-2xl border border-border bg-surface p-5 shadow-sm sm:p-6"
                         >
                             <h2 class="text-base font-bold text-heading">
-                                Order Summary
+                                {{ t("orderSummary") }}
                             </h2>
 
                             <div class="mt-5 border-t border-border pt-4">
@@ -292,7 +292,7 @@ const placeOrder = () => {
                                     <span
                                         class="text-sm font-medium text-muted"
                                     >
-                                        Total
+                                        {{ t("total") }}
                                     </span>
 
                                     <span
@@ -314,15 +314,14 @@ const placeOrder = () => {
                                     :disabled="!deliveryAddress.trim()"
                                     @click="placeOrder"
                                 >
-                                    Place Order
+                                    {{ t("placeOrder") }}
                                 </Button>
                             </div>
 
                             <p
                                 class="mt-3 text-center text-xs leading-5 text-muted"
                             >
-                                Your order will be submitted immediately after
-                                confirmation.
+                                {{ t("confirmationNote") }}
                             </p>
                         </section>
                     </aside>

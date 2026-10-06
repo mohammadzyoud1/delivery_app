@@ -13,6 +13,7 @@ import {
     Plus,
     ShoppingCart,
 } from "lucide-vue-next";
+import { t } from "@/Utils/i18n";
 
 // ==================== Types ====================
 
@@ -321,7 +322,7 @@ const addToCart = () => {
                                     />
 
                                     <span class="text-sm font-medium">
-                                        No image available
+                                        {{ t("noimg") }}
                                     </span>
                                 </div>
 
@@ -386,7 +387,7 @@ const addToCart = () => {
                                 </h1>
 
                                 <p class="mt-2 text-sm text-muted">
-                                    Sold by
+                                    {{ t("soldBy") }}
                                     <span class="font-semibold text-body">
                                         {{ product.seller.first_name }}
                                         {{ product.seller.last_name }}
@@ -418,7 +419,7 @@ const addToCart = () => {
                                 v-if="product.unit"
                                 class="mt-1 text-sm font-medium text-muted"
                             >
-                                Per {{ product.unit }}
+                                {{ t("per") }} {{ product.unit }}
                             </p>
                         </div>
 
@@ -429,7 +430,7 @@ const addToCart = () => {
                             class="mt-6 rounded-2xl border border-border bg-surface p-4 sm:p-5"
                         >
                             <h2 class="text-sm font-bold text-heading">
-                                Description
+                                {{ t("description") }}
                             </h2>
 
                             <p class="mt-2 text-sm leading-6 text-body">
@@ -448,14 +449,13 @@ const addToCart = () => {
                                 class="flex items-center justify-between gap-3"
                             >
                                 <h2 class="text-sm font-bold text-heading">
-                                    {{ option.name }}
+                                    {{ t(`${option.name}`) }}
                                 </h2>
 
                                 <span
                                     v-if="selectedValues[option.id]"
                                     class="text-xs font-medium text-muted"
                                 >
-                                    Selected
                                 </span>
                             </div>
 
@@ -506,8 +506,8 @@ const addToCart = () => {
                                 >
                                     {{
                                         currentStock > 0
-                                            ? `${currentStock} available`
-                                            : "Out of stock"
+                                            ? `${currentStock}  ${t("available")}`
+                                            : `${t("noStuck")}`
                                     }}
                                 </span>
                             </div>
@@ -517,7 +517,7 @@ const addToCart = () => {
 
                         <div class="mt-6">
                             <h2 class="text-sm font-bold text-heading">
-                                Quantity
+                                {{ t("quantity") }}
                             </h2>
 
                             <div
@@ -573,8 +573,8 @@ const addToCart = () => {
                                         ? "Out of Stock"
                                         : product.variants.length > 0 &&
                                             !selectedVariant
-                                          ? "Select Options"
-                                          : "Add to Cart"
+                                          ? t("selectOPT")
+                                          : t("addCart")
                                 }}
                             </Button>
                         </div>

@@ -4,6 +4,7 @@
 import { Head, Link } from "@inertiajs/vue3";
 import { FolderTree, Plus } from "lucide-vue-next";
 import AdminLayout from "@/Layouts/AdminLayout.vue";
+import { t } from "@/Utils/i18n";
 
 // ==================== Types ====================
 
@@ -43,17 +44,17 @@ defineProps<{
                     <p
                         class="text-xs font-bold uppercase tracking-[0.16em] text-brand-600"
                     >
-                        Catalog
+                        {{ t("catalog") }}
                     </p>
 
                     <h1
                         class="mt-1 text-2xl font-bold tracking-tight text-heading"
                     >
-                        Categories
+                        {{ t("categories") }}
                     </h1>
 
                     <p class="mt-1 max-w-2xl text-sm text-muted">
-                        Manage product categories and subcategories.
+                        {{ t("manageCategoriesDescription") }}
                     </p>
                 </div>
 
@@ -62,7 +63,7 @@ defineProps<{
                     class="inline-flex w-fit items-center justify-center gap-2 rounded-xl bg-brand-600 px-4 py-3 text-sm font-bold text-white shadow-sm transition hover:bg-brand-700 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:ring-offset-2"
                 >
                     <Plus class="h-4 w-4" />
-                    Add Category
+                    {{ t("addCategory") }}
                 </Link>
             </div>
 
@@ -83,7 +84,7 @@ defineProps<{
                             <p
                                 class="text-xs font-bold uppercase tracking-wide text-muted"
                             >
-                                Total Categories
+                                {{ t("totalCategories") }}
                             </p>
 
                             <p class="mt-0.5 text-xl font-bold text-heading">
@@ -107,7 +108,7 @@ defineProps<{
                             <p
                                 class="text-xs font-bold uppercase tracking-wide text-muted"
                             >
-                                Active
+                                {{ t("active") }}
                             </p>
 
                             <p class="mt-0.5 text-xl font-bold text-heading">
@@ -135,7 +136,7 @@ defineProps<{
                             <p
                                 class="text-xs font-bold uppercase tracking-wide text-muted"
                             >
-                                Main Categories
+                                {{ t("mainCategories") }}
                             </p>
 
                             <p class="mt-0.5 text-xl font-bold text-heading">
@@ -163,11 +164,11 @@ defineProps<{
                 </div>
 
                 <h2 class="mt-4 text-base font-semibold text-heading">
-                    No categories yet
+                    {{ t("noCategoriesYet") }}
                 </h2>
 
                 <p class="mx-auto mt-1 max-w-md text-sm text-muted">
-                    Create your first product category to organize the store.
+                    {{ t("createFirstCategory") }}
                 </p>
 
                 <Link
@@ -175,7 +176,7 @@ defineProps<{
                     class="mt-5 inline-flex items-center gap-2 rounded-xl bg-brand-600 px-4 py-2.5 text-sm font-bold text-white transition hover:bg-brand-700"
                 >
                     <Plus class="h-4 w-4" />
-                    Add Category
+                    {{ t("addCategory") }}
                 </Link>
             </div>
 
@@ -192,32 +193,30 @@ defineProps<{
                                 <th
                                     class="px-6 py-4 text-xs font-bold uppercase tracking-wide text-muted"
                                 >
-                                    Category
+                                    {{ t("category") }}
                                 </th>
 
                                 <th
                                     class="px-6 py-4 text-xs font-bold uppercase tracking-wide text-muted"
                                 >
-                                    Parent
+                                    {{ t("parent") }}
                                 </th>
 
                                 <th
                                     class="px-6 py-4 text-xs font-bold uppercase tracking-wide text-muted"
                                 >
-                                    Products
+                                    {{ t("products") }}
                                 </th>
 
                                 <th
                                     class="px-6 py-4 text-xs font-bold uppercase tracking-wide text-muted"
                                 >
-                                    Status
+                                    {{ t("status") }}
                                 </th>
 
                                 <th
                                     class="px-6 py-4 text-right text-xs font-bold uppercase tracking-wide text-muted"
-                                >
-                                    Action
-                                </th>
+                                ></th>
                             </tr>
                         </thead>
 
@@ -265,7 +264,9 @@ defineProps<{
                                                 v-else
                                                 class="mt-0.5 text-xs text-muted"
                                             >
-                                                Category #{{ category.id }}
+                                                {{ t("category") }} #{{
+                                                    category.id
+                                                }}
                                             </p>
                                         </div>
                                     </div>
@@ -285,7 +286,7 @@ defineProps<{
                                         v-else
                                         class="text-sm font-medium text-body"
                                     >
-                                        Main Category
+                                        {{ t("mainCategory") }}
                                     </span>
                                 </td>
 
@@ -301,8 +302,8 @@ defineProps<{
                                     <span class="ml-1 text-xs text-muted">
                                         {{
                                             category.products_count === 1
-                                                ? "product"
-                                                : "products"
+                                                ? t("product")
+                                                : t("products")
                                         }}
                                     </span>
                                 </td>
@@ -314,14 +315,14 @@ defineProps<{
                                         v-if="category.is_active"
                                         class="inline-flex rounded-full border border-green-100 bg-green-50 px-3 py-1 text-xs font-bold text-green-700"
                                     >
-                                        Active
+                                        {{ t("active") }}
                                     </span>
 
                                     <span
                                         v-else
                                         class="inline-flex rounded-full border border-border bg-background px-3 py-1 text-xs font-bold text-muted"
                                     >
-                                        Inactive
+                                        {{ t("inactive") }}
                                     </span>
                                 </td>
 
@@ -332,7 +333,7 @@ defineProps<{
                                         :href="`/admin/categories/${category.id}`"
                                         class="inline-flex items-center rounded-xl border border-border bg-surface px-3.5 py-2 text-sm font-semibold text-body transition hover:border-brand-100 hover:bg-brand-50 hover:text-brand-700 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:ring-offset-2"
                                     >
-                                        View
+                                        {{ t("view") }}
                                     </Link>
                                 </td>
                             </tr>
@@ -383,14 +384,14 @@ defineProps<{
                             v-if="category.is_active"
                             class="shrink-0 rounded-full border border-green-100 bg-green-50 px-2.5 py-1 text-xs font-bold text-green-700"
                         >
-                            Active
+                            {{ t("active") }}
                         </span>
 
                         <span
                             v-else
                             class="shrink-0 rounded-full border border-border bg-background px-2.5 py-1 text-xs font-bold text-muted"
                         >
-                            Inactive
+                            {{ t("inactive") }}
                         </span>
                     </div>
 
@@ -412,7 +413,7 @@ defineProps<{
                             <p
                                 class="text-[11px] font-bold uppercase tracking-wide text-muted"
                             >
-                                Products
+                                {{ t("products") }}
                             </p>
 
                             <p class="mt-1 text-sm font-bold text-heading">
@@ -424,7 +425,7 @@ defineProps<{
                             <p
                                 class="text-[11px] font-bold uppercase tracking-wide text-muted"
                             >
-                                Type
+                                {{ t("type") }}
                             </p>
 
                             <p
@@ -432,8 +433,8 @@ defineProps<{
                             >
                                 {{
                                     category.parent
-                                        ? "Subcategory"
-                                        : "Main Category"
+                                        ? t("subcategory")
+                                        : t("mainCategory")
                                 }}
                             </p>
                         </div>
@@ -445,7 +446,7 @@ defineProps<{
                         :href="`/admin/categories/${category.id}`"
                         class="mt-4 flex w-full items-center justify-center rounded-xl bg-brand-600 px-4 py-3 text-sm font-bold text-white transition hover:bg-brand-700 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:ring-offset-2"
                     >
-                        View Category
+                        {{ t("view") }}
                     </Link>
                 </div>
             </div>

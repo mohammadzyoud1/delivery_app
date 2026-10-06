@@ -11,6 +11,7 @@ import {
     Package,
     Truck,
 } from "lucide-vue-next";
+import { t } from "@/Utils/i18n";
 
 // ==================== Types ====================
 
@@ -81,7 +82,7 @@ defineProps<{
                     class="inline-flex items-center gap-2 text-sm font-semibold text-muted transition-colors duration-200 hover:text-heading focus-visible:outline-none"
                 >
                     <ArrowLeft :size="17" :stroke-width="2" />
-                    Back to Orders
+                    {{ t("backtoOrders") }}
                 </Link>
 
                 <!-- ==================== Order Header ==================== -->
@@ -97,7 +98,7 @@ defineProps<{
                                 <p
                                     class="text-xs font-semibold uppercase tracking-wider text-muted"
                                 >
-                                    Order
+                                    {{ t("order") }}
                                 </p>
 
                                 <h1
@@ -121,7 +122,7 @@ defineProps<{
                                           : 'border-brand-100 bg-brand-50 text-brand-700'
                                 "
                             >
-                                {{ order.status.replace(/_/g, " ") }}
+                                {{ t(order.status).replace(/_/g, " ") }}
                             </span>
                         </div>
                     </div>
@@ -149,11 +150,11 @@ defineProps<{
                                     <h2
                                         class="text-base font-bold text-heading sm:text-lg"
                                     >
-                                        Order Tracking
+                                        {{ t("orderTracking") }}
                                     </h2>
 
                                     <p class="mt-0.5 text-xs text-muted">
-                                        Follow the progress of your order.
+                                        {{ t("trackingDescription") }}
                                     </p>
                                 </div>
                             </div>
@@ -195,12 +196,7 @@ defineProps<{
                                             <p
                                                 class="text-sm font-bold capitalize text-heading"
                                             >
-                                                {{
-                                                    history.status.replace(
-                                                        /_/g,
-                                                        " ",
-                                                    )
-                                                }}
+                                                {{ t(`${history.status}`) }}
                                             </p>
 
                                             <p
@@ -211,10 +207,22 @@ defineProps<{
                                         </div>
 
                                         <p
-                                            v-if="history.note"
+                                            v-if="
+                                                history.note &&
+                                                history.status === `accepted`
+                                            "
                                             class="mt-1.5 text-sm leading-6 text-muted"
                                         >
-                                            {{ history.note }}
+                                            {{ t("noteSuccess") }}
+                                        </p>
+                                        <p
+                                            v-else-if="
+                                                history.note &&
+                                                history.status === `preparing`
+                                            "
+                                            class="mt-1.5 text-sm leading-6 text-muted"
+                                        >
+                                            {{ t("notePreparing") }}
                                         </p>
                                     </div>
                                 </div>
@@ -237,7 +245,7 @@ defineProps<{
                                     <h2
                                         class="text-base font-bold text-heading sm:text-lg"
                                     >
-                                        Items
+                                        {{ t("products") }}
                                     </h2>
 
                                     <p class="mt-0.5 text-xs text-muted">
@@ -293,18 +301,8 @@ defineProps<{
                                             v-if="item.variant_name"
                                             class="mt-1 text-xs text-muted"
                                         >
-                                            {{ item.variant_name }}
+                                            {{ t(item.variant_name) }}
                                         </p>
-
-                                        <p
-                                            class="mt-1.5 text-xs font-medium text-muted"
-                                        >
-                                            Qty:
-                                            <span class="font-bold text-body">
-                                                {{ item.quantity }}
-                                            </span>
-                                        </p>
-
                                         <p
                                             class="mt-1 text-xs font-medium text-muted"
                                         >
@@ -313,7 +311,16 @@ defineProps<{
                                                     2,
                                                 )
                                             }}
-                                            each
+                                            {{ t("perUnit") }}
+                                        </p>
+
+                                        <p
+                                            class="mt-1.5 text-xs font-medium text-muted"
+                                        >
+                                            {{ t("quantity") }}:
+                                            <span class="font-bold text-body">
+                                                {{ item.quantity }}
+                                            </span>
                                         </p>
                                     </div>
 
@@ -348,11 +355,11 @@ defineProps<{
                                     <h2
                                         class="text-base font-bold text-heading"
                                     >
-                                        Delivery Information
+                                        {{ t("deliveryInformation") }}
                                     </h2>
 
                                     <p class="mt-0.5 text-xs text-muted">
-                                        Your delivery destination.
+                                        {{ t("deliveryDestination") }}
                                     </p>
                                 </div>
                             </div>
@@ -363,7 +370,7 @@ defineProps<{
                                 <p
                                     class="text-xs font-semibold uppercase tracking-wide text-muted"
                                 >
-                                    Delivery Address
+                                    {{ t("deliveryAddress") }}
                                 </p>
 
                                 <p class="mt-2 text-sm leading-6 text-body">
@@ -379,7 +386,7 @@ defineProps<{
                             class="rounded-2xl border border-border bg-surface p-5 shadow-sm sm:p-6"
                         >
                             <h2 class="text-base font-bold text-heading">
-                                Custom Request
+                                {{ t("customRequest") }}
                             </h2>
 
                             <p class="mt-3 text-sm leading-6 text-muted">
@@ -394,7 +401,7 @@ defineProps<{
                             class="rounded-2xl border border-red-200 bg-red-50 p-5 sm:p-6"
                         >
                             <h2 class="text-base font-bold text-red-800">
-                                Order Rejected
+                                {{ t("order") }} {{ t("rejected") }}
                             </h2>
 
                             <p class="mt-2 text-sm leading-6 text-red-700">
@@ -411,7 +418,7 @@ defineProps<{
                                 class="flex items-center justify-between gap-4"
                             >
                                 <span class="text-sm font-medium text-muted">
-                                    Total
+                                    {{ t("total") }}
                                 </span>
 
                                 <span

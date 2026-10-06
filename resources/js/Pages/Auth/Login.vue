@@ -6,7 +6,7 @@ import AuthHeader from "@/Components/Auth/AuthHeader.vue";
 import AuthInput from "@/Components/Auth/AuthInput.vue";
 import PasswordInput from "@/Components/Auth/PasswordInput.vue";
 import Button from "@/Components/UI/Button.vue";
-
+import { t } from "@/Utils/i18n";
 interface PageProps {
     flash: {
         success?: string | null;
@@ -33,6 +33,12 @@ const handleSubmit = () => {
         replace: true,
     });
 };
+const labels: Record<string, string> = {
+    email: t("emailorPhone"),
+    password: t("password"),
+    emailPlaceholder: t("emailPlace"),
+    passwordPlaceholder: t("passwordPlace"),
+};
 </script>
 
 <template>
@@ -43,8 +49,8 @@ const handleSubmit = () => {
             <!-- ==================== Header ==================== -->
 
             <AuthHeader
-                title="Welcome Back!"
-                subtitle="Login to your account"
+                title="welcomebk"
+                subtitle="loginAcc"
                 :on-back="goBack"
             />
 
@@ -68,16 +74,16 @@ const handleSubmit = () => {
             <form class="mt-10 space-y-5" @submit.prevent="handleSubmit">
                 <AuthInput
                     v-model="form.login"
-                    label="Email or Phone"
-                    placeholder="Enter your email or phone"
+                    :label="labels.email"
+                    :placeholder="labels.emailPlaceholder"
                     :icon="Mail"
                     :error="form.errors.login"
                 />
 
                 <PasswordInput
                     v-model="form.password"
-                    label="Password"
-                    placeholder="Enter your password"
+                    :label="labels.password"
+                    :placeholder="labels.passwordPlaceholder"
                     :error="form.errors.password"
                 />
 
@@ -88,7 +94,7 @@ const handleSubmit = () => {
                         href="/forgot-password"
                         class="text-sm font-semibold text-gray-900 hover:underline"
                     >
-                        Forgot Password?
+                        {{ t("forgotPass") }}
                     </Link>
                 </div>
 
@@ -100,19 +106,19 @@ const handleSubmit = () => {
                     :disabled="form.processing"
                     full-width
                 >
-                    {{ form.processing ? "Logging in..." : "Login" }}
+                    {{ form.processing ? t("logging") : t("login") }}
                 </Button>
             </form>
 
             <!-- ==================== Register Link ==================== -->
 
             <p class="mt-8 text-center text-sm text-gray-500">
-                Don't have an account?
+                {{ t("noAcc") }}
                 <Link
                     href="/register"
                     class="font-semibold text-gray-900 hover:underline"
                 >
-                    Sign Up
+                    {{ t("signup") }}
                 </Link>
             </p>
             <!--logout button-->

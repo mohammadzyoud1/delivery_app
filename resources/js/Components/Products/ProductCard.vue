@@ -4,6 +4,7 @@
 import Button from "@/Components/UI/Button.vue";
 import { Heart, ShoppingCart } from "lucide-vue-next";
 import { Link } from "@inertiajs/vue3";
+import { t } from "@/Utils/i18n";
 
 // ==================== Types ====================
 
@@ -71,7 +72,9 @@ const emit = defineEmits<{
                 >
                     <ShoppingCart :size="26" :stroke-width="1.5" />
 
-                    <span class="text-xs font-medium"> No image </span>
+                    <span class="text-xs font-medium">
+                        {{ t(`noimg`) }}
+                    </span>
                 </div>
 
                 <!-- ==================== Favorite Button ==================== -->
@@ -116,7 +119,7 @@ const emit = defineEmits<{
                     v-if="product.unit"
                     class="mt-0.5 text-xs font-medium text-muted sm:text-sm"
                 >
-                    Per {{ product.unit }}
+                    {{ t("per") }} {{ product.unit }}
                 </p>
             </Link>
 
@@ -132,7 +135,7 @@ const emit = defineEmits<{
                 >
                     <ShoppingCart :size="17" :stroke-width="2" />
 
-                    Add to Cart
+                    {{ t("addCart") }}
                 </Button>
             </div>
         </div>

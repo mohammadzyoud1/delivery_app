@@ -22,6 +22,7 @@ import {
     Users,
     X,
 } from "lucide-vue-next";
+import { t } from "@/Utils/i18n";
 
 // ==================== Page Data ====================
 
@@ -40,59 +41,49 @@ const sidebarOpen = ref(false);
 
 const navigation = [
     {
-        label: "Dashboard",
+        label: t("dashboard"),
         href: "/admin",
         icon: LayoutDashboard,
     },
     {
-        label: "Orders",
+        label: t("orders"),
         href: "/admin/orders",
         icon: ClipboardList,
     },
     {
-        label: "Users",
+        label: t("users"),
         href: "/admin/users",
         icon: Users,
     },
     {
-        label: "Seller Applications",
+        label: t("sellerApplications"),
         href: "/admin/seller-applications",
         icon: ShoppingBag,
     },
     {
-        label: "Sellers",
+        label: t("sellers"),
         href: "/admin/sellers",
         icon: UserRound,
     },
     {
-        label: "Delivery",
+        label: t("delivery"),
         href: "/admin/delivery",
         icon: Truck,
     },
     {
-        label: "Products",
+        label: t("products"),
         href: "/admin/products",
         icon: Package,
     },
     {
-        label: "Categories",
+        label: t("categories"),
         href: "/admin/categories",
         icon: FolderTree,
     },
     {
-        label: "Messages",
+        label: t("messages"),
         href: "/admin/messages",
         icon: MessageSquare,
-    },
-    {
-        label: "Notifications",
-        href: "/admin/notifications",
-        icon: Bell,
-    },
-    {
-        label: "Settings",
-        href: "/admin/settings",
-        icon: Settings,
     },
 ];
 
@@ -151,7 +142,7 @@ const closeSidebar = () => {
                         D
                     </span>
 
-                    <span>ELIVER</span>
+                    <span>ELIVERY4U</span>
                 </Link>
 
                 <Button
@@ -196,7 +187,7 @@ const closeSidebar = () => {
                         class="h-5 w-5 transition-transform group-hover:-translate-x-0.5"
                     />
 
-                    <span>Back to Store</span>
+                    <span>{{ t("backtoStore") }}</span>
                 </Link>
             </div>
         </aside>
@@ -224,13 +215,13 @@ const closeSidebar = () => {
                         <p
                             class="text-[10px] font-bold uppercase tracking-[0.18em] text-brand-600 sm:text-xs"
                         >
-                            Admin Panel
+                            {{ t("adminPanel") }}
                         </p>
 
                         <h1
                             class="text-lg font-bold tracking-tight text-heading"
                         >
-                            Deliver
+                            Delivery4U
                         </h1>
                     </div>
                 </div>

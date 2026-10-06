@@ -10,6 +10,7 @@ import {
     XCircle,
 } from "lucide-vue-next";
 import AdminLayout from "@/Layouts/AdminLayout.vue";
+import { t } from "@/Utils/i18n";
 
 // ==================== Interfaces ====================
 
@@ -101,22 +102,22 @@ const statusClasses = (status: string): string => {
                 <p
                     class="text-xs font-bold uppercase tracking-[0.16em] text-brand-600"
                 >
-                    Admin Panel
+                    {{ t("adminPanel") }}
                 </p>
 
                 <h1 class="mt-1 text-2xl font-bold tracking-tight text-heading">
-                    Seller Applications
+                    {{ t("sellerApplications") }}
                 </h1>
 
                 <p class="mt-1 max-w-2xl text-sm text-muted">
-                    Review users who have applied to become sellers.
+                    {{ t("sellerApplicationsDescription") }}
                 </p>
             </div>
 
             <div
                 class="inline-flex w-fit items-center rounded-full border border-border bg-surface px-4 py-2 text-sm font-semibold text-body shadow-sm"
             >
-                {{ props.applications.length }} applications
+                {{ props.applications.length }} {{ t("applications") }}
             </div>
         </div>
 
@@ -132,31 +133,31 @@ const statusClasses = (status: string): string => {
                             <th
                                 class="px-6 py-4 text-xs font-bold uppercase tracking-wide text-muted"
                             >
-                                Applicant
+                                {{ t("applicant") }}
                             </th>
 
                             <th
                                 class="px-6 py-4 text-xs font-bold uppercase tracking-wide text-muted"
                             >
-                                Reason
+                                {{ t("reason") }}
                             </th>
 
                             <th
                                 class="px-6 py-4 text-xs font-bold uppercase tracking-wide text-muted"
                             >
-                                Status
+                                {{ t("status") }}
                             </th>
 
                             <th
                                 class="px-6 py-4 text-xs font-bold uppercase tracking-wide text-muted"
                             >
-                                Submitted
+                                {{ t("submitDate") }}
                             </th>
 
                             <th
                                 class="px-6 py-4 text-xs font-bold uppercase tracking-wide text-muted"
                             >
-                                Reviewed By
+                                {{ t("reviewedBy") }}
                             </th>
 
                             <th class="px-6 py-4"></th>
@@ -207,7 +208,7 @@ const statusClasses = (status: string): string => {
                                 >
                                     {{
                                         application.reason ??
-                                        "No reason provided"
+                                        t("noReasonProvided")
                                     }}
                                 </p>
                             </td>
@@ -251,7 +252,7 @@ const statusClasses = (status: string): string => {
                                         class="h-3.5 w-3.5"
                                     />
 
-                                    {{ formatStatus(application.status) }}
+                                    {{ t(application.status) }}
                                 </span>
                             </td>
 
@@ -291,7 +292,7 @@ const statusClasses = (status: string): string => {
                                     :href="`/admin/seller-applications/${application.id}`"
                                     class="inline-flex items-center rounded-xl border border-border px-3 py-2 text-sm font-semibold text-body transition hover:border-brand-200 hover:bg-brand-50 hover:text-brand-700 focus-visible:outline-none"
                                 >
-                                    View
+                                    {{ t("view") }}
                                 </Link>
                             </td>
                         </tr>
@@ -312,11 +313,11 @@ const statusClasses = (status: string): string => {
                 </div>
 
                 <h3 class="mt-4 text-base font-semibold text-heading">
-                    No seller applications
+                    {{ t("noSellerApplications") }}
                 </h3>
 
                 <p class="mt-1 text-sm text-muted">
-                    There are currently no seller applications to review.
+                    {{ t("noSellerApplicationsDescription") }}
                 </p>
             </div>
         </div>
@@ -379,7 +380,7 @@ const statusClasses = (status: string): string => {
                             class="h-3.5 w-3.5"
                         />
 
-                        {{ formatStatus(application.status) }}
+                        {{ t(application.status) }}
                     </span>
                 </div>
 
@@ -389,14 +390,11 @@ const statusClasses = (status: string): string => {
                     <p
                         class="text-[11px] font-bold uppercase tracking-wide text-muted"
                     >
-                        Application Reason
+                        {{ t("reason") }}
                     </p>
 
                     <p class="mt-1.5 text-sm leading-6 text-body">
-                        {{
-                            application.reason ??
-                            "No reason was provided by the applicant."
-                        }}
+                        {{ application.reason ?? t("noReasonProvided") }}
                     </p>
                 </div>
 
@@ -409,7 +407,7 @@ const statusClasses = (status: string): string => {
                         <p
                             class="text-[11px] font-bold uppercase tracking-wide text-muted"
                         >
-                            Submitted
+                            {{ t("submitDate") }}
                         </p>
 
                         <div
@@ -425,7 +423,7 @@ const statusClasses = (status: string): string => {
                         <p
                             class="text-[11px] font-bold uppercase tracking-wide text-muted"
                         >
-                            Reviewed By
+                            {{ t("reviewedBy") }}
                         </p>
 
                         <p class="mt-1 text-sm font-medium text-body">
@@ -447,7 +445,7 @@ const statusClasses = (status: string): string => {
                     :href="`/admin/seller-applications/${application.id}`"
                     class="mt-5 block w-full rounded-xl bg-brand-600 px-4 py-3 text-center text-sm font-bold text-white transition hover:bg-brand-700 focus-visible:outline-none"
                 >
-                    View Application
+                    {{ t("view") }}
                 </Link>
             </div>
 
@@ -464,11 +462,11 @@ const statusClasses = (status: string): string => {
                 </div>
 
                 <h3 class="mt-4 text-base font-semibold text-heading">
-                    No seller applications
+                    {{ t("noSellerApplications") }}
                 </h3>
 
                 <p class="mt-1 text-sm text-muted">
-                    There are currently no seller applications to review.
+                    {{ t("noSellerApplicationsDescription") }}
                 </p>
             </div>
         </div>

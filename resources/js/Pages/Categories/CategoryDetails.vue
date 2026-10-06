@@ -4,6 +4,7 @@
 import CustomerLayout from "@/Layouts/CustomerLayout.vue";
 import ProductCard from "@/Components/Products/ProductCard.vue";
 import { router } from "@inertiajs/vue3";
+import { t } from "@/Utils/i18n";
 // ==================== Types ====================
 
 interface Category {
@@ -93,7 +94,7 @@ const handleAddToCart = (product: Product) => {
                             <h1
                                 class="text-2xl font-extrabold tracking-tight text-white sm:text-3xl lg:text-4xl"
                             >
-                                {{ category.name }}
+                                {{ t(`${category.name}`) }}
                             </h1>
 
                             <p
@@ -122,7 +123,7 @@ const handleAddToCart = (product: Product) => {
                         <h1
                             class="mt-5 text-2xl font-extrabold tracking-tight text-heading sm:text-3xl lg:text-4xl"
                         >
-                            {{ category.name }}
+                            {{ t(`${category.name}`) }}
                         </h1>
 
                         <p
@@ -146,11 +147,12 @@ const handleAddToCart = (product: Product) => {
                             <h2
                                 class="text-xl font-extrabold tracking-tight text-heading sm:text-2xl"
                             >
-                                Products
+                                {{ t("products") }}
                             </h2>
 
                             <p class="mt-1 text-sm text-muted">
-                                Browse products in {{ category.name }}.
+                                {{ t("browseProducts") }}
+                                {{ t(`${category.name}`) }}.
                             </p>
                         </div>
 
@@ -159,7 +161,11 @@ const handleAddToCart = (product: Product) => {
                             class="text-sm font-medium text-muted"
                         >
                             {{ products.length }}
-                            {{ products.length === 1 ? "product" : "products" }}
+                            {{
+                                products.length === 1
+                                    ? t("product")
+                                    : t("products")
+                            }}
                         </p>
                     </div>
 
@@ -185,14 +191,13 @@ const handleAddToCart = (product: Product) => {
                         class="mt-5 rounded-2xl border border-border bg-surface px-6 py-12 text-center shadow-sm"
                     >
                         <h3 class="text-base font-bold text-heading">
-                            No products available
+                            {{ t("noProducts") }}
                         </h3>
 
                         <p
                             class="mx-auto mt-1.5 max-w-sm text-sm leading-6 text-muted"
                         >
-                            There are currently no available products in this
-                            category.
+                            {{ t("noProductsin") }}{{ t(`${category.name}`) }}
                         </p>
                     </div>
                 </section>

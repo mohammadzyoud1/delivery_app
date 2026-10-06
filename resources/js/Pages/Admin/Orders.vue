@@ -4,6 +4,7 @@
 import AdminLayout from "@/Layouts/AdminLayout.vue";
 import { Head, Link } from "@inertiajs/vue3";
 import { Eye } from "lucide-vue-next";
+import { t } from "@/Utils/i18n";
 
 // ==================== Types ====================
 
@@ -92,17 +93,17 @@ const statusClasses = (status: string): string => {
             <p
                 class="mb-2 text-xs font-bold uppercase tracking-[0.18em] text-brand-600"
             >
-                Admin Panel
+                {{ t("adminPanel") }}
             </p>
 
             <h1
                 class="text-2xl font-bold tracking-tight text-heading sm:text-3xl"
             >
-                Orders
+                {{ t("orders") }}
             </h1>
 
             <p class="mt-2 text-sm text-muted sm:text-base">
-                Manage and monitor all customer orders.
+                {{ t("manageAndMonitor") }}
             </p>
         </div>
 
@@ -124,11 +125,11 @@ const statusClasses = (status: string): string => {
                 </div>
 
                 <h2 class="mt-4 text-base font-semibold text-heading">
-                    No orders yet
+                    {{ t("noOrders") }}
                 </h2>
 
                 <p class="mt-1 text-sm text-muted">
-                    Customer orders will appear here once they are placed.
+                    {{ t("customerOrdersAppear") }}
                 </p>
             </div>
 
@@ -143,44 +144,42 @@ const statusClasses = (status: string): string => {
                             <th
                                 class="px-6 py-4 text-xs font-bold uppercase tracking-wide text-muted"
                             >
-                                Order
+                                {{ t("order") }}
                             </th>
 
                             <th
                                 class="px-6 py-4 text-xs font-bold uppercase tracking-wide text-muted"
                             >
-                                Customer
+                                {{ t("customer") }}
                             </th>
 
                             <th
                                 class="px-6 py-4 text-xs font-bold uppercase tracking-wide text-muted"
                             >
-                                Items
+                                {{ t("products") }}
                             </th>
 
                             <th
                                 class="px-6 py-4 text-xs font-bold uppercase tracking-wide text-muted"
                             >
-                                Total
+                                {{ t("total") }}
                             </th>
 
                             <th
                                 class="px-6 py-4 text-xs font-bold uppercase tracking-wide text-muted"
                             >
-                                Status
+                                {{ t("status") }}
                             </th>
 
                             <th
                                 class="px-6 py-4 text-xs font-bold uppercase tracking-wide text-muted"
                             >
-                                Date
+                                {{ t("date") }}
                             </th>
 
                             <th
                                 class="px-6 py-4 text-right text-xs font-bold uppercase tracking-wide text-muted"
-                            >
-                                Action
-                            </th>
+                            ></th>
                         </tr>
                     </thead>
 
@@ -216,8 +215,8 @@ const statusClasses = (status: string): string => {
                                     {{ order.items.length }}
                                     {{
                                         order.items.length === 1
-                                            ? "item"
-                                            : "items"
+                                            ? t("product")
+                                            : t("products")
                                     }}
                                 </span>
                             </td>
@@ -237,7 +236,7 @@ const statusClasses = (status: string): string => {
                                     class="inline-flex rounded-full border px-3 py-1 text-xs font-bold capitalize"
                                     :class="statusClasses(order.status)"
                                 >
-                                    {{ formatStatus(order.status) }}
+                                    {{ t(order.status) }}
                                 </span>
                             </td>
 
@@ -257,7 +256,7 @@ const statusClasses = (status: string): string => {
                                     class="inline-flex items-center gap-2 rounded-xl border border-border px-3 py-2 text-sm font-semibold text-body transition hover:border-brand-200 hover:bg-brand-50 hover:text-brand-700 focus-visible:outline-none"
                                 >
                                     <Eye class="h-4 w-4" />
-                                    View
+                                    {{ t("viewOrder") }}
                                 </Link>
                             </td>
                         </tr>
@@ -294,7 +293,7 @@ const statusClasses = (status: string): string => {
                             class="shrink-0 rounded-full border px-3 py-1 text-xs font-bold capitalize"
                             :class="statusClasses(order.status)"
                         >
-                            {{ formatStatus(order.status) }}
+                            {{ t(order.status) }}
                         </span>
                     </div>
 
@@ -307,7 +306,7 @@ const statusClasses = (status: string): string => {
                             <p
                                 class="text-[11px] font-bold uppercase tracking-wide text-muted"
                             >
-                                Items
+                                {{ t("products") }}
                             </p>
 
                             <p class="mt-1 text-sm font-semibold text-heading">
@@ -319,7 +318,7 @@ const statusClasses = (status: string): string => {
                             <p
                                 class="text-[11px] font-bold uppercase tracking-wide text-muted"
                             >
-                                Total
+                                {{ t("total") }}
                             </p>
 
                             <p class="mt-1 text-sm font-semibold text-heading">
@@ -331,7 +330,7 @@ const statusClasses = (status: string): string => {
                             <p
                                 class="text-[11px] font-bold uppercase tracking-wide text-muted"
                             >
-                                Date
+                                {{ t("date") }}
                             </p>
 
                             <p class="mt-1 text-sm font-medium text-heading">
@@ -347,7 +346,7 @@ const statusClasses = (status: string): string => {
                         class="mt-4 flex w-full items-center justify-center gap-2 rounded-xl border border-border px-4 py-3 text-sm font-semibold text-body transition hover:border-brand-200 hover:bg-brand-50 hover:text-brand-700 focus-visible:outline-none"
                     >
                         <Eye class="h-4 w-4" />
-                        View Order
+                        {{ t("viewOrder") }}
                     </Link>
                 </div>
             </div>

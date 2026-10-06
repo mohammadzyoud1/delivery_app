@@ -14,6 +14,7 @@ import {
     UserRound,
     XCircle,
 } from "lucide-vue-next";
+import { t } from "@/Utils/i18n";
 
 // ==================== Interfaces ====================
 
@@ -131,13 +132,13 @@ const statusLabel = (status: string): string => {
                         <p
                             class="text-xs font-bold uppercase tracking-[0.16em] text-brand-600"
                         >
-                            Seller Application
+                            {{ t("sellerApplications") }}
                         </p>
 
                         <h1
                             class="mt-1 text-2xl font-bold tracking-tight text-heading"
                         >
-                            Application #{{ application.id }}
+                            {{ t("application") }} #{{ application.id }}
                         </h1>
                     </div>
                 </div>
@@ -150,7 +151,7 @@ const statusLabel = (status: string): string => {
                         class="inline-flex items-center gap-1.5 rounded-full border border-green-100 bg-green-50 px-3 py-1.5 text-xs font-bold text-green-700"
                     >
                         <CheckCircle2 class="h-4 w-4" />
-                        Approved
+                        {{ t("approved") }}
                     </span>
 
                     <span
@@ -158,7 +159,7 @@ const statusLabel = (status: string): string => {
                         class="inline-flex items-center gap-1.5 rounded-full border border-red-100 bg-red-50 px-3 py-1.5 text-xs font-bold text-red-700"
                     >
                         <XCircle class="h-4 w-4" />
-                        Rejected
+                        {{ t("rejected") }}
                     </span>
 
                     <span
@@ -166,7 +167,7 @@ const statusLabel = (status: string): string => {
                         class="inline-flex items-center gap-1.5 rounded-full border border-yellow-100 bg-yellow-50 px-3 py-1.5 text-xs font-bold text-yellow-700"
                     >
                         <Clock3 class="h-4 w-4" />
-                        {{ statusLabel(application.status) }}
+                        {{ t(application.status) }}
                     </span>
                 </div>
             </div>
@@ -190,13 +191,13 @@ const statusLabel = (status: string): string => {
                             <p
                                 class="text-xs font-bold uppercase tracking-wide text-brand-600"
                             >
-                                Applicant
+                                {{ t("applicant") }}
                             </p>
 
                             <h2
                                 class="mt-0.5 text-lg font-semibold text-heading"
                             >
-                                User Information
+                                {{ t("userInfo") }}
                             </h2>
                         </div>
                     </div>
@@ -208,7 +209,7 @@ const statusLabel = (status: string): string => {
                             <p
                                 class="text-[11px] font-bold uppercase tracking-wide text-muted"
                             >
-                                Name
+                                {{ t("name") }}
                             </p>
 
                             <p class="mt-1 text-sm font-semibold text-heading">
@@ -222,7 +223,7 @@ const statusLabel = (status: string): string => {
                             <p
                                 class="text-[11px] font-bold uppercase tracking-wide text-muted"
                             >
-                                Email
+                                {{ t("email") }}
                             </p>
 
                             <p
@@ -238,7 +239,7 @@ const statusLabel = (status: string): string => {
                             <p
                                 class="text-[11px] font-bold uppercase tracking-wide text-muted"
                             >
-                                Phone
+                                {{ t("phone") }}
                             </p>
 
                             <p class="mt-1 text-sm font-medium text-body">
@@ -252,7 +253,7 @@ const statusLabel = (status: string): string => {
                             :href="`/admin/users/${application.user.id}`"
                             class="inline-flex w-full items-center justify-center rounded-xl border border-border px-4 py-2.5 text-sm font-semibold text-body transition hover:border-brand-200 hover:bg-brand-50 hover:text-brand-700"
                         >
-                            View User
+                            {{ t("view") }}
                         </Link>
                     </div>
                 </section>
@@ -273,13 +274,13 @@ const statusLabel = (status: string): string => {
                             <p
                                 class="text-xs font-bold uppercase tracking-wide text-brand-600"
                             >
-                                Application
+                                {{ t("application") }}
                             </p>
 
                             <h2
                                 class="mt-0.5 text-lg font-semibold text-heading"
                             >
-                                Application Information
+                                {{ t("applicationInfo") }}
                             </h2>
                         </div>
                     </div>
@@ -293,7 +294,7 @@ const statusLabel = (status: string): string => {
                             <p
                                 class="text-[11px] font-bold uppercase tracking-wide text-muted"
                             >
-                                Status
+                                {{ t("status") }}
                             </p>
 
                             <div class="mt-2">
@@ -302,7 +303,7 @@ const statusLabel = (status: string): string => {
                                     class="inline-flex items-center gap-1.5 rounded-full border border-green-100 bg-green-50 px-3 py-1 text-xs font-bold text-green-700"
                                 >
                                     <CheckCircle2 class="h-4 w-4" />
-                                    Approved
+                                    {{ t("approved") }}
                                 </span>
 
                                 <span
@@ -312,7 +313,7 @@ const statusLabel = (status: string): string => {
                                     class="inline-flex items-center gap-1.5 rounded-full border border-red-100 bg-red-50 px-3 py-1 text-xs font-bold text-red-700"
                                 >
                                     <XCircle class="h-4 w-4" />
-                                    Rejected
+                                    {{ t("rejected") }}
                                 </span>
 
                                 <span
@@ -320,7 +321,7 @@ const statusLabel = (status: string): string => {
                                     class="inline-flex items-center gap-1.5 rounded-full border border-yellow-100 bg-yellow-50 px-3 py-1 text-xs font-bold text-yellow-700"
                                 >
                                     <Clock3 class="h-4 w-4" />
-                                    {{ statusLabel(application.status) }}
+                                    {{ t(application.status) }}
                                 </span>
                             </div>
                         </div>
@@ -333,7 +334,7 @@ const statusLabel = (status: string): string => {
                             <p
                                 class="text-[11px] font-bold uppercase tracking-wide text-muted"
                             >
-                                Submitted
+                                {{ t("submitDate") }}
                             </p>
 
                             <div
@@ -352,7 +353,7 @@ const statusLabel = (status: string): string => {
                             <p
                                 class="text-[11px] font-bold uppercase tracking-wide text-muted"
                             >
-                                Reviewed
+                                {{ t("reviewDate") }}
                             </p>
 
                             <p class="mt-2 text-sm font-semibold text-heading">
@@ -368,7 +369,7 @@ const statusLabel = (status: string): string => {
                             <p
                                 class="text-[11px] font-bold uppercase tracking-wide text-muted"
                             >
-                                Reviewed By
+                                {{ t("reviewedBy") }}
                             </p>
 
                             <p class="mt-2 text-sm font-semibold text-heading">
@@ -399,11 +400,11 @@ const statusLabel = (status: string): string => {
                         <p
                             class="text-xs font-bold uppercase tracking-wide text-brand-600"
                         >
-                            Applicant Statement
+                            {{ t("applicantStatement") }}
                         </p>
 
                         <h2 class="mt-0.5 text-lg font-semibold text-heading">
-                            Application Reason
+                            {{ t("statement") }}
                         </h2>
                     </div>
                 </div>
@@ -437,11 +438,11 @@ const statusLabel = (status: string): string => {
                         <p
                             class="text-xs font-bold uppercase tracking-wide text-red-600"
                         >
-                            Review Result
+                            {{ t("reviewResult") }}
                         </p>
 
                         <h2 class="mt-0.5 text-lg font-semibold text-red-900">
-                            Rejection Reason
+                            {{ t("rejectionReason") }}
                         </h2>
                     </div>
                 </div>
@@ -467,15 +468,15 @@ const statusLabel = (status: string): string => {
                     <p
                         class="text-xs font-bold uppercase tracking-wide text-brand-600"
                     >
-                        Pending Review
+                        {{ t("pendingReview") }}
                     </p>
 
                     <h2 class="mt-1 text-lg font-semibold text-heading">
-                        Review Application
+                        {{ t("reviewApplication") }}
                     </h2>
 
                     <p class="mt-1 text-sm text-muted">
-                        Approve the applicant or provide a reason for rejection.
+                        {{ t("approveOrRejectApplicant") }}
                     </p>
                 </div>
 
@@ -488,7 +489,7 @@ const statusLabel = (status: string): string => {
                         @click="approveApplication"
                     >
                         <CheckCircle2 class="mr-2 inline-block h-4 w-4" />
-                        Approve Application
+                        {{ t("approveApplication") }}
                     </Button>
                 </div>
 
@@ -499,11 +500,11 @@ const statusLabel = (status: string): string => {
                         for="rejection_reason"
                         class="block text-sm font-semibold text-heading"
                     >
-                        Rejection Reason
+                        {{ t("rejectionReason") }}
                     </label>
 
                     <p class="mt-1 text-xs text-muted">
-                        Explain why this application cannot be approved.
+                        {{ t("explainRejectionReason") }}
                     </p>
 
                     <textarea
@@ -511,7 +512,6 @@ const statusLabel = (status: string): string => {
                         v-model="rejectionReason"
                         rows="4"
                         class="mt-3 w-full resize-none rounded-xl border border-border bg-surface px-4 py-3 text-sm text-heading placeholder:text-muted focus:border-brand-500 focus:ring-2 focus:ring-brand-100 focus:outline-none"
-                        placeholder="Explain why this application is being rejected..."
                     ></textarea>
 
                     <Button
@@ -521,7 +521,9 @@ const statusLabel = (status: string): string => {
                         @click="rejectApplication"
                     >
                         <XCircle class="mr-2 inline-block h-4 w-4" />
-                        {{ rejecting ? "Rejecting..." : "Reject Application" }}
+                        {{
+                            rejecting ? t("Rejecting") : t("rejectApplication")
+                        }}
                     </Button>
                 </div>
             </section>

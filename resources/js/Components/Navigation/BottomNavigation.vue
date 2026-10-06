@@ -6,7 +6,10 @@ import {
     Package,
     MessageCircle,
     User,
+    icons,
+    ClipboardList,
 } from "lucide-vue-next";
+import { t } from "@/Utils/i18n";
 
 // ==================== Current Page ====================
 
@@ -16,27 +19,32 @@ const page = usePage();
 
 const navigationItems = [
     {
-        label: "Home",
+        label: "home",
         href: "/",
         icon: Home,
     },
     {
-        label: "Cart",
+        label: "cart",
         href: "/cart",
         icon: ShoppingCart,
     },
     {
-        label: "Orders",
+        label: "orders",
         href: "/orders",
         icon: Package,
     },
     {
-        label: "Messages",
+        label: "messages",
         href: "/messages",
         icon: MessageCircle,
     },
     {
-        label: "Profile",
+        label: "custom",
+        href: "/custom-orders",
+        icon: ClipboardList,
+    },
+    {
+        label: "profile",
         href: "/profile",
         icon: User,
     },
@@ -75,7 +83,7 @@ const isActive = (href: string): boolean => {
                 />
 
                 <span class="text-[11px] font-medium sm:text-xs">
-                    {{ item.label }}
+                    {{ t(`${item.label}`) }}
                 </span>
             </Link>
         </div>

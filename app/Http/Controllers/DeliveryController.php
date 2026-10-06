@@ -26,6 +26,7 @@ class DeliveryController extends Controller
             ->with([
                 'customer',
                 'items.product.images',
+                'items.product.seller',
                 'items.variant',
                 'deliveryAssignment',
                 'conversation',

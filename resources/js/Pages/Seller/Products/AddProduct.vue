@@ -4,6 +4,7 @@ import { useForm } from "@inertiajs/vue3";
 
 import Button from "@/Components/UI/Button.vue";
 import SellerLayout from "@/Layouts/SellerLayout.vue";
+import { t } from "@/Utils/i18n";
 
 // ==================== Types ====================
 
@@ -203,21 +204,14 @@ const submit = () => {
             <!-- ==================== Page Header ==================== -->
 
             <section class="mb-8">
-                <p
-                    class="text-sm font-bold uppercase tracking-wider text-brand-600"
-                >
-                    Store Management
-                </p>
-
                 <h1
                     class="mt-1 text-2xl font-extrabold tracking-tight text-heading sm:text-3xl"
                 >
-                    Add Product
+                    {{ t("addProduct") }}
                 </h1>
 
                 <p class="mt-2 text-sm leading-6 text-muted">
-                    Add a new product to your store and configure its
-                    availability, pricing, and variants.
+                    {{ t("addProductDescription") }}
                 </p>
             </section>
 
@@ -231,11 +225,11 @@ const submit = () => {
                 >
                     <div class="mb-5">
                         <h2 class="text-base font-extrabold text-heading">
-                            Product Images
+                            {{ t("productImages") }}
                         </h2>
 
                         <p class="mt-1 text-sm text-muted">
-                            Add clear images that show your product.
+                            {{ t("productImagesDescription") }}
                         </p>
                     </div>
 
@@ -283,11 +277,11 @@ const submit = () => {
                         </div>
 
                         <span class="mt-3 text-sm font-bold text-heading">
-                            Add Product Images
+                            {{ t("addProductImages") }}
                         </span>
 
                         <span class="mt-1 text-xs text-muted">
-                            Select one or more images
+                            {{ t("selectOneOrMoreImages") }}
                         </span>
                     </button>
 
@@ -334,11 +328,11 @@ const submit = () => {
                 >
                     <div class="mb-5">
                         <h2 class="text-base font-extrabold text-heading">
-                            Basic Information
+                            {{ t("basicInformation") }}
                         </h2>
 
                         <p class="mt-1 text-sm text-muted">
-                            Provide the main details customers will see.
+                            {{ t("basicInformationDescription") }}
                         </p>
                     </div>
 
@@ -350,7 +344,7 @@ const submit = () => {
                                 for="name"
                                 class="mb-2 block text-sm font-bold text-heading"
                             >
-                                Product Name
+                                {{ t("productName") }}
                             </label>
 
                             <input
@@ -376,7 +370,7 @@ const submit = () => {
                                 for="category"
                                 class="mb-2 block text-sm font-bold text-heading"
                             >
-                                Category
+                                {{ t("category") }}
                             </label>
 
                             <select
@@ -385,7 +379,7 @@ const submit = () => {
                                 class="w-full rounded-xl border border-border bg-background px-4 py-3 text-sm text-heading outline-none transition focus:border-brand-500 focus:bg-surface focus:ring-2 focus:ring-brand-100"
                             >
                                 <option value="" disabled>
-                                    Select a category
+                                    {{ t("selectCategory") }}
                                 </option>
 
                                 <option
@@ -412,14 +406,13 @@ const submit = () => {
                                 for="description"
                                 class="mb-2 block text-sm font-bold text-heading"
                             >
-                                Description
+                                {{ t("description") }}
                             </label>
 
                             <textarea
                                 id="description"
                                 v-model="form.description"
                                 rows="5"
-                                placeholder="Describe your product..."
                                 class="w-full resize-none rounded-xl border border-border bg-background px-4 py-3 text-sm leading-6 text-heading outline-none transition placeholder:text-muted focus:border-brand-500 focus:bg-surface focus:ring-2 focus:ring-brand-100"
                             ></textarea>
 
@@ -439,7 +432,7 @@ const submit = () => {
                                     for="price"
                                     class="mb-2 block text-sm font-bold text-heading"
                                 >
-                                    Price
+                                    {{ t("price") }}
                                 </label>
 
                                 <input
@@ -465,7 +458,7 @@ const submit = () => {
                                     for="stock"
                                     class="mb-2 block text-sm font-bold text-heading"
                                 >
-                                    Stock
+                                    {{ t("stock") }}
                                 </label>
 
                                 <input
@@ -493,7 +486,7 @@ const submit = () => {
                                 for="unit"
                                 class="mb-2 block text-sm font-bold text-heading"
                             >
-                                Unit
+                                {{ t("Unit") }}
                             </label>
 
                             <input
@@ -521,12 +514,11 @@ const submit = () => {
                 >
                     <div>
                         <h2 class="text-base font-extrabold text-heading">
-                            Product Variants
+                            {{ t("productVariants") }}
                         </h2>
 
                         <p class="mt-1 text-sm leading-6 text-muted">
-                            Add options such as size, color, storage, or other
-                            product combinations.
+                            {{ t("productVariantsDescription") }}
                         </p>
                     </div>
 
@@ -550,11 +542,11 @@ const submit = () => {
 
                             <div>
                                 <p class="text-sm font-bold text-heading">
-                                    No variants
+                                    {{ t("noVariants") }}
                                 </p>
 
                                 <p class="mt-0.5 text-xs text-muted">
-                                    One price and stock level
+                                    {{ t("onePriceAndStock") }}
                                 </p>
                             </div>
                         </label>
@@ -576,11 +568,11 @@ const submit = () => {
 
                             <div>
                                 <p class="text-sm font-bold text-heading">
-                                    Has variants
+                                    {{ t("hasVariants") }}
                                 </p>
 
                                 <p class="mt-0.5 text-xs text-muted">
-                                    Different options and stock
+                                    {{ t("differentOptionsAndStock") }}
                                 </p>
                             </div>
                         </label>
@@ -603,7 +595,7 @@ const submit = () => {
                                     <label
                                         class="mb-2 block text-sm font-bold text-heading"
                                     >
-                                        Option Name
+                                        {{ t("optionName") }}
                                     </label>
 
                                     <input
@@ -619,7 +611,7 @@ const submit = () => {
                                     class="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm font-bold text-red-700 transition hover:bg-red-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-500"
                                     @click="removeOption(optionIndex)"
                                 >
-                                    Remove
+                                    {{ t("remove") }}
                                 </button>
                             </div>
 
@@ -627,7 +619,7 @@ const submit = () => {
 
                             <div class="mt-5">
                                 <p class="mb-2 text-sm font-bold text-heading">
-                                    Values
+                                    {{ t("values") }}
                                 </p>
 
                                 <div class="space-y-2">
@@ -666,7 +658,7 @@ const submit = () => {
                                     class="mt-3 inline-flex items-center rounded-lg px-1 py-1 text-sm font-bold text-brand-600 transition hover:text-brand-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500"
                                     @click="addOptionValue(optionIndex)"
                                 >
-                                    + Add value
+                                    {{ t("addValue") }}
                                 </button>
                             </div>
                         </div>
@@ -678,7 +670,7 @@ const submit = () => {
                             class="w-full rounded-xl border border-dashed border-border bg-background px-4 py-3.5 text-sm font-bold text-body transition hover:border-brand-300 hover:bg-brand-50/50 hover:text-brand-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500"
                             @click="addOption"
                         >
-                            + Add another option
+                            {{ t("addAnotherOption") }}
                         </button>
                     </div>
 
@@ -691,7 +683,7 @@ const submit = () => {
                             fullWidth
                             @click="generateCombinations"
                         >
-                            Generate Variants
+                            {{ t("generateVariants") }}
                         </Button>
                     </div>
 
@@ -703,12 +695,11 @@ const submit = () => {
                     >
                         <div>
                             <h3 class="text-sm font-extrabold text-heading">
-                                Generated Variants
+                                {{ t("generatedVariants") }}
                             </h3>
 
                             <p class="mt-1 text-sm text-muted">
-                                Set the SKU, price, and stock for each
-                                combination.
+                                {{ t("variantsDetailsHint") }}
                             </p>
 
                             <!-- ==================== Total Variant Stock ==================== -->
@@ -718,11 +709,11 @@ const submit = () => {
                             >
                                 <div>
                                     <p class="text-sm font-bold text-brand-700">
-                                        Total Stock
+                                        {{ t("totalStock") }}
                                     </p>
 
                                     <p class="mt-0.5 text-xs text-brand-600">
-                                        Calculated from all variants
+                                        {{ t("calculatedFromVariants") }}
                                     </p>
                                 </div>
 
@@ -784,7 +775,7 @@ const submit = () => {
                                     <label
                                         class="mb-2 block text-xs font-bold uppercase tracking-wide text-muted"
                                     >
-                                        Price
+                                        {{ t("price") }}
                                     </label>
 
                                     <input
@@ -818,7 +809,7 @@ const submit = () => {
                                     <label
                                         class="mb-2 block text-xs font-bold uppercase tracking-wide text-muted"
                                     >
-                                        Stock
+                                        {{ t("stock") }}
                                     </label>
 
                                     <input
@@ -860,11 +851,11 @@ const submit = () => {
                         size="md"
                         @click="$inertia.visit('/seller/products')"
                     >
-                        Cancel
+                        {{ t("cancel") }}
                     </Button>
 
                     <Button type="submit" size="md" :loading="form.processing">
-                        Add Product
+                        {{ t("addProduct") }}
                     </Button>
                 </div>
             </form>

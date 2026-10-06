@@ -5,7 +5,7 @@ import { ref } from "vue";
 import { Camera, Trash2, Upload } from "lucide-vue-next";
 import { useForm, usePage } from "@inertiajs/vue3";
 import Button from "@/Components/UI/Button.vue";
-// ==================== State ====================
+import { t } from "@/Utils/i18n";
 
 // ==================== Types ====================
 
@@ -73,10 +73,12 @@ const uploadPicture = () => {
         <!-- ==================== Header ==================== -->
 
         <div>
-            <h2 class="text-lg font-bold text-heading">Profile Picture</h2>
+            <h2 class="text-lg font-bold text-heading">
+                {{ t("profilePic") }}
+            </h2>
 
             <p class="mt-1 text-sm text-muted">
-                Upload a profile picture for your account.
+                {{ t("profilePicDescription") }}
             </p>
         </div>
 
@@ -118,7 +120,7 @@ const uploadPicture = () => {
                 >
                     <Upload :size="17" :stroke-width="2" />
 
-                    Choose Picture
+                    {{ t("choosePic") }}
 
                     <input
                         type="file"
@@ -136,7 +138,7 @@ const uploadPicture = () => {
                     :disabled="form.processing"
                     @click="uploadPicture"
                 >
-                    {{ form.processing ? "Uploading..." : "Save Picture" }}
+                    {{ form.processing ? t("uploading") : t("savePic") }}
                     <p
                         v-if="form.errors.profile_image"
                         class="mt-3 text-sm text-red-500"
@@ -153,7 +155,7 @@ const uploadPicture = () => {
                 >
                     <Trash2 :size="17" :stroke-width="2" />
 
-                    Remove
+                    {{ t("remove") }}
                 </button>
             </div>
 

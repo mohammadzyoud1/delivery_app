@@ -12,6 +12,7 @@ import {
     UserRound,
 } from "lucide-vue-next";
 import AdminLayout from "@/Layouts/AdminLayout.vue";
+import { t } from "@/Utils/i18n";
 
 // ==================== Interfaces ====================
 
@@ -76,10 +77,10 @@ const formatStatus = (status: string): string => {
 
 const roleNames = (): string => {
     if (props.user.roles.length === 0) {
-        return "Customer";
+        return "customer";
     }
 
-    return props.user.roles.map((role) => role.name).join(", ");
+    return props.user.roles.map((role) => t(role.name)).join(", ");
 };
 
 const totalOrderValue = (): number => {
@@ -101,7 +102,7 @@ const totalOrderValue = (): number => {
             class="mb-5 inline-flex items-center gap-2 text-sm font-semibold text-muted transition hover:text-brand-700"
         >
             <ArrowLeft class="h-4 w-4" />
-            Back to Users
+            {{ t("backToUsers") }}
         </Link>
 
         <!-- ==================== Page Header ==================== -->
@@ -131,7 +132,7 @@ const totalOrderValue = (): number => {
                         <p
                             class="mb-1 text-xs font-bold uppercase tracking-[0.16em] text-brand-600"
                         >
-                            User Profile
+                            {{ t("userProfile") }}
                         </p>
 
                         <h1
@@ -141,7 +142,7 @@ const totalOrderValue = (): number => {
                         </h1>
 
                         <p class="mt-1 text-sm text-muted">
-                            User #{{ props.user.id }}
+                            {{ t("user") }} #{{ props.user.id }}
                         </p>
                     </div>
                 </div>
@@ -154,28 +155,28 @@ const totalOrderValue = (): number => {
                         :key="role.id"
                         class="rounded-full border border-brand-100 bg-brand-50 px-3 py-1 text-xs font-bold capitalize text-brand-700"
                     >
-                        {{ role.name }}
+                        {{ t(role.name) }}
                     </span>
 
                     <span
                         v-if="props.user.roles.length === 0"
                         class="rounded-full border border-brand-100 bg-brand-50 px-3 py-1 text-xs font-bold text-brand-700"
                     >
-                        Customer
+                        {{ t("customer") }}
                     </span>
 
                     <span
                         v-if="props.user.email_verified_at"
                         class="rounded-full border border-green-100 bg-green-50 px-3 py-1 text-xs font-bold text-green-700"
                     >
-                        Email Verified
+                        {{ t("verified") }}
                     </span>
 
                     <span
                         v-else
                         class="rounded-full border border-yellow-100 bg-yellow-50 px-3 py-1 text-xs font-bold text-yellow-700"
                     >
-                        Email Unverified
+                        {{ t("unverified") }}
                     </span>
                 </div>
             </div>
@@ -200,7 +201,7 @@ const totalOrderValue = (): number => {
                         <p
                             class="text-xs font-bold uppercase tracking-wide text-muted"
                         >
-                            Orders
+                            {{ t("orders") }}
                         </p>
 
                         <p class="mt-0.5 text-xl font-bold text-heading">
@@ -226,7 +227,7 @@ const totalOrderValue = (): number => {
                         <p
                             class="text-xs font-bold uppercase tracking-wide text-muted"
                         >
-                            Deliveries
+                            {{ t("deliveries") }}
                         </p>
 
                         <p class="mt-0.5 text-xl font-bold text-heading">
@@ -252,7 +253,7 @@ const totalOrderValue = (): number => {
                         <p
                             class="text-xs font-bold uppercase tracking-wide text-muted"
                         >
-                            Order Value
+                            {{ t("ordersValue") }}
                         </p>
 
                         <p
@@ -276,11 +277,11 @@ const totalOrderValue = (): number => {
                 <p
                     class="text-xs font-bold uppercase tracking-[0.16em] text-brand-600"
                 >
-                    Account
+                    {{ t("account") }}
                 </p>
 
                 <h2 class="mt-1 text-lg font-semibold text-heading">
-                    User Information
+                    {{ t("userInfo") }}
                 </h2>
 
                 <div class="mt-6 space-y-5">
@@ -297,7 +298,7 @@ const totalOrderValue = (): number => {
                             <p
                                 class="text-[11px] font-bold uppercase tracking-wide text-muted"
                             >
-                                Email
+                                {{ t("email") }}
                             </p>
 
                             <p
@@ -321,7 +322,7 @@ const totalOrderValue = (): number => {
                             <p
                                 class="text-[11px] font-bold uppercase tracking-wide text-muted"
                             >
-                                Phone
+                                {{ t("phone") }}
                             </p>
 
                             <p class="mt-1 text-sm font-semibold text-heading">
@@ -343,7 +344,7 @@ const totalOrderValue = (): number => {
                             <p
                                 class="text-[11px] font-bold uppercase tracking-wide text-muted"
                             >
-                                Roles
+                                {{ t("role") }}
                             </p>
 
                             <p
@@ -367,7 +368,7 @@ const totalOrderValue = (): number => {
                             <p
                                 class="text-[11px] font-bold uppercase tracking-wide text-muted"
                             >
-                                Joined
+                                {{ t("joinDate") }}
                             </p>
 
                             <p class="mt-1 text-sm font-semibold text-heading">
@@ -390,18 +391,18 @@ const totalOrderValue = (): number => {
                         <p
                             class="text-xs font-bold uppercase tracking-[0.16em] text-brand-600"
                         >
-                            Activity
+                            {{ t("activity") }}
                         </p>
 
                         <h2 class="mt-1 text-lg font-semibold text-heading">
-                            Orders
+                            {{ t("orders") }}
                         </h2>
                     </div>
 
                     <span
                         class="rounded-full bg-background px-3 py-1 text-xs font-bold text-muted"
                     >
-                        {{ props.user.orders.length }} total
+                        {{ props.user.orders.length }} {{ t("total") }}
                     </span>
                 </div>
 
@@ -416,7 +417,7 @@ const totalOrderValue = (): number => {
                     >
                         <div class="min-w-0">
                             <p class="font-semibold text-heading">
-                                Order #{{ order.id }}
+                                {{ t("order") }} #{{ order.id }}
                             </p>
 
                             <p class="mt-1 text-xs text-muted">
@@ -428,7 +429,7 @@ const totalOrderValue = (): number => {
                             <span
                                 class="rounded-full border border-border bg-background px-3 py-1 text-xs font-bold capitalize text-body"
                             >
-                                {{ formatStatus(order.status) }}
+                                {{ t(order.status) }}
                             </span>
 
                             <span class="text-sm font-bold text-heading">
@@ -439,7 +440,7 @@ const totalOrderValue = (): number => {
                                 :href="`/admin/orders/${order.id}`"
                                 class="inline-flex items-center rounded-xl border border-border px-3 py-2 text-sm font-semibold text-body transition hover:border-brand-200 hover:bg-brand-50 hover:text-brand-700 focus-visible:outline-none"
                             >
-                                View
+                                {{ t("view") }}
                             </Link>
                         </div>
                     </div>
@@ -455,11 +456,11 @@ const totalOrderValue = (): number => {
                     </div>
 
                     <h3 class="mt-4 text-base font-semibold text-heading">
-                        No orders yet
+                        {{ t("noOrders") }}
                     </h3>
 
                     <p class="mt-1 text-sm text-muted">
-                        This user has not placed any orders.
+                        {{ t("userNoOrders") }}
                     </p>
                 </div>
             </section>
@@ -478,11 +479,11 @@ const totalOrderValue = (): number => {
                     <p
                         class="text-xs font-bold uppercase tracking-[0.16em] text-brand-600"
                     >
-                        Delivery
+                        {{ t("delivery") }}
                     </p>
 
                     <h2 class="mt-1 text-lg font-semibold text-heading">
-                        Delivery Assignments
+                        {{ t("deliveryAssignments") }}
                     </h2>
                 </div>
 
@@ -490,7 +491,7 @@ const totalOrderValue = (): number => {
                     class="rounded-full bg-background px-3 py-1 text-xs font-bold text-muted"
                 >
                     {{ props.user.delivery_assignments.length }}
-                    total
+                    {{ t("total") }}
                 </span>
             </div>
 
@@ -505,18 +506,18 @@ const totalOrderValue = (): number => {
                 >
                     <div>
                         <p class="font-semibold text-heading">
-                            Order #{{ assignment.order_id }}
+                            {{ t("order") }} #{{ assignment.order_id }}
                         </p>
 
                         <p class="mt-1 text-xs capitalize text-muted">
-                            {{ assignment.type }} assignment
+                            {{ t(assignment.type) }} {{ t("assignment") }}
                         </p>
 
                         <p
                             v-if="assignment.created_at"
                             class="mt-1 text-xs text-muted"
                         >
-                            Assigned
+                            {{ t("assignedDate") }}
                             {{ formatDateTime(assignment.created_at) }}
                         </p>
                     </div>
@@ -526,28 +527,28 @@ const totalOrderValue = (): number => {
                             v-if="assignment.completed_at"
                             class="rounded-full border border-green-100 bg-green-50 px-3 py-1 text-xs font-bold text-green-700"
                         >
-                            Completed
+                            {{ t("completed") }}
                         </span>
 
                         <span
                             v-else-if="assignment.taken_at"
                             class="rounded-full border border-blue-100 bg-blue-50 px-3 py-1 text-xs font-bold text-blue-700"
                         >
-                            Taken
+                            {{ t("taken") }}
                         </span>
 
                         <span
                             v-else
                             class="rounded-full border border-yellow-100 bg-yellow-50 px-3 py-1 text-xs font-bold text-yellow-700"
                         >
-                            Not Taken
+                            {{ t("notTaken") }}
                         </span>
 
                         <Link
                             :href="`/admin/orders/${assignment.order_id}`"
                             class="inline-flex items-center rounded-xl border border-border px-3 py-2 text-sm font-semibold text-body transition hover:border-brand-200 hover:bg-brand-50 hover:text-brand-700 focus-visible:outline-none"
                         >
-                            View Order
+                            {{ t("viewOrder") }}
                         </Link>
                     </div>
                 </div>

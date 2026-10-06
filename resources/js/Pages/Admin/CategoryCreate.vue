@@ -4,6 +4,7 @@
 import { Head, Link, useForm } from "@inertiajs/vue3";
 import { ArrowLeft, ImagePlus } from "lucide-vue-next";
 import AdminLayout from "@/Layouts/AdminLayout.vue";
+import { t } from "@/Utils/i18n";
 
 // ==================== Types ====================
 
@@ -51,24 +52,24 @@ const submit = () => {
                     class="inline-flex items-center gap-2 text-sm font-semibold text-muted transition hover:text-brand-700"
                 >
                     <ArrowLeft class="h-4 w-4" />
-                    Back to Categories
+                    {{ t("backToCategories") }}
                 </Link>
 
                 <div class="mt-5">
                     <p
                         class="text-xs font-bold uppercase tracking-[0.16em] text-brand-600"
                     >
-                        Catalog
+                        {{ t("catalog") }}
                     </p>
 
                     <h1
                         class="mt-1 text-2xl font-bold tracking-tight text-heading"
                     >
-                        Create Category
+                        {{ t("createCategory") }}
                     </h1>
 
                     <p class="mt-1 text-sm text-muted">
-                        Add a new category or subcategory to your catalog.
+                        {{ t("createCategoryDescription") }}
                     </p>
                 </div>
             </div>
@@ -85,11 +86,11 @@ const submit = () => {
                     class="border-b border-border bg-background px-5 py-5 sm:px-6"
                 >
                     <h2 class="font-semibold text-heading">
-                        Category Information
+                        {{ t("categoryinfo") }}
                     </h2>
 
                     <p class="mt-1 text-sm text-muted">
-                        Enter the details for your new catalog category.
+                        {{ t("enterCategoryDetails") }}
                     </p>
                 </div>
 
@@ -101,7 +102,7 @@ const submit = () => {
                             for="name"
                             class="text-sm font-semibold text-heading"
                         >
-                            Category Name
+                            {{ t("categoryName") }}
                         </label>
 
                         <input
@@ -132,7 +133,7 @@ const submit = () => {
                             for="parent_id"
                             class="text-sm font-semibold text-heading"
                         >
-                            Parent Category
+                            {{ t("arentCategory") }}
                         </label>
 
                         <select
@@ -145,7 +146,9 @@ const submit = () => {
                                     : ''
                             "
                         >
-                            <option :value="null">Main Category</option>
+                            <option :value="null">
+                                {{ t("mainCategory") }}
+                            </option>
 
                             <option
                                 v-for="parent in parentCategories"
@@ -157,8 +160,7 @@ const submit = () => {
                         </select>
 
                         <p class="mt-1.5 text-xs text-muted">
-                            Select a parent category if this should be a
-                            subcategory.
+                            {{ t("selectParentCategoryHint") }}
                         </p>
 
                         <p
@@ -176,14 +178,13 @@ const submit = () => {
                             for="description"
                             class="text-sm font-semibold text-heading"
                         >
-                            Description
+                            {{ t("description") }}
                         </label>
 
                         <textarea
                             id="description"
                             v-model="form.description"
                             rows="5"
-                            placeholder="Describe this category..."
                             class="mt-2 w-full resize-none rounded-xl border border-border bg-surface px-4 py-3 text-sm leading-6 text-heading placeholder:text-muted outline-none transition focus:border-brand-500 focus:ring-2 focus:ring-brand-500/10"
                             :class="
                                 form.errors.description
@@ -207,7 +208,7 @@ const submit = () => {
                             for="image"
                             class="text-sm font-semibold text-heading"
                         >
-                            Category Image
+                            {{ t("categoryImage") }}
                         </label>
 
                         <label
@@ -222,7 +223,7 @@ const submit = () => {
 
                             <div class="min-w-0">
                                 <p class="text-sm font-semibold text-heading">
-                                    Choose an image
+                                    {{ t("chooseImage") }}
                                 </p>
 
                                 <p class="mt-1 text-xs text-muted">
@@ -233,7 +234,7 @@ const submit = () => {
                                     v-if="form.image"
                                     class="mt-2 truncate text-xs font-medium text-brand-700"
                                 >
-                                    Selected: {{ form.image.name }}
+                                    {{ t("selected") }}: {{ form.image.name }}
                                 </p>
                             </div>
                         </label>
@@ -271,12 +272,11 @@ const submit = () => {
 
                         <div>
                             <p class="text-sm font-semibold text-heading">
-                                Active category
+                                {{ t("activeCategory") }}
                             </p>
 
                             <p class="mt-1 text-xs leading-5 text-muted">
-                                Active categories can be selected and used by
-                                sellers.
+                                {{ t("activeCategoryHint") }}
                             </p>
                         </div>
                     </label>
@@ -290,7 +290,7 @@ const submit = () => {
                             href="/admin/categories"
                             class="inline-flex items-center justify-center rounded-xl border border-border bg-surface px-5 py-3 text-sm font-semibold text-body transition hover:bg-background focus:outline-none focus:ring-2 focus:ring-brand-500 focus:ring-offset-2"
                         >
-                            Cancel
+                            {{ t("cancel") }}
                         </Link>
 
                         <button
@@ -300,8 +300,8 @@ const submit = () => {
                         >
                             {{
                                 form.processing
-                                    ? "Creating..."
-                                    : "Create Category"
+                                    ? t("creating")
+                                    : t("createCategory")
                             }}
                         </button>
                     </div>

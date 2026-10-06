@@ -11,6 +11,7 @@ import {
     Truck,
     Users,
 } from "lucide-vue-next";
+import { t } from "@/Utils/i18n";
 
 // ==================== Types ====================
 
@@ -51,18 +52,16 @@ const formatStatus = (status: string): string => {
         <div class="mb-8">
             <p
                 class="mb-2 text-xs font-bold uppercase tracking-[0.18em] text-brand-600"
-            >
-                Admin Panel
-            </p>
+            ></p>
 
             <h1
                 class="text-2xl font-bold tracking-tight text-heading sm:text-3xl"
             >
-                Dashboard
+                {{ t("adminDashboard") }}
             </h1>
 
             <p class="mt-2 text-sm text-muted sm:text-base">
-                Overview of what's happening in Deliver.
+                {{ t("overviewAdmin") }}
             </p>
         </div>
 
@@ -80,7 +79,7 @@ const formatStatus = (status: string): string => {
                     <ClipboardList class="h-5 w-5" />
                 </div>
 
-                <p class="text-sm font-medium text-muted">Orders</p>
+                <p class="text-sm font-medium text-muted">{{ t("orders") }}</p>
 
                 <p class="mt-1 text-2xl font-bold tracking-tight text-heading">
                     {{ props.stats.orders }}
@@ -98,7 +97,7 @@ const formatStatus = (status: string): string => {
                     <Users class="h-5 w-5" />
                 </div>
 
-                <p class="text-sm font-medium text-muted">Users</p>
+                <p class="text-sm font-medium text-muted">{{ t("users") }}</p>
 
                 <p class="mt-1 text-2xl font-bold tracking-tight text-heading">
                     {{ props.stats.users }}
@@ -116,7 +115,7 @@ const formatStatus = (status: string): string => {
                     <ShoppingBag class="h-5 w-5" />
                 </div>
 
-                <p class="text-sm font-medium text-muted">Sellers</p>
+                <p class="text-sm font-medium text-muted">{{ t("sellers") }}</p>
 
                 <p class="mt-1 text-2xl font-bold tracking-tight text-heading">
                     {{ props.stats.sellers }}
@@ -134,7 +133,9 @@ const formatStatus = (status: string): string => {
                     <Truck class="h-5 w-5" />
                 </div>
 
-                <p class="text-sm font-medium text-muted">Delivery</p>
+                <p class="text-sm font-medium text-muted">
+                    {{ t("delivery") }}
+                </p>
 
                 <p class="mt-1 text-2xl font-bold tracking-tight text-heading">
                     {{ props.stats.delivery }}
@@ -152,7 +153,9 @@ const formatStatus = (status: string): string => {
                     <Package class="h-5 w-5" />
                 </div>
 
-                <p class="text-sm font-medium text-muted">Products</p>
+                <p class="text-sm font-medium text-muted">
+                    {{ t("products") }}
+                </p>
 
                 <p class="mt-1 text-2xl font-bold tracking-tight text-heading">
                     {{ props.stats.products }}
@@ -171,10 +174,12 @@ const formatStatus = (status: string): string => {
                 class="flex flex-col gap-3 border-b border-border px-5 py-4 sm:flex-row sm:items-center sm:justify-between sm:px-6"
             >
                 <div>
-                    <h2 class="font-semibold text-heading">Recent Orders</h2>
+                    <h2 class="font-semibold text-heading">
+                        {{ t("recentOrders") }}
+                    </h2>
 
                     <p class="mt-1 text-sm text-muted">
-                        Latest activity in the store.
+                        {{ t("recentOrdersDescription") }}
                     </p>
                 </div>
 
@@ -182,7 +187,7 @@ const formatStatus = (status: string): string => {
                     href="/admin/orders"
                     class="group flex w-fit items-center gap-1.5 rounded-lg px-2 py-1.5 text-sm font-semibold text-brand-600 transition hover:bg-brand-50 hover:text-brand-700 focus-visible:outline-none"
                 >
-                    View all
+                    {{ t("seeAll") }}
 
                     <ArrowRight
                         class="h-4 w-4 transition-transform group-hover:translate-x-0.5"
@@ -203,11 +208,11 @@ const formatStatus = (status: string): string => {
                 </div>
 
                 <h3 class="mt-4 text-sm font-semibold text-heading">
-                    No orders yet
+                    {{ t("noOrders") }}
                 </h3>
 
                 <p class="mt-1 text-sm text-muted">
-                    Recent orders will appear here.
+                    {{ t("noRecentOrders") }}
                 </p>
             </div>
 
@@ -227,7 +232,7 @@ const formatStatus = (status: string): string => {
                         </p>
 
                         <p class="mt-1 text-sm capitalize text-muted">
-                            {{ formatStatus(order.status) }}
+                            {{ t(order.status) }}
                         </p>
                     </div>
 

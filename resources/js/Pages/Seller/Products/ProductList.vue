@@ -12,6 +12,7 @@ import {
     Power,
     XCircle,
 } from "lucide-vue-next";
+import { t } from "@/Utils/i18n";
 
 // ==================== Types ====================
 
@@ -78,20 +79,14 @@ const formatPrice = (price: number) => {
                 class="mb-8 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between"
             >
                 <div>
-                    <p
-                        class="text-sm font-bold uppercase tracking-wider text-brand-600"
-                    >
-                        Store Management
-                    </p>
+                    {{ t("myProducts") }}
 
                     <h1
                         class="mt-1 text-2xl font-extrabold tracking-tight text-heading sm:text-3xl"
-                    >
-                        My Products
-                    </h1>
+                    ></h1>
 
                     <p class="mt-2 text-sm leading-6 text-muted">
-                        Manage the products you sell in your store.
+                        {{ t("manageStoreProductsDescription") }}
                     </p>
                 </div>
 
@@ -102,7 +97,7 @@ const formatPrice = (price: number) => {
                     class="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-brand-600 px-4 py-3 text-sm font-bold text-white shadow-sm transition-all duration-200 hover:bg-brand-700 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:ring-offset-2 sm:w-auto"
                 >
                     <Plus :size="18" :stroke-width="2.5" />
-                    Add Product
+                    {{ t("addProduct") }}
                 </Link>
             </section>
 
@@ -123,7 +118,7 @@ const formatPrice = (price: number) => {
                         @click="activeFilter = 'all'"
                     >
                         <Package :size="16" />
-                        All
+                        {{ t("seeAll") }}
                     </button>
 
                     <button
@@ -137,7 +132,7 @@ const formatPrice = (price: number) => {
                         @click="activeFilter = 'active'"
                     >
                         <CheckCircle2 :size="16" />
-                        Active
+                        {{ t("active") }}
                     </button>
 
                     <button
@@ -151,7 +146,7 @@ const formatPrice = (price: number) => {
                         @click="activeFilter = 'inactive'"
                     >
                         <XCircle :size="16" />
-                        Inactive
+                        {{ t("inactive") }}
                     </button>
                 </div>
             </section>
@@ -163,11 +158,15 @@ const formatPrice = (price: number) => {
                 class="mb-4 flex items-center justify-between"
             >
                 <p class="text-sm font-medium text-muted">
-                    Showing
+                    {{ t("showing") }}
                     <span class="font-bold text-heading">
                         {{ filteredProducts.length }}
                     </span>
-                    {{ filteredProducts.length === 1 ? "product" : "products" }}
+                    {{
+                        filteredProducts.length === 1
+                            ? t("product")
+                            : t("products")
+                    }}
                 </p>
             </div>
 
@@ -184,11 +183,11 @@ const formatPrice = (price: number) => {
                 </div>
 
                 <h3 class="mt-4 text-base font-extrabold text-heading">
-                    No products found
+                    {{ t("noProducts") }}
                 </h3>
 
                 <p class="mx-auto mt-1.5 max-w-sm text-sm leading-6 text-muted">
-                    There are no products in this category.
+                    {{ t("noProductsInSection") }}
                 </p>
 
                 <Link
@@ -197,7 +196,7 @@ const formatPrice = (price: number) => {
                     class="mt-5 inline-flex items-center gap-2 rounded-xl bg-brand-600 px-4 py-2.5 text-sm font-bold text-white shadow-sm transition hover:bg-brand-700"
                 >
                     <Plus :size="17" />
-                    Add Product
+                    {{ t("addProduct") }}
                 </Link>
             </div>
 
@@ -250,7 +249,7 @@ const formatPrice = (price: number) => {
                             class="absolute left-3 top-3 inline-flex items-center gap-1.5 rounded-full border border-green-200 bg-green-50 px-2.5 py-1 text-[11px] font-bold uppercase tracking-wide text-green-700 shadow-sm"
                         >
                             <CheckCircle2 :size="13" />
-                            Active
+                            {{ t("active") }}
                         </span>
 
                         <span
@@ -258,7 +257,7 @@ const formatPrice = (price: number) => {
                             class="absolute left-3 top-3 inline-flex items-center gap-1.5 rounded-full border border-slate-200 bg-white/95 px-2.5 py-1 text-[11px] font-bold uppercase tracking-wide text-slate-600 shadow-sm backdrop-blur"
                         >
                             <XCircle :size="13" />
-                            Inactive
+                            {{ t("inactive") }}
                         </span>
                     </div>
 
@@ -279,7 +278,7 @@ const formatPrice = (price: number) => {
                             </p>
 
                             <p class="mt-1 text-sm font-medium text-muted">
-                                Stock: {{ product.stock }}
+                                {{ t("stock") }}: {{ product.stock }}
 
                                 <span v-if="product.unit">
                                     {{ product.unit }}
@@ -297,7 +296,7 @@ const formatPrice = (price: number) => {
                                 class="inline-flex items-center justify-center gap-1.5 rounded-xl bg-brand-600 px-3 py-2.5 text-sm font-bold text-white shadow-sm transition-all duration-200 hover:bg-brand-700 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:ring-offset-2"
                             >
                                 <Edit3 :size="16" />
-                                Edit
+                                {{ t("edit") }}
                             </Link>
 
                             <!-- ==================== Toggle Status ==================== -->
@@ -315,8 +314,8 @@ const formatPrice = (price: number) => {
                                 <Power :size="16" />
                                 {{
                                     product.is_active
-                                        ? "Deactivate"
-                                        : "Activate"
+                                        ? t("deactivate")
+                                        : t("activate")
                                 }}
                             </button>
                         </div>

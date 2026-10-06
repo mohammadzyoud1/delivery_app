@@ -6,6 +6,8 @@ import ConversationChat from "@/Components/Messaging/ConversationChat.vue";
 import { router } from "@inertiajs/vue3";
 import { ArrowLeft, User, Truck } from "lucide-vue-next";
 import { nextTick, onMounted, onUnmounted, ref } from "vue";
+import { t } from "@/Utils/i18n";
+
 // ==================== Types ====================
 
 interface User {
@@ -152,8 +154,8 @@ onUnmounted(() => {
                             <p class="text-xs text-muted">
                                 {{
                                     props.conversation.type === "delivery"
-                                        ? "Delivery conversation"
-                                        : "Platform Support"
+                                        ? t("deliveryConversation")
+                                        : t("platformSupport")
                                 }}
                             </p>
                         </div>
@@ -166,8 +168,8 @@ onUnmounted(() => {
                     <ConversationChat
                         :conversation="props.conversation"
                         :current-user-id="$page.props.auth.user?.id ?? null"
-                        empty-title="No messages yet"
-                        empty-message="Start the conversation."
+                        empty-title="noMsgs"
+                        empty-message="startConversation"
                     />
                 </div>
             </div>

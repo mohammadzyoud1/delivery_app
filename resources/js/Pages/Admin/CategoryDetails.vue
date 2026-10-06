@@ -4,6 +4,7 @@
 import { Head, Link } from "@inertiajs/vue3";
 import { ArrowLeft, FolderTree, Package } from "lucide-vue-next";
 import AdminLayout from "@/Layouts/AdminLayout.vue";
+import { t } from "@/Utils/i18n";
 
 // ==================== Types ====================
 
@@ -55,7 +56,7 @@ defineProps<{
                     class="inline-flex items-center gap-2 text-sm font-semibold text-muted transition hover:text-brand-700"
                 >
                     <ArrowLeft class="h-4 w-4" />
-                    Back to Categories
+                    {{ t("backToCategories") }}
                 </Link>
 
                 <div
@@ -79,7 +80,7 @@ defineProps<{
                             <p
                                 class="text-xs font-bold uppercase tracking-[0.16em] text-brand-600"
                             >
-                                Category Details
+                                {{ t("categoryDetails") }}
                             </p>
 
                             <h1
@@ -89,7 +90,7 @@ defineProps<{
                             </h1>
 
                             <p class="mt-1 text-sm text-muted">
-                                Category #{{ category.id }}
+                                {{ t("category") }} #{{ category.id }}
                             </p>
                         </div>
                     </div>
@@ -102,7 +103,7 @@ defineProps<{
                                 : 'border border-border bg-background text-muted'
                         "
                     >
-                        {{ category.is_active ? "Active" : "Inactive" }}
+                        {{ category.is_active ? t("active") : t("inactive") }}
                     </span>
                 </div>
             </div>
@@ -114,11 +115,11 @@ defineProps<{
             >
                 <div>
                     <h2 class="font-semibold text-heading">
-                        Category Information
+                        {{ t("categoryInfo") }}
                     </h2>
 
                     <p class="mt-1 text-sm text-muted">
-                        Basic information and category hierarchy.
+                        {{ t("categoryInformationDescription") }}
                     </p>
                 </div>
 
@@ -129,11 +130,11 @@ defineProps<{
                         <p
                             class="text-xs font-bold uppercase tracking-wide text-muted"
                         >
-                            Parent Category
+                            {{ t("parentCategory") }}
                         </p>
 
                         <p class="mt-2 text-sm font-semibold text-heading">
-                            {{ category.parent?.name || "Main Category" }}
+                            {{ category.parent?.name || t("mainCategory") }}
                         </p>
                     </div>
 
@@ -143,7 +144,7 @@ defineProps<{
                         <p
                             class="text-xs font-bold uppercase tracking-wide text-muted"
                         >
-                            Category ID
+                            {{ t("category") }}
                         </p>
 
                         <p class="mt-2 text-sm font-semibold text-heading">
@@ -158,13 +159,13 @@ defineProps<{
                     <p
                         class="text-xs font-bold uppercase tracking-wide text-muted"
                     >
-                        Description
+                        {{ t("description") }}
                     </p>
 
                     <p
                         class="mt-2 whitespace-pre-line text-sm leading-6 text-body"
                     >
-                        {{ category.description || "No description provided." }}
+                        {{ category.description || t("noDescriptionProvided") }}
                     </p>
                 </div>
             </section>
@@ -177,15 +178,15 @@ defineProps<{
                 <div class="flex items-center justify-between gap-4">
                     <div>
                         <h2 class="font-semibold text-heading">
-                            Subcategories
+                            {{ t("subcategories") }}
                         </h2>
 
                         <p class="mt-1 text-sm text-muted">
                             {{ category.children.length }}
                             {{
                                 category.children.length === 1
-                                    ? "subcategory"
-                                    : "subcategories"
+                                    ? t("subcategory")
+                                    : t("subcategories")
                             }}
                         </p>
                     </div>
@@ -217,7 +218,7 @@ defineProps<{
                                 </p>
 
                                 <p class="mt-1 text-xs text-muted">
-                                    Category #{{ child.id }}
+                                    {{ t("category") }} #{{ child.id }}
                                 </p>
                             </div>
 
@@ -225,14 +226,14 @@ defineProps<{
                                 v-if="child.is_active"
                                 class="shrink-0 rounded-full border border-green-100 bg-green-50 px-2 py-1 text-[11px] font-bold text-green-700"
                             >
-                                Active
+                                {{ t("active") }}
                             </span>
 
                             <span
                                 v-else
                                 class="shrink-0 rounded-full border border-border bg-surface px-2 py-1 text-[11px] font-bold text-muted"
                             >
-                                Inactive
+                                {{ t("inactive") }}
                             </span>
                         </div>
                     </div>
@@ -247,11 +248,11 @@ defineProps<{
                     <FolderTree class="mx-auto h-7 w-7 text-muted" />
 
                     <p class="mt-2 text-sm font-medium text-body">
-                        No subcategories
+                        {{ t("noSubcategories") }}
                     </p>
 
                     <p class="mt-1 text-xs text-muted">
-                        This category does not have any child categories.
+                        {{ t("noSubcategoriesDescription") }}
                     </p>
                 </div>
             </section>
@@ -270,16 +271,17 @@ defineProps<{
                         </div>
 
                         <div>
-                            <h2 class="font-semibold text-heading">Products</h2>
+                            <h2 class="font-semibold text-heading">
+                                {{ t("products") }}
+                            </h2>
 
                             <p class="text-sm text-muted">
                                 {{ category.products.length }}
                                 {{
                                     category.products.length === 1
-                                        ? "product"
-                                        : "products"
+                                        ? t("product")
+                                        : t("products")
                                 }}
-                                in this category
                             </p>
                         </div>
                     </div>
@@ -308,31 +310,31 @@ defineProps<{
                                     v-if="product.is_active"
                                     class="rounded-full bg-green-50 px-2 py-0.5 text-[10px] font-bold text-green-700"
                                 >
-                                    Active
+                                    {{ t("active") }}
                                 </span>
 
                                 <span
                                     v-else
                                     class="rounded-full bg-background px-2 py-0.5 text-[10px] font-bold text-muted"
                                 >
-                                    Inactive
+                                    {{ t("inactive") }}
                                 </span>
                             </div>
 
                             <p class="mt-1 text-xs text-muted">
-                                Product #{{ product.id }}
+                                {{ t("product") }} #{{ product.id }}
                             </p>
 
                             <div
                                 class="mt-2 flex flex-wrap gap-x-4 gap-y-1 text-xs text-body"
                             >
                                 <span>
-                                    Stock:
+                                    {{ t("stock") }}:
                                     <strong>{{ product.stock }}</strong>
                                 </span>
 
                                 <span>
-                                    Price:
+                                    {{ t("price") }}:
                                     <strong>{{ product.price }}</strong>
                                 </span>
                             </div>
@@ -342,7 +344,7 @@ defineProps<{
                             :href="`/admin/products/${product.id}`"
                             class="inline-flex w-full shrink-0 items-center justify-center rounded-xl border border-border bg-surface px-4 py-2.5 text-sm font-semibold text-body transition hover:border-brand-100 hover:bg-brand-50 hover:text-brand-700 sm:w-auto"
                         >
-                            View Product
+                            {{ t("view") }}
                         </Link>
                     </div>
                 </div>
@@ -356,11 +358,11 @@ defineProps<{
                     <Package class="mx-auto h-7 w-7 text-muted" />
 
                     <p class="mt-2 text-sm font-medium text-body">
-                        No products in this category
+                        {{ t("noProductsInCategory") }}
                     </p>
 
                     <p class="mt-1 text-xs text-muted">
-                        Products assigned to this category will appear here.
+                        {{ t("productsInCategoryAppear") }}
                     </p>
                 </div>
             </section>

@@ -9,8 +9,6 @@ class SellerApplicationController extends Controller
 {
     // ==================== Seller Application Page ====================
 
-    // ==================== Seller Application Page ====================
-
     public function create(Request $request)
     {
         // ==================== Find Current Application ====================

@@ -2,6 +2,7 @@
 // ==================== Imports ====================
 
 import { Search } from "lucide-vue-next";
+import { t } from "@/Utils/i18n";
 
 // ==================== Props ====================
 
@@ -10,7 +11,7 @@ interface Props {
 }
 
 withDefaults(defineProps<Props>(), {
-    placeholder: "Search products...",
+    placeholder: t("searchProducts"),
 });
 
 // ==================== Model ====================

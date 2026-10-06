@@ -111,7 +111,14 @@ Route::middleware(['auth', 'verified.email'])->group(function () {
         CheckoutController::class,
         'index',
     ])->name('checkout.index');
-
+    Route::get('/custom-orders', [
+        OrderController::class,
+        'create',
+    ])->name('custom-orders.create');
+    Route::post('/custom-orders', [
+        OrderController::class,
+        'customOrder',
+    ])->name('custom-orders.store');
     // ==================== Place Order ====================
 
     Route::post('/checkout', [

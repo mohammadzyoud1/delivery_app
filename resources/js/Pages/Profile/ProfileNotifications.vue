@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import { usePage, useForm } from "@inertiajs/vue3";
+import { t } from "@/Utils/i18n";
 
 // ==================== Types ====================
 
@@ -34,14 +35,14 @@ interface NotificationSetting {
 const notificationSettings = ref<NotificationSetting[]>([
     {
         key: "messages",
-        title: "Messages",
-        description: "Receive notifications when you receive a new message.",
+        title: t("messages"),
+        description: t("msgNotificationDescription"),
         enabled: user?.notification_preferences.messages ?? true,
     },
     {
         key: "orders",
-        title: "Order Updates",
-        description: "Receive notifications when your order status changes.",
+        title: t("orderUpdates"),
+        description: t("orderUpdateNotificationDescription"),
         enabled: user?.notification_preferences.orders ?? true,
     },
 ]);
@@ -75,10 +76,12 @@ const toggleNotification = (key: "messages" | "orders") => {
         <!-- ==================== Header ==================== -->
 
         <div>
-            <h2 class="text-lg font-bold text-heading">Notifications</h2>
+            <h2 class="text-lg font-bold text-heading">
+                {{ t("notifications") }}
+            </h2>
 
             <p class="mt-1 text-sm text-muted">
-                Choose which notifications you want to receive.
+                {{ t("chooseNotification") }}
             </p>
         </div>
 

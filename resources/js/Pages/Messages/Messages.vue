@@ -4,6 +4,7 @@
 import CustomerLayout from "@/Layouts/CustomerLayout.vue";
 import { Link } from "@inertiajs/vue3";
 import { MessageCircle, Truck, Headphones } from "lucide-vue-next";
+import { t } from "@/Utils/i18n";
 
 // ==================== Types ====================
 
@@ -57,7 +58,7 @@ console.log("My conversations:", props.conversations);
                     >
                         <Headphones :size="18" />
 
-                        Contact Support
+                        {{ t("contactSupport") }}
                     </Link>
                 </div>
                 <!-- ==================== Header ==================== -->
@@ -66,11 +67,11 @@ console.log("My conversations:", props.conversations);
                     <h1
                         class="text-2xl font-extrabold tracking-tight text-heading sm:text-3xl"
                     >
-                        Messages
+                        {{ t("messages") }}
                     </h1>
 
                     <p class="mt-1 text-sm text-muted">
-                        Contact DELIVER support or your delivery person.
+                        {{ t("contactSupportDescription") }}
                     </p>
                 </div>
 
@@ -115,8 +116,8 @@ console.log("My conversations:", props.conversations);
                             <p class="mt-1 truncate text-sm text-muted">
                                 {{
                                     conversation.type === "delivery"
-                                        ? "Delivery conversation"
-                                        : "Platform Support"
+                                        ? t("deliveryConversation")
+                                        : t("platformSupport")
                                 }}
                             </p>
                         </div>
@@ -130,7 +131,7 @@ console.log("My conversations:", props.conversations);
                             "
                             class="hidden shrink-0 rounded-full bg-brand-50 px-3 py-1 text-xs font-semibold capitalize text-brand-700 sm:inline-flex"
                         >
-                            {{ conversation.order.status }}
+                            {{ t(conversation.order.status) }}
                         </span>
                     </Link>
                 </div>
@@ -148,14 +149,13 @@ console.log("My conversations:", props.conversations);
                     </div>
 
                     <h2 class="mt-4 text-base font-bold text-heading">
-                        No conversations yet
+                        {{ t("noConversations") }}
                     </h2>
 
                     <p
                         class="mx-auto mt-2 max-w-sm text-sm leading-6 text-muted"
                     >
-                        Start a conversation with DELIVER support when you need
-                        help.
+                        {{ t("startConversationSupport") }}
                     </p>
                 </div>
             </div>

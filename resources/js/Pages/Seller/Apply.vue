@@ -4,6 +4,8 @@
 import { useForm } from "@inertiajs/vue3";
 import { ArrowLeft, FileText, Store } from "lucide-vue-next";
 import { computed } from "vue";
+import { t } from "@/Utils/i18n";
+
 // ==================== Types ====================
 
 interface SellerApplication {
@@ -65,12 +67,12 @@ const submitApplication = () => {
                 </button>
 
                 <div>
-                    <p class="text-xs font-medium text-muted">Seller account</p>
+                    <p class="text-xs font-medium text-muted"></p>
 
                     <h1
                         class="text-lg font-extrabold tracking-tight text-heading"
                     >
-                        Become a Seller
+                        {{ t("becomeSeller") }}
                     </h1>
                 </div>
             </div>
@@ -91,15 +93,8 @@ const submitApplication = () => {
                 <h2
                     class="mt-5 text-2xl font-extrabold tracking-tight text-heading sm:text-3xl"
                 >
-                    Start selling on Deliver
+                    {{ t("startSelling") }}
                 </h2>
-
-                <p
-                    class="mt-2 max-w-2xl text-sm leading-6 text-muted sm:text-base"
-                >
-                    Tell us a little about what you would like to sell. Your
-                    application will be reviewed by an administrator.
-                </p>
             </section>
 
             <!-- ==================== Application Status ==================== -->
@@ -115,12 +110,11 @@ const submitApplication = () => {
                 </div>
 
                 <h3 class="mt-5 text-lg font-extrabold text-heading">
-                    Application under review
+                    {{ t("applicationUnderReview") }}
                 </h3>
 
                 <p class="mt-2 text-sm leading-6 text-body">
-                    Your seller application has been submitted and is waiting
-                    for an administrator to review it.
+                    {{ t("applicationUnderReviewDescription") }}
                 </p>
 
                 <div
@@ -129,11 +123,11 @@ const submitApplication = () => {
                     <p
                         class="text-xs font-bold uppercase tracking-wide text-amber-700"
                     >
-                        Status
+                        {{ t("status") }}
                     </p>
 
                     <p class="mt-1 text-sm font-semibold text-heading">
-                        Pending review
+                        {{ t("pendingReview") }}
                     </p>
                 </div>
             </div>
@@ -151,19 +145,18 @@ const submitApplication = () => {
                 </div>
 
                 <h3 class="mt-5 text-lg font-extrabold text-heading">
-                    You're a seller
+                    {{ t("youAreSeller") }}
                 </h3>
 
                 <p class="mt-2 text-sm leading-6 text-body">
-                    Your seller application was approved. You can now manage
-                    your products from the Seller Dashboard.
+                    {{ t("sellerApprovedDescription") }}
                 </p>
 
                 <a
                     href="/seller"
                     class="mt-6 inline-flex w-full items-center justify-center rounded-xl bg-brand-600 px-5 py-3 text-sm font-bold text-white shadow-sm transition-all duration-200 hover:bg-brand-700 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:ring-offset-2 sm:w-auto"
                 >
-                    Open Seller Dashboard
+                    {{ t("openSellerDashboard") }}
                 </a>
             </div>
 
@@ -180,12 +173,11 @@ const submitApplication = () => {
                 </div>
 
                 <h3 class="mt-5 text-lg font-extrabold text-heading">
-                    Application not approved
+                    {{ t("applicationNotApproved") }}
                 </h3>
 
                 <p class="mt-2 text-sm leading-6 text-body">
-                    Your previous seller application was not approved. You can
-                    submit a new application below.
+                    {{ t("applicationNotApprovedDescription") }}
                 </p>
 
                 <!-- ==================== Rejection Reason ==================== -->
@@ -197,7 +189,7 @@ const submitApplication = () => {
                     <p
                         class="text-xs font-bold uppercase tracking-wide text-red-600"
                     >
-                        Admin's reason
+                        {{ t("adminReason") }}
                     </p>
 
                     <p class="mt-2 text-sm leading-6 text-body">
@@ -215,18 +207,17 @@ const submitApplication = () => {
                         for="reason"
                         class="mb-2 block text-sm font-bold text-heading"
                     >
-                        Apply again
+                        {{ t("applyAgain") }}
                     </label>
 
                     <p class="mb-3 text-xs leading-5 text-muted">
-                        Tell us why you would like to become a seller.
+                        {{ t("sellerApplicationHint") }}
                     </p>
 
                     <textarea
                         id="reason"
                         v-model="form.reason"
                         rows="6"
-                        placeholder="Tell us why you would like to become a seller..."
                         class="w-full resize-none rounded-xl border border-border bg-background px-4 py-3 text-sm leading-6 text-heading outline-none transition placeholder:text-muted focus:border-brand-500 focus:bg-surface focus:ring-2 focus:ring-brand-100"
                     ></textarea>
 
@@ -242,11 +233,7 @@ const submitApplication = () => {
                         :disabled="form.processing"
                         class="mt-4 w-full rounded-xl bg-brand-600 px-4 py-3 text-sm font-bold text-white shadow-sm transition-all duration-200 hover:bg-brand-700 hover:shadow-md disabled:cursor-not-allowed disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:ring-offset-2"
                     >
-                        {{
-                            form.processing
-                                ? "Submitting..."
-                                : "Submit New Application"
-                        }}
+                        {{ form.processing ? t("submitting") : t("submit") }}
                     </button>
                 </form>
             </div>
@@ -270,11 +257,11 @@ const submitApplication = () => {
 
                         <div>
                             <h3 class="text-base font-extrabold text-heading">
-                                Seller application
+                                {{ t("sellerApplication") }}
                             </h3>
 
                             <p class="mt-0.5 text-xs text-muted">
-                                Complete the short application below.
+                                {{ t("completeShortApplication") }}
                             </p>
                         </div>
                     </div>
@@ -287,19 +274,17 @@ const submitApplication = () => {
                         for="reason"
                         class="mb-2 block text-sm font-bold text-heading"
                     >
-                        Why do you want to become a seller?
+                        {{ t("tellAboutYourself") }}
                     </label>
 
                     <p class="mb-3 text-sm leading-6 text-muted">
-                        Tell us about what you would like to sell and anything
-                        else that may help us understand your application.
+                        {{ t("sellerApplicationHint") }}
                     </p>
 
                     <textarea
                         id="reason"
                         v-model="form.reason"
                         rows="7"
-                        placeholder="Tell us about what you would like to sell..."
                         class="w-full resize-none rounded-xl border border-border bg-background px-4 py-3 text-sm leading-6 text-heading outline-none transition placeholder:text-muted focus:border-brand-500 focus:bg-surface focus:ring-2 focus:ring-brand-100"
                     ></textarea>
 
@@ -315,11 +300,7 @@ const submitApplication = () => {
                         :disabled="form.processing"
                         class="mt-5 w-full rounded-xl bg-brand-600 px-4 py-3 text-sm font-bold text-white shadow-sm transition-all duration-200 hover:bg-brand-700 hover:shadow-md disabled:cursor-not-allowed disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:ring-offset-2"
                     >
-                        {{
-                            form.processing
-                                ? "Submitting..."
-                                : "Submit Application"
-                        }}
+                        {{ form.processing ? t("submitting") : t("submit") }}
                     </button>
                 </div>
             </form>

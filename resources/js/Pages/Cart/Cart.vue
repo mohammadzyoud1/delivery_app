@@ -1,5 +1,6 @@
 <script setup lang="ts">
 // ==================== Imports ====================
+import { t } from "@/Utils/i18n";
 
 import CustomerLayout from "@/Layouts/CustomerLayout.vue";
 import { router, usePage } from "@inertiajs/vue3";
@@ -128,10 +129,10 @@ const props = defineProps<{
                     <h1
                         class="text-2xl font-extrabold tracking-tight text-heading sm:text-3xl"
                     >
-                        Your Cart
+                        {{ t("myCart") }}
                     </h1>
                     <p class="mt-1.5 text-sm text-muted">
-                        Review your items before checkout.
+                        {{ t("reviewItems") }}
                     </p>
                 </div>
                 <!-- ==================== Empty Cart ==================== -->
@@ -145,13 +146,12 @@ const props = defineProps<{
                         <ShoppingCart :size="26" :stroke-width="1.8" />
                     </div>
                     <h2 class="mt-5 text-base font-bold text-heading">
-                        Your cart is empty
+                        {{ t("emptyCart") }}
                     </h2>
                     <p
                         class="mx-auto mt-1.5 max-w-sm text-sm leading-6 text-muted"
                     >
-                        Add some products to your cart and they will appear
-                        here.
+                        {{ t("cartEmptyMessage") }}
                     </p>
                     <div class="mx-auto mt-6 max-w-xs">
                         <Button
@@ -161,7 +161,7 @@ const props = defineProps<{
                             fullWidth
                             @click="router.visit('/')"
                         >
-                            Continue Shopping
+                            {{ t("continueShopping") }}
                         </Button>
                     </div>
                 </div>
@@ -198,7 +198,7 @@ const props = defineProps<{
                                             :stroke-width="1.5"
                                         />
                                         <span class="text-[11px] font-medium">
-                                            No image
+                                            {{ t("noimg") }}
                                         </span>
                                     </div>
                                 </div>
@@ -225,7 +225,10 @@ const props = defineProps<{
                                                     class="rounded-lg border border-border bg-background px-2 py-1 text-[11px] font-medium text-muted"
                                                 >
                                                     {{
-                                                        value.option_value.value
+                                                        t(
+                                                            value.option_value
+                                                                .value,
+                                                        )
                                                     }}
                                                 </span>
                                             </div>
@@ -244,7 +247,8 @@ const props = defineProps<{
                                                 v-if="item.product.unit"
                                                 class="mt-0.5 text-xs font-medium text-muted"
                                             >
-                                                Per {{ item.product.unit }}
+                                                {{ t("per") }}
+                                                {{ item.product.unit }}
                                             </p>
                                         </div>
                                     </div>
@@ -253,15 +257,16 @@ const props = defineProps<{
                                         v-if="isOutOfStock(item)"
                                         class="mt-3 rounded-xl border border-red-100 bg-red-50 px-3 py-2 text-xs font-semibold text-red-600"
                                     >
-                                        Out of stock
+                                        {{ t("noStuck") }}
                                     </div>
                                     <div
                                         v-else-if="hasInsufficientStock(item)"
                                         class="mt-3 rounded-xl border border-amber-100 bg-amber-50 px-3 py-2 text-xs font-semibold text-amber-700"
                                     >
-                                        Only
-                                        {{ getAvailableStock(item) }} available.
-                                        Please reduce your quantity.
+                                        {{ t("only") }}
+                                        {{ getAvailableStock(item) }}
+                                        {{ t("available") }}.
+                                        {{ t("reduceQuantity") }}
                                     </div>
                                 </div>
                             </div>
@@ -316,7 +321,7 @@ const props = defineProps<{
                                     <p
                                         class="text-[11px] font-medium text-muted"
                                     >
-                                        Subtotal
+                                        {{ t("subtotal") }}
                                     </p>
                                     <p
                                         class="mt-0.5 text-base font-extrabold tracking-tight text-heading sm:text-lg"
@@ -339,7 +344,7 @@ const props = defineProps<{
                                     class="inline-flex items-center gap-1.5 text-xs font-semibold text-red-500 transition-colors duration-150 hover:text-red-600"
                                     @click="removeItem(item.id)"
                                 >
-                                    <Trash2 :size="15" /> Remove
+                                    <Trash2 :size="15" /> {{ t("remove") }}
                                 </Button>
                             </div>
                         </div>
@@ -349,14 +354,14 @@ const props = defineProps<{
                         class="rounded-2xl border border-border bg-surface p-5 shadow-sm lg:sticky lg:top-6"
                     >
                         <h2 class="text-base font-bold text-heading">
-                            Order Summary
+                            {{ t("orderSummary") }}
                         </h2>
                         <div class="mt-5 border-t border-border pt-4">
                             <div
                                 class="flex items-center justify-between gap-4"
                             >
                                 <span class="text-sm font-medium text-muted">
-                                    Total
+                                    {{ t("total") }}
                                 </span>
                                 <span
                                     class="text-xl font-extrabold tracking-tight text-heading"
@@ -381,13 +386,13 @@ const props = defineProps<{
                                 "
                                 @click="router.visit('/checkout')"
                             >
-                                Checkout
+                                {{ t("checkout") }}
                             </Button>
                         </div>
                         <p
                             class="mt-3 text-center text-xs leading-5 text-muted"
                         >
-                            Review your items and quantities before continuing.
+                            {{ t("reviewBeforeContinuing") }}
                         </p>
                     </aside>
                 </div>

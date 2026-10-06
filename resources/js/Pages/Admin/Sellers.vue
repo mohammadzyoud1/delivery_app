@@ -4,6 +4,7 @@
 import { Head, Link } from "@inertiajs/vue3";
 import AdminLayout from "@/Layouts/AdminLayout.vue";
 import { Eye, Package, Users } from "lucide-vue-next";
+import { t } from "@/Utils/i18n";
 
 // ==================== Interfaces ====================
 
@@ -61,24 +62,24 @@ const formatDate = (date: string): string => {
                     <p
                         class="text-xs font-bold uppercase tracking-[0.16em] text-brand-600"
                     >
-                        Admin Panel
+                        {{ t("adminPanel") }}
                     </p>
 
                     <h1
                         class="mt-1 text-2xl font-bold tracking-tight text-heading"
                     >
-                        Sellers
+                        {{ t("sellers") }}
                     </h1>
 
                     <p class="mt-1 max-w-2xl text-sm text-muted">
-                        Manage users who have seller access.
+                        {{ t("manageSellersDescription") }}
                     </p>
                 </div>
 
                 <div
                     class="inline-flex w-fit items-center rounded-full border border-border bg-surface px-4 py-2 text-sm font-semibold text-body shadow-sm"
                 >
-                    {{ sellers.length }} sellers
+                    {{ sellers.length }} {{ t("sellers") }}
                 </div>
             </div>
 
@@ -99,7 +100,7 @@ const formatDate = (date: string): string => {
                             <p
                                 class="text-xs font-bold uppercase tracking-wide text-muted"
                             >
-                                Total Sellers
+                                {{ t("totalSellers") }}
                             </p>
 
                             <p class="mt-0.5 text-xl font-bold text-heading">
@@ -123,7 +124,7 @@ const formatDate = (date: string): string => {
                             <p
                                 class="text-xs font-bold uppercase tracking-wide text-muted"
                             >
-                                Total Products
+                                {{ t("totalProducts") }}
                             </p>
 
                             <p class="mt-0.5 text-xl font-bold text-heading">
@@ -153,11 +154,11 @@ const formatDate = (date: string): string => {
                 </div>
 
                 <h2 class="mt-4 text-base font-semibold text-heading">
-                    No sellers yet
+                    {{ t("noSellersYet") }}
                 </h2>
 
                 <p class="mt-1 text-sm text-muted">
-                    Approved seller applications will appear here.
+                    {{ t("approvedSellersAppear") }}
                 </p>
             </div>
 
@@ -174,38 +175,36 @@ const formatDate = (date: string): string => {
                                 <th
                                     class="px-5 py-4 text-xs font-bold uppercase tracking-wide text-muted"
                                 >
-                                    Seller
+                                    {{ t("seller") }}
                                 </th>
 
                                 <th
                                     class="px-5 py-4 text-xs font-bold uppercase tracking-wide text-muted"
                                 >
-                                    Contact
+                                    {{ t("contact") }}
                                 </th>
 
                                 <th
                                     class="px-5 py-4 text-xs font-bold uppercase tracking-wide text-muted"
                                 >
-                                    Products
+                                    {{ t("products") }}
                                 </th>
 
                                 <th
                                     class="px-5 py-4 text-xs font-bold uppercase tracking-wide text-muted"
                                 >
-                                    Verification
+                                    {{ t("emailStatus") }}
                                 </th>
 
                                 <th
                                     class="px-5 py-4 text-xs font-bold uppercase tracking-wide text-muted"
                                 >
-                                    Joined
+                                    {{ t("joinDate") }}
                                 </th>
 
                                 <th
                                     class="px-5 py-4 text-right text-xs font-bold uppercase tracking-wide text-muted"
-                                >
-                                    Action
-                                </th>
+                                ></th>
                             </tr>
                         </thead>
 
@@ -290,14 +289,14 @@ const formatDate = (date: string): string => {
                                         v-if="seller.email_verified_at"
                                         class="inline-flex rounded-full border border-green-100 bg-green-50 px-3 py-1 text-xs font-bold text-green-700"
                                     >
-                                        Verified
+                                        {{ t("verified") }}
                                     </span>
 
                                     <span
                                         v-else
                                         class="inline-flex rounded-full border border-yellow-100 bg-yellow-50 px-3 py-1 text-xs font-bold text-yellow-700"
                                     >
-                                        Unverified
+                                        {{ t("unverified") }}
                                     </span>
                                 </td>
 
@@ -317,7 +316,7 @@ const formatDate = (date: string): string => {
                                         class="inline-flex items-center gap-2 rounded-xl border border-border px-3 py-2 text-sm font-semibold text-body transition hover:border-brand-200 hover:bg-brand-50 hover:text-brand-700 focus-visible:outline-none"
                                     >
                                         <Eye class="h-4 w-4" />
-                                        View
+                                        {{ t("view") }}
                                     </Link>
                                 </td>
                             </tr>
@@ -371,7 +370,7 @@ const formatDate = (date: string): string => {
                         <span
                             class="shrink-0 rounded-full border border-brand-100 bg-brand-50 px-2.5 py-1 text-xs font-bold text-brand-700"
                         >
-                            Seller
+                            {{ t("seller") }}
                         </span>
                     </div>
 
@@ -381,7 +380,7 @@ const formatDate = (date: string): string => {
                         <p
                             class="text-[11px] font-bold uppercase tracking-wide text-muted"
                         >
-                            Contact
+                            {{ t("contact") }}
                         </p>
 
                         <p class="mt-1 truncate text-sm font-medium text-body">
@@ -402,7 +401,7 @@ const formatDate = (date: string): string => {
                             <p
                                 class="text-[11px] font-bold uppercase tracking-wide text-muted"
                             >
-                                Products
+                                {{ t("products") }}
                             </p>
 
                             <p
@@ -418,7 +417,7 @@ const formatDate = (date: string): string => {
                             <p
                                 class="text-[11px] font-bold uppercase tracking-wide text-muted"
                             >
-                                Joined
+                                {{ t("joinDate") }}
                             </p>
 
                             <p class="mt-1 text-sm font-semibold text-heading">
@@ -434,14 +433,14 @@ const formatDate = (date: string): string => {
                             v-if="seller.email_verified_at"
                             class="inline-flex rounded-full border border-green-100 bg-green-50 px-3 py-1 text-xs font-bold text-green-700"
                         >
-                            Email Verified
+                            {{ t("verified") }}
                         </span>
 
                         <span
                             v-else
                             class="inline-flex rounded-full border border-yellow-100 bg-yellow-50 px-3 py-1 text-xs font-bold text-yellow-700"
                         >
-                            Email Unverified
+                            {{ t("unverified") }}
                         </span>
                     </div>
 
@@ -452,7 +451,7 @@ const formatDate = (date: string): string => {
                         class="mt-5 flex w-full items-center justify-center gap-2 rounded-xl bg-brand-600 px-4 py-3 text-sm font-bold text-white transition hover:bg-brand-700 focus-visible:outline-none"
                     >
                         <Eye class="h-4 w-4" />
-                        View Seller
+                        {{ t("view") }}
                     </Link>
                 </div>
             </div>

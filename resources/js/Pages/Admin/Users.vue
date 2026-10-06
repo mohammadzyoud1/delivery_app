@@ -4,6 +4,7 @@
 import { Head, Link } from "@inertiajs/vue3";
 import { Mail, Phone, UserRound } from "lucide-vue-next";
 import AdminLayout from "@/Layouts/AdminLayout.vue";
+import { t } from "@/Utils/i18n";
 
 // ==================== Interfaces ====================
 
@@ -42,10 +43,10 @@ const formatDate = (date: string): string => {
 
 const roleNames = (user: User): string => {
     if (user.roles.length === 0) {
-        return "Customer";
+        return "customer";
     }
 
-    return user.roles.map((role) => role.name).join(", ");
+    return user.roles.map((role) => t(role.name)).join(", ");
 };
 </script>
 
@@ -59,7 +60,7 @@ const roleNames = (user: User): string => {
             <p
                 class="mb-2 text-xs font-bold uppercase tracking-[0.18em] text-brand-600"
             >
-                Admin Panel
+                {{ t("adminPanel") }}
             </p>
 
             <div
@@ -69,11 +70,11 @@ const roleNames = (user: User): string => {
                     <h1
                         class="text-2xl font-bold tracking-tight text-heading sm:text-3xl"
                     >
-                        Users
+                        {{ t("users") }}
                     </h1>
 
                     <p class="mt-2 text-sm text-muted sm:text-base">
-                        Manage and view all registered users.
+                        {{ t("manageUsersDescription") }}
                     </p>
                 </div>
 
@@ -81,7 +82,7 @@ const roleNames = (user: User): string => {
                     class="inline-flex w-fit items-center rounded-xl border border-border bg-surface px-4 py-2.5 text-sm font-semibold text-body shadow-sm"
                 >
                     {{ props.users.length }}
-                    {{ props.users.length === 1 ? "user" : "users" }}
+                    {{ props.users.length === 1 ? t("user") : t("users") }}
                 </div>
             </div>
         </div>
@@ -100,31 +101,31 @@ const roleNames = (user: User): string => {
                             <th
                                 class="px-6 py-4 text-xs font-bold uppercase tracking-wide text-muted"
                             >
-                                User
+                                {{ t("user") }}
                             </th>
 
                             <th
                                 class="px-6 py-4 text-xs font-bold uppercase tracking-wide text-muted"
                             >
-                                Contact
+                                {{ t("contact") }}
                             </th>
 
                             <th
                                 class="px-6 py-4 text-xs font-bold uppercase tracking-wide text-muted"
                             >
-                                Role
+                                {{ t("role") }}
                             </th>
 
                             <th
                                 class="px-6 py-4 text-xs font-bold uppercase tracking-wide text-muted"
                             >
-                                Email Status
+                                {{ t("emailStatus") }}
                             </th>
 
                             <th
                                 class="px-6 py-4 text-xs font-bold uppercase tracking-wide text-muted"
                             >
-                                Joined
+                                {{ t("joinDate") }}
                             </th>
 
                             <th class="px-6 py-4"></th>
@@ -217,14 +218,14 @@ const roleNames = (user: User): string => {
                                     v-if="user.email_verified_at"
                                     class="inline-flex rounded-full border border-green-100 bg-green-50 px-3 py-1 text-xs font-bold text-green-700"
                                 >
-                                    Verified
+                                    {{ t("verified") }}
                                 </span>
 
                                 <span
                                     v-else
                                     class="inline-flex rounded-full border border-yellow-100 bg-yellow-50 px-3 py-1 text-xs font-bold text-yellow-700"
                                 >
-                                    Unverified
+                                    {{ t("unverified") }}
                                 </span>
                             </td>
 
@@ -243,7 +244,7 @@ const roleNames = (user: User): string => {
                                     :href="`/admin/users/${user.id}`"
                                     class="inline-flex items-center rounded-xl border border-border px-3 py-2 text-sm font-semibold text-body transition hover:border-brand-200 hover:bg-brand-50 hover:text-brand-700 focus-visible:outline-none"
                                 >
-                                    View
+                                    {{ t("view") }}
                                 </Link>
                             </td>
                         </tr>
@@ -261,11 +262,11 @@ const roleNames = (user: User): string => {
                 </div>
 
                 <h2 class="mt-4 text-base font-semibold text-heading">
-                    No users found
+                    {{ t("noUsersFound") }}
                 </h2>
 
                 <p class="mt-1 text-sm text-muted">
-                    Registered users will appear here.
+                    {{ t("registeredUsersAppear") }}
                 </p>
             </div>
         </div>
@@ -301,7 +302,7 @@ const roleNames = (user: User): string => {
                         </p>
 
                         <p class="mt-0.5 text-xs text-muted">
-                            User #{{ user.id }}
+                            {{ t("user") }} #{{ user.id }}
                         </p>
                     </div>
 
@@ -339,14 +340,14 @@ const roleNames = (user: User): string => {
                         v-if="user.email_verified_at"
                         class="rounded-full border border-green-100 bg-green-50 px-3 py-1 text-xs font-bold text-green-700"
                     >
-                        Verified
+                        {{ t("verified") }}
                     </span>
 
                     <span
                         v-else
                         class="rounded-full border border-yellow-100 bg-yellow-50 px-3 py-1 text-xs font-bold text-yellow-700"
                     >
-                        Unverified
+                        {{ t("unverified") }}
                     </span>
 
                     <span class="text-xs font-medium text-muted">
@@ -360,7 +361,7 @@ const roleNames = (user: User): string => {
                     :href="`/admin/users/${user.id}`"
                     class="mt-4 flex w-full items-center justify-center rounded-xl bg-brand-600 px-4 py-3 text-sm font-semibold text-white transition hover:bg-brand-700 focus-visible:outline-none"
                 >
-                    View User
+                    {{ t("view") }}
                 </Link>
             </div>
 
@@ -377,11 +378,11 @@ const roleNames = (user: User): string => {
                 </div>
 
                 <h2 class="mt-4 text-base font-semibold text-heading">
-                    No users found
+                    {{ t("noUsersFound") }}
                 </h2>
 
                 <p class="mt-1 text-sm text-muted">
-                    Registered users will appear here.
+                    {{ t("registeredUsersAppear") }}
                 </p>
             </div>
         </div>

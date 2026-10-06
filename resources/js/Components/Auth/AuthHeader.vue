@@ -4,6 +4,7 @@ interface Props {
     subtitle: string;
     onBack?: () => void;
 }
+import { t } from "@/Utils/i18n";
 
 withDefaults(defineProps<Props>(), {
     onBack: undefined,
@@ -25,12 +26,12 @@ withDefaults(defineProps<Props>(), {
 
         <!-- Title -->
         <h1 class="text-2xl font-bold text-gray-900">
-            {{ title }}
+            {{ t(title) }}
         </h1>
 
         <!-- Subtitle -->
         <p class="mt-2 text-sm text-gray-500">
-            {{ subtitle }}
+            {{ t(subtitle) }}
         </p>
     </div>
 </template>

@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref, onBeforeUnmount } from "vue";
 import { Camera } from "lucide-vue-next";
+import { t } from "@/Utils/i18n";
 
 interface Props {
     modelValue?: File | null;
@@ -9,7 +10,7 @@ interface Props {
 
 const props = withDefaults(defineProps<Props>(), {
     modelValue: null,
-    label: "Add Profile Photo",
+    label: t("addProfPic"),
 });
 
 const emit = defineEmits<{

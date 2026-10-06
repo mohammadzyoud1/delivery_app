@@ -9,6 +9,8 @@ import PasswordInput from "@/Components/Auth/PasswordInput.vue";
 import ProfileImageUpload from "@/Components/Auth/ProfileImageUpload.vue";
 import SocialLoginButton from "@/Components/Auth/SocialLoginButton.vue";
 import Button from "@/Components/UI/Button.vue";
+import { t } from "@/Utils/i18n";
+
 const form = useForm({
     first_name: "",
     last_name: "",
@@ -28,17 +30,27 @@ const handleSubmit = () => {
         replace: true,
     });
 };
+const labels: Record<string, string> = {
+    firstName: t("firstName"),
+    lastName: t("lastName"),
+    email: t("email"),
+    phone: t("phone"),
+    password: t("password"),
+    confirmPassword: t("confirmPass"),
+    firstNamePlace: t("firstNamePlace"),
+    lastNamePlace: t("lastNamePlace"),
+    emailPlace: t("emailPlace2"),
+    phonePlace: t("phonePlace"),
+    passwordPlace: t("passwordPlace"),
+    confirmPasswordPlace: t("confirmPassPlace"),
+};
 </script>
 
 <template>
     <div class="min-h-screen bg-white px-5 py-8 sm:px-8">
         <div class="mx-auto w-full max-w-md">
             <!-- Header -->
-            <AuthHeader
-                title="Hello!"
-                subtitle="Create your account"
-                :on-back="goBack"
-            />
+            <AuthHeader title="hlo" subtitle="createAcc" :on-back="goBack" />
 
             <!-- Profile image -->
             <div class="mt-8">
@@ -50,16 +62,16 @@ const handleSubmit = () => {
                 <!-- First name -->
                 <AuthInput
                     v-model="form.first_name"
-                    label="First Name"
-                    placeholder="Enter your first name"
+                    :label="labels.firstName"
+                    :placeholder="labels.firstNamePlace"
                     :error="form.errors.first_name"
                 />
 
                 <!-- Last name -->
                 <AuthInput
                     v-model="form.last_name"
-                    label="Last Name"
-                    placeholder="Enter your last name"
+                    :label="labels.lastName"
+                    :placeholder="labels.lastNamePlace"
                     :error="form.errors.last_name"
                 />
 
@@ -67,8 +79,8 @@ const handleSubmit = () => {
                 <AuthInput
                     v-model="form.email"
                     type="email"
-                    label="Email"
-                    placeholder="Enter your email"
+                    :label="labels.email"
+                    :placeholder="labels.emailPlace"
                     :icon="Mail"
                     :error="form.errors.email"
                 />
@@ -77,8 +89,8 @@ const handleSubmit = () => {
                 <AuthInput
                     v-model="form.phone"
                     type="tel"
-                    label="Phone Number"
-                    placeholder="Enter your phone number"
+                    :label="labels.phone"
+                    :placeholder="labels.phonePlace"
                     :icon="Phone"
                     :error="form.errors.phone"
                 />
@@ -86,16 +98,16 @@ const handleSubmit = () => {
                 <!-- Password -->
                 <PasswordInput
                     v-model="form.password"
-                    label="Password"
-                    placeholder="Enter your password"
+                    :label="labels.password"
+                    :placeholder="labels.passwordPlace"
                     :error="form.errors.password"
                 />
 
                 <!-- Confirm password -->
                 <PasswordInput
                     v-model="form.password_confirmation"
-                    label="Confirm Password"
-                    placeholder="Confirm your password"
+                    :label="labels.confirmPassword"
+                    :placeholder="labels.confirmPasswordPlace"
                     :error="form.errors.password_confirmation"
                 />
 
@@ -106,7 +118,7 @@ const handleSubmit = () => {
                     :disabled="form.processing"
                     full-width
                 >
-                    {{ form.processing ? "Creating Account..." : "Sign Up" }}
+                    {{ form.processing ? t("creatingAcc") : t("signup") }}
                 </Button>
             </form>
 

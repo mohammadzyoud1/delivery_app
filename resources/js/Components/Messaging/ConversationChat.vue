@@ -4,6 +4,8 @@
 import { router } from "@inertiajs/vue3";
 import { Send } from "lucide-vue-next";
 import { nextTick, onMounted, onUnmounted, ref, watch } from "vue";
+import { t } from "@/Utils/i18n";
+
 // ==================== Types ====================
 
 interface User {
@@ -167,6 +169,7 @@ const sendMessage = () => {
         },
     );
 };
+const msgPlaceholder = t("writeMsg");
 </script>
 
 <template>
@@ -190,11 +193,11 @@ const sendMessage = () => {
             >
                 <div>
                     <h2 class="text-sm font-bold text-heading">
-                        {{ emptyTitle ?? "No messages yet" }}
+                        {{ t(`${emptyTitle}`) ?? t("noMsgs") }}
                     </h2>
 
                     <p class="mt-1 text-sm text-muted">
-                        {{ emptyMessage ?? "Start the conversation." }}
+                        {{ t(`${emptyMessage}`) ?? t("startConversation") }}
                     </p>
                 </div>
             </div>
@@ -235,7 +238,7 @@ const sendMessage = () => {
                     v-model="message"
                     rows="1"
                     maxlength="5000"
-                    placeholder="Write a message..."
+                    :placeholder="msgPlaceholder"
                     class="min-h-11 flex-1 resize-none rounded-xl border border-border bg-background px-4 py-3 text-sm text-body outline-none transition-colors placeholder:text-muted focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20"
                     @keydown.enter.exact.prevent="sendMessage"
                 ></textarea>

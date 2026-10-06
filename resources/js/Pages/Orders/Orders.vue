@@ -4,6 +4,7 @@
 import CustomerLayout from "@/Layouts/CustomerLayout.vue";
 import { Link } from "@inertiajs/vue3";
 import { ClipboardList, Package } from "lucide-vue-next";
+import { t } from "@/Utils/i18n";
 
 // ==================== Types ====================
 
@@ -71,11 +72,11 @@ defineProps<{
                             <h1
                                 class="text-2xl font-extrabold tracking-tight text-heading sm:text-3xl"
                             >
-                                My Orders
+                                {{ t("myOrders") }}
                             </h1>
 
                             <p class="mt-1 text-sm text-muted">
-                                View and track your orders.
+                                {{ t("viewAndTrack") }}
                             </p>
                         </div>
                     </div>
@@ -94,19 +95,18 @@ defineProps<{
                     </div>
 
                     <h2 class="mt-5 text-base font-bold text-heading">
-                        No orders yet
+                        {{ t("noOrders") }}
                     </h2>
 
                     <p class="mx-auto mt-1.5 max-w-sm text-sm text-muted">
-                        Once you place an order, it will appear here so you can
-                        track it.
+                        {{ t("emptyOrder") }}
                     </p>
 
                     <Link
                         href="/"
                         class="mt-6 inline-flex items-center justify-center rounded-xl bg-brand-600 px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition-all duration-200 hover:bg-brand-700 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:ring-offset-2"
                     >
-                        Start Shopping
+                        {{ t("startShopping") }}
                     </Link>
                 </div>
 
@@ -128,7 +128,7 @@ defineProps<{
                                     <p
                                         class="text-xs font-semibold uppercase tracking-wider text-muted"
                                     >
-                                        Order
+                                        {{ t("order") }}
                                     </p>
 
                                     <h2
@@ -152,7 +152,7 @@ defineProps<{
                                               : 'border-brand-100 bg-brand-50 text-brand-700'
                                     "
                                 >
-                                    {{ order.status.replace(/_/g, " ") }}
+                                    {{ t(order.status).replace(/_/g, " ") }}
                                 </span>
                             </div>
                         </div>
@@ -202,13 +202,13 @@ defineProps<{
                                             v-if="item.variant_name"
                                             class="mt-1 truncate text-xs text-muted"
                                         >
-                                            {{ item.variant_name }}
+                                            {{ t(`${item.variant_name}`) }}
                                         </p>
 
                                         <p
                                             class="mt-1.5 text-xs font-medium text-muted"
                                         >
-                                            Qty:
+                                            {{ t("quantity") }}:
                                             <span class="font-bold text-body">
                                                 {{ item.quantity }}
                                             </span>
@@ -231,7 +231,7 @@ defineProps<{
                                 class="mt-5 flex items-center justify-between border-t border-border pt-4"
                             >
                                 <span class="text-sm font-medium text-muted">
-                                    Total
+                                    {{ t("total") }}
                                 </span>
 
                                 <span
@@ -248,7 +248,7 @@ defineProps<{
                                     :href="`/orders/${order.id}`"
                                     class="flex w-full items-center justify-center rounded-xl bg-brand-600 px-4 py-3 text-sm font-bold text-white shadow-sm transition-all duration-200 hover:bg-brand-700 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:ring-offset-2"
                                 >
-                                    View Order
+                                    {{ t("viewOrder") }}
                                 </Link>
                             </div>
                         </div>

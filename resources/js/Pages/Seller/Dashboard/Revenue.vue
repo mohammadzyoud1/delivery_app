@@ -2,6 +2,7 @@
 import { computed } from "vue";
 
 import SellerLayout from "@/Layouts/SellerLayout.vue";
+import { t } from "@/Utils/i18n";
 
 // ==================== Types ====================
 
@@ -79,20 +80,14 @@ const formatDate = (date: string) => {
                 class="mb-8 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between"
             >
                 <div>
-                    <p
-                        class="mb-2 text-xs font-bold uppercase tracking-[0.18em] text-brand-600"
-                    >
-                        Seller Center
-                    </p>
-
                     <h1
                         class="text-2xl font-bold tracking-tight text-heading sm:text-3xl"
                     >
-                        Revenue
+                        {{ t("revenue") }}
                     </h1>
 
                     <p class="mt-2 max-w-2xl text-sm text-muted sm:text-base">
-                        Track your earnings from successfully delivered orders.
+                        {{ t("trackEarningsDescription") }}
                     </p>
                 </div>
             </div>
@@ -108,7 +103,7 @@ const formatDate = (date: string) => {
                     <div class="flex items-start justify-between gap-4">
                         <div>
                             <p class="text-sm font-medium text-muted">
-                                Total Revenue
+                                {{ t("totalRevenue") }}
                             </p>
 
                             <p
@@ -121,7 +116,7 @@ const formatDate = (date: string) => {
                         <div
                             class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-brand-50 text-brand-600"
                         >
-                            <span class="text-lg font-bold">$</span>
+                            <span class="text-lg font-bold">ILS</span>
                         </div>
                     </div>
                 </div>
@@ -134,7 +129,7 @@ const formatDate = (date: string) => {
                     <div class="flex items-start justify-between gap-4">
                         <div>
                             <p class="text-sm font-medium text-muted">
-                                This Month
+                                {{ t("thisMonth") }}
                             </p>
 
                             <p
@@ -147,7 +142,7 @@ const formatDate = (date: string) => {
                         <div
                             class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-brand-50 text-brand-600"
                         >
-                            <span class="text-lg font-bold">$</span>
+                            <span class="text-lg font-bold">ILS</span>
                         </div>
                     </div>
                 </div>
@@ -160,7 +155,7 @@ const formatDate = (date: string) => {
                     <div class="flex items-start justify-between gap-4">
                         <div>
                             <p class="text-sm font-medium text-muted">
-                                Delivered Orders
+                                {{ t("deliveredOrders") }}
                             </p>
 
                             <p
@@ -188,16 +183,15 @@ const formatDate = (date: string) => {
                 <div
                     class="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-brand-50 text-brand-600"
                 >
-                    <span class="text-xl font-bold">$</span>
+                    <span class="text-xl font-bold">ILS</span>
                 </div>
 
                 <h3 class="mt-4 text-base font-semibold text-heading">
-                    No revenue yet
+                    {{ t("noRevenueYet") }}
                 </h3>
 
                 <p class="mx-auto mt-2 max-w-md text-sm leading-6 text-muted">
-                    Revenue will appear here after your products are
-                    successfully delivered.
+                    {{ t("revenueAppearAfterDelivery") }}
                 </p>
             </div>
 
@@ -213,11 +207,11 @@ const formatDate = (date: string) => {
                     class="flex flex-col gap-1 border-b border-border px-5 py-4 sm:px-6"
                 >
                     <h2 class="text-base font-semibold text-heading">
-                        Revenue History
+                        {{ t("revenueHistory") }}
                     </h2>
 
                     <p class="text-sm text-muted">
-                        Earnings from your delivered order items.
+                        {{ t("revenueHistoryDescription") }}
                     </p>
                 </div>
 
@@ -236,14 +230,14 @@ const formatDate = (date: string) => {
                                 <div
                                     class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-brand-50 text-sm font-bold text-brand-600"
                                 >
-                                    $
+                                    ILS
                                 </div>
 
                                 <div class="min-w-0">
                                     <p
                                         class="truncate font-semibold text-heading"
                                     >
-                                        Order #{{ item.order_id }}
+                                        {{ t("order") }} #{{ item.order_id }}
                                     </p>
 
                                     <p class="mt-0.5 text-sm text-muted">

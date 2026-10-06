@@ -7,6 +7,8 @@ import ProfileInformation from "@/Pages/Profile/ProfileInformation.vue";
 import ProfileLanguage from "./ProfileLanguage.vue";
 import ProfileNotifications from "./ProfileNotifications.vue";
 import ProfilePicture from "./ProfilePicture.vue";
+import { t } from "@/Utils/i18n";
+
 // ==================== Types ====================
 
 type ProfileTab = "information" | "language" | "notifications" | "picture";
@@ -23,19 +25,19 @@ const tabs: {
 }[] = [
     {
         key: "information",
-        label: "Information",
+        label: t("personalInformation"),
     },
     {
         key: "language",
-        label: "Language",
+        label: t("language"),
     },
     {
         key: "notifications",
-        label: "Notifications",
+        label: t("notifications"),
     },
     {
         key: "picture",
-        label: "Profile Picture",
+        label: t("profilePic"),
     },
 ];
 </script>
@@ -52,11 +54,11 @@ const tabs: {
                     <h1
                         class="text-2xl font-extrabold tracking-tight text-heading sm:text-3xl"
                     >
-                        Profile
+                        {{ t("profile") }}
                     </h1>
 
                     <p class="mt-2 text-sm text-muted">
-                        Manage your account and preferences.
+                        {{ t("manageAccount") }}
                     </p>
                 </div>
 
@@ -92,48 +94,17 @@ const tabs: {
                         class="mt-6 rounded-2xl border border-border bg-surface p-5 shadow-sm sm:p-6 lg:mt-0"
                     >
                         <ProfileInformation v-if="activeTab === 'information'">
-                            <h2 class="text-lg font-bold text-heading">
-                                Personal Information
-                            </h2>
-
-                            <p class="mt-1 text-sm text-muted">
-                                Update your personal account information.
-                            </p>
-
-                            <!-- Information form will be added next -->
                         </ProfileInformation>
 
                         <ProfileLanguage v-else-if="activeTab === 'language'">
-                            <h2 class="text-lg font-bold text-heading">
-                                Language
-                            </h2>
-
-                            <p class="mt-1 text-sm text-muted">
-                                Choose your preferred language.
-                            </p>
                         </ProfileLanguage>
 
                         <ProfileNotifications
                             v-else-if="activeTab === 'notifications'"
                         >
-                            <h2 class="text-lg font-bold text-heading">
-                                Notifications
-                            </h2>
-
-                            <p class="mt-1 text-sm text-muted">
-                                Manage your notification preferences.
-                            </p>
                         </ProfileNotifications>
 
-                        <ProfilePicture v-else>
-                            <h2 class="text-lg font-bold text-heading">
-                                Profile Picture
-                            </h2>
-
-                            <p class="mt-1 text-sm text-muted">
-                                Manage your profile picture.
-                            </p>
-                        </ProfilePicture>
+                        <ProfilePicture v-else> </ProfilePicture>
                     </section>
                 </div>
             </div>

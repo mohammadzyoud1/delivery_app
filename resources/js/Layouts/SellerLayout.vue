@@ -11,6 +11,7 @@ import {
     Plus,
     User,
 } from "lucide-vue-next";
+import { t } from "@/Utils/i18n";
 
 // ==================== Page ====================
 
@@ -83,7 +84,9 @@ const isActive = (path: string) => {
                 >
                     <LayoutDashboard :size="20" />
 
-                    <span class="text-[11px] font-semibold"> Dashboard </span>
+                    <span class="text-[11px] font-semibold">
+                        {{ t("dashboard") }}
+                    </span>
                 </Link>
 
                 <!-- Products -->
@@ -99,7 +102,9 @@ const isActive = (path: string) => {
                 >
                     <Package :size="20" />
 
-                    <span class="text-[11px] font-semibold"> Products </span>
+                    <span class="text-[11px] font-semibold">
+                        {{ t("products") }}
+                    </span>
                 </Link>
 
                 <!-- Add Product -->
@@ -115,7 +120,9 @@ const isActive = (path: string) => {
                 >
                     <Plus :size="20" />
 
-                    <span class="text-[11px] font-semibold"> Add Product </span>
+                    <span class="text-[11px] font-semibold">
+                        {{ t("addProduct") }}
+                    </span>
                 </Link>
             </div>
         </nav>

@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { useForm } from "@inertiajs/vue3";
+import { t } from "@/Utils/i18n";
 
 import AuthHeader from "@/Components/Auth/AuthHeader.vue";
 import Button from "@/Components/UI/Button.vue";
@@ -15,10 +16,7 @@ const handleSubmit = () => {
 <template>
     <div class="min-h-screen bg-white px-5 py-8 sm:px-8">
         <div class="mx-auto w-full max-w-md">
-            <AuthHeader
-                title="Verify Your Email"
-                subtitle="Enter the 6-digit code we sent to your email"
-            />
+            <AuthHeader title="verifyYourEmail" subtitle="ent6digit" />
 
             <form class="mt-10 space-y-6" @submit.prevent="handleSubmit">
                 <div class="space-y-2">
@@ -26,7 +24,7 @@ const handleSubmit = () => {
                         for="otp"
                         class="block text-sm font-semibold text-gray-800"
                     >
-                        Verification Code
+                        {{ t("verificationCode") }}
                     </label>
 
                     <input
@@ -51,17 +49,17 @@ const handleSubmit = () => {
                     :disabled="form.processing"
                     full-width
                 >
-                    {{ form.processing ? "Verifying..." : "Verify Email" }}
+                    {{ form.processing ? t("verifying") : t("verifyEmail") }}
                 </Button>
             </form>
 
             <p class="mt-6 text-center text-sm text-gray-500">
-                Didn't receive the code?
+                {{ t("didNotReceiveCode") }}
                 <button
                     type="button"
                     class="font-semibold text-gray-900 hover:underline"
                 >
-                    Resend Code
+                    {{ t("resendCode") }}
                 </button>
             </p>
         </div>

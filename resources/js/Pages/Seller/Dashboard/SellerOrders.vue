@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import SellerLayout from "@/Layouts/SellerLayout.vue";
 import { computed } from "vue";
+import { t } from "@/Utils/i18n";
 
 // ==================== Types ====================
 
@@ -82,12 +83,6 @@ const formatPrice = (price: number) => {
             <!-- ==================== Page Header ==================== -->
 
             <section class="mb-8">
-                <p
-                    class="text-sm font-bold uppercase tracking-wider text-brand-600"
-                >
-                    Seller Center
-                </p>
-
                 <div
                     class="mt-1 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between"
                 >
@@ -95,11 +90,11 @@ const formatPrice = (price: number) => {
                         <h1
                             class="text-2xl font-extrabold tracking-tight text-heading sm:text-3xl"
                         >
-                            Orders
+                            {{ t("orders") }}
                         </h1>
 
                         <p class="mt-2 text-sm leading-6 text-muted">
-                            Orders containing products from your store.
+                            {{ t("ordersContainingStoreProducts") }}
                         </p>
                     </div>
 
@@ -142,12 +137,11 @@ const formatPrice = (price: number) => {
                 </div>
 
                 <h2 class="mt-5 text-base font-extrabold text-heading">
-                    No orders yet
+                    {{ t("noOrders") }}
                 </h2>
 
                 <p class="mx-auto mt-2 max-w-sm text-sm leading-6 text-muted">
-                    Orders containing your products will appear here once
-                    customers place them.
+                    {{ t("ordersContainingProductsAppear") }}
                 </p>
             </section>
 
@@ -172,7 +166,9 @@ const formatPrice = (price: number) => {
                                     <h2
                                         class="text-base font-extrabold text-heading"
                                     >
-                                        Order #{{ sellerOrder.order.id }}
+                                        {{ t("order") }} #{{
+                                            sellerOrder.order.id
+                                        }}
                                     </h2>
 
                                     <!-- ==================== Status ==================== -->
@@ -189,12 +185,7 @@ const formatPrice = (price: number) => {
                                                   : 'border-brand-100 bg-brand-50 text-brand-700'
                                         "
                                     >
-                                        {{
-                                            sellerOrder.order.status.replace(
-                                                /_/g,
-                                                " ",
-                                            )
-                                        }}
+                                        {{ t(sellerOrder.order.status) }}
                                     </span>
                                 </div>
 
@@ -202,16 +193,16 @@ const formatPrice = (price: number) => {
                                     {{ sellerOrder.items.length }}
                                     {{
                                         sellerOrder.items.length === 1
-                                            ? "product"
-                                            : "products"
+                                            ? t("product")
+                                            : t("products")
                                     }}
-                                    from your store
+                                    {{ t("fromYourStore") }}
                                 </p>
                             </div>
 
                             <div class="sm:text-right">
                                 <p class="text-xs font-medium text-muted">
-                                    Ordered
+                                    {{ t("ordered") }}
                                 </p>
 
                                 <p class="mt-1 text-sm font-semibold text-body">
@@ -270,7 +261,7 @@ const formatPrice = (price: number) => {
                                         <p
                                             class="text-[11px] font-bold uppercase tracking-wide text-muted"
                                         >
-                                            Quantity
+                                            {{ t("quantity") }}
                                         </p>
 
                                         <p
@@ -286,7 +277,7 @@ const formatPrice = (price: number) => {
                                         <p
                                             class="text-[11px] font-bold uppercase tracking-wide text-muted"
                                         >
-                                            Unit Price
+                                            {{ t("price") }}
                                         </p>
 
                                         <p
@@ -302,7 +293,7 @@ const formatPrice = (price: number) => {
                                         <p
                                             class="text-[11px] font-bold uppercase tracking-wide text-brand-600"
                                         >
-                                            Subtotal
+                                            {{ t("subtotal") }}
                                         </p>
 
                                         <p
@@ -323,11 +314,11 @@ const formatPrice = (price: number) => {
                     >
                         <div>
                             <p class="text-xs font-medium text-muted">
-                                Your order total
+                                {{ t("orderTotal") }}
                             </p>
 
                             <p class="mt-0.5 text-xs text-muted">
-                                Products from your store
+                                {{ t("productsFromYourStore") }}
                             </p>
                         </div>
 

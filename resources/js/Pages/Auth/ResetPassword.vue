@@ -7,6 +7,7 @@ import { Lock } from "lucide-vue-next";
 import AuthHeader from "@/Components/Auth/AuthHeader.vue";
 import AuthInput from "@/Components/Auth/AuthInput.vue";
 import Button from "@/Components/UI/Button.vue";
+import { t } from "@/Utils/i18n";
 
 // ==================== Props ====================
 
@@ -31,6 +32,12 @@ const goBack = () => {
 const handleSubmit = () => {
     form.post("/reset-password");
 };
+const labels: Record<string, string> = {
+    newPassword: t("newPass"),
+    confirmPassword: t("confirmPass"),
+    passwordPlaceholder: t("entNewPassPlace"),
+    confirmPasswordPlaceholder: t("confNewPassPlace"),
+};
 </script>
 
 <template>
@@ -39,8 +46,8 @@ const handleSubmit = () => {
             <!-- ==================== Header ==================== -->
 
             <AuthHeader
-                title="Reset Password"
-                subtitle="Create a new password for your DELIVER account"
+                title="rstPass"
+                subtitle="createNewPass"
                 :on-back="goBack"
             />
 
@@ -49,8 +56,8 @@ const handleSubmit = () => {
             <form class="mt-10 space-y-5" @submit.prevent="handleSubmit">
                 <AuthInput
                     v-model="form.password"
-                    label="New Password"
-                    placeholder="Enter your new password"
+                    :label="labels.newPassword"
+                    :placeholder="labels.passwordPlaceholder"
                     :icon="Lock"
                     :error="form.errors.password"
                     type="password"
@@ -58,8 +65,8 @@ const handleSubmit = () => {
 
                 <AuthInput
                     v-model="form.password_confirmation"
-                    label="Confirm Password"
-                    placeholder="Confirm your new password"
+                    :label="labels.confNewPass"
+                    :placeholder="labels.confirmPasswordPlaceholder"
                     :icon="Lock"
                     :error="form.errors.password_confirmation"
                     type="password"
@@ -71,11 +78,7 @@ const handleSubmit = () => {
                     :disabled="form.processing"
                     full-width
                 >
-                    {{
-                        form.processing
-                            ? "Resetting Password..."
-                            : "Reset Password"
-                    }}
+                    {{ form.processing ? t("resetingPass") : t("rstPass") }}
                 </Button>
             </form>
         </div>

@@ -15,6 +15,7 @@ import {
     LogIn,
 } from "lucide-vue-next";
 import { ref, computed, onMounted, onBeforeUnmount } from "vue";
+import { t } from "@/Utils/i18n";
 
 // ==================== Props ====================
 
@@ -205,7 +206,7 @@ onBeforeUnmount(() => {
                                 :size="18"
                                 class="text-muted transition-colors group-hover:text-brand-600"
                             />
-                            Seller Dashboard
+                            {{ t("sellerDashboard") }}
                         </Link>
 
                         <!-- ==================== Admin Dashboard ==================== -->
@@ -220,7 +221,7 @@ onBeforeUnmount(() => {
                                 :size="18"
                                 class="text-muted transition-colors group-hover:text-brand-600"
                             />
-                            Admin Dashboard
+                            {{ t("adminDashboard") }}
                         </Link>
 
                         <!-- ==================== Apply As Seller ==================== -->
@@ -237,7 +238,7 @@ onBeforeUnmount(() => {
                                 :size="18"
                                 class="text-muted transition-colors group-hover:text-brand-600"
                             />
-                            Apply to Become a Seller
+                            {{ t("applySeller") }}
                         </Link>
                         <!-- ==================== Delivery ==================== -->
 
@@ -251,7 +252,7 @@ onBeforeUnmount(() => {
                                 :size="18"
                                 class="text-muted transition-colors group-hover:text-brand-600"
                             />
-                            Delivery Orders
+                            {{ t("deliveryOrders") }}
                         </Link>
 
                         <!-- ==================== Profile ==================== -->
@@ -266,22 +267,7 @@ onBeforeUnmount(() => {
                                 :size="18"
                                 class="text-muted transition-colors group-hover:text-brand-600"
                             />
-                            My Profile
-                        </Link>
-
-                        <!-- ==================== Settings ==================== -->
-
-                        <Link
-                            v-if="page.props.auth?.user"
-                            href="/settings"
-                            class="group flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-body transition-colors duration-150 hover:bg-brand-50 hover:text-brand-700"
-                            @click="closeMenu"
-                        >
-                            <Settings
-                                :size="18"
-                                class="text-muted transition-colors group-hover:text-brand-600"
-                            />
-                            Settings
+                            {{ t("myProfile") }}
                         </Link>
                     </div>
 
@@ -297,7 +283,7 @@ onBeforeUnmount(() => {
                             @click="closeMenu"
                         >
                             <LogOut :size="18" />
-                            Logout
+                            {{ t("logout") }}
                         </Link>
                         <Link
                             v-else
@@ -308,7 +294,7 @@ onBeforeUnmount(() => {
                             @click="closeMenu"
                         >
                             <LogIn :size="18" />
-                            Login
+                            {{ t("login") }}
                         </Link>
                     </div>
                 </div>

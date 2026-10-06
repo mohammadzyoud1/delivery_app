@@ -10,6 +10,7 @@ import {
     ShoppingBag,
     Store,
 } from "lucide-vue-next";
+import { t } from "@/Utils/i18n";
 
 // ==================== Props ====================
 
@@ -32,21 +33,14 @@ defineProps<{
                     class="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between"
                 >
                     <div>
-                        <p
-                            class="text-sm font-bold uppercase tracking-wider text-brand-600"
-                        >
-                            Seller Center
-                        </p>
-
                         <h1
                             class="mt-1 text-2xl font-extrabold tracking-tight text-heading sm:text-3xl"
                         >
-                            Seller Dashboard
+                            {{ t("sellerDashboard") }}
                         </h1>
 
                         <p class="mt-2 max-w-xl text-sm leading-6 text-muted">
-                            Manage your products, orders, sales, and store
-                            performance from one place.
+                            {{ t("sellerDashboardDescription") }}
                         </p>
                     </div>
 
@@ -57,7 +51,7 @@ defineProps<{
                         class="inline-flex w-full items-center justify-center gap-2 rounded-xl border border-border bg-surface px-4 py-2.5 text-sm font-bold text-heading shadow-sm transition-all duration-200 hover:border-slate-300 hover:bg-background hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:ring-offset-2 sm:w-auto"
                     >
                         <Store :size="17" :stroke-width="2" />
-                        Manage Products
+                        {{ t("manageProducts") }}
                     </Link>
                 </div>
             </section>
@@ -77,7 +71,7 @@ defineProps<{
                         <div class="flex items-start justify-between gap-4">
                             <div>
                                 <p class="text-sm font-semibold text-muted">
-                                    My Products
+                                    {{ t("myProducts") }}
                                 </p>
 
                                 <p
@@ -87,7 +81,7 @@ defineProps<{
                                 </p>
 
                                 <p class="mt-1 text-xs font-medium text-muted">
-                                    Total products
+                                    {{ t("totalProducts") }}
                                 </p>
                             </div>
 
@@ -108,7 +102,7 @@ defineProps<{
                         <div class="flex items-start justify-between gap-4">
                             <div>
                                 <p class="text-sm font-semibold text-muted">
-                                    Active Products
+                                    {{ t("activeProducts") }}
                                 </p>
 
                                 <p
@@ -118,7 +112,7 @@ defineProps<{
                                 </p>
 
                                 <p class="mt-1 text-xs font-medium text-muted">
-                                    Currently available
+                                    {{ t("currentlyAvailable") }}
                                 </p>
                             </div>
 
@@ -139,7 +133,7 @@ defineProps<{
                         <div class="flex items-start justify-between gap-4">
                             <div>
                                 <p class="text-sm font-semibold text-muted">
-                                    Orders
+                                    {{ t("orders") }}
                                 </p>
 
                                 <p
@@ -149,7 +143,7 @@ defineProps<{
                                 </p>
 
                                 <p class="mt-1 text-xs font-medium text-muted">
-                                    Orders containing your products
+                                    {{ t("ordersContainingProducts") }}
                                 </p>
                             </div>
 
@@ -170,7 +164,7 @@ defineProps<{
                         <div class="flex items-start justify-between gap-4">
                             <div>
                                 <p class="text-sm font-semibold text-muted">
-                                    Sold Products
+                                    {{ t("soldProducts") }}
                                 </p>
 
                                 <p
@@ -180,7 +174,7 @@ defineProps<{
                                 </p>
 
                                 <p class="mt-1 text-xs font-medium text-muted">
-                                    Total units sold
+                                    {{ t("totalProductsSold") }}
                                 </p>
                             </div>
 
@@ -201,7 +195,7 @@ defineProps<{
                         <div class="flex items-start justify-between gap-4">
                             <div>
                                 <p class="text-sm font-semibold text-muted">
-                                    Revenue
+                                    {{ t("revenue") }}
                                 </p>
 
                                 <p
@@ -211,7 +205,7 @@ defineProps<{
                                 </p>
 
                                 <p class="mt-1 text-xs font-medium text-muted">
-                                    Total seller revenue
+                                    {{ t("totalRevenue") }}
                                 </p>
                             </div>
 

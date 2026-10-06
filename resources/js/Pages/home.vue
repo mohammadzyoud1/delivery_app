@@ -7,7 +7,7 @@ import ProductCard from "@/Components/Products/ProductCard.vue";
 import CategorySlider from "@/Components/Categories/CategorySlider.vue";
 import CustomerLayout from "@/Layouts/CustomerLayout.vue";
 import ProductSearch from "@/Components/Products/ProductSearch.vue";
-
+import { t } from "@/Utils/i18n";
 // ==================== Types ====================
 
 interface Category {
@@ -87,11 +87,11 @@ const handleAddToCart = (product: Product) => {
                             <h2
                                 class="text-lg font-bold tracking-tight text-heading sm:text-xl"
                             >
-                                Browse Categories
+                                {{ t("browseCategories") }}
                             </h2>
 
                             <p class="mt-1 text-sm text-muted">
-                                Find what you're looking for
+                                {{ t("whatLookingFor") }}
                             </p>
                         </div>
                     </div>
@@ -107,11 +107,11 @@ const handleAddToCart = (product: Product) => {
                             <h2
                                 class="text-lg font-bold tracking-tight text-heading sm:text-xl"
                             >
-                                Products
+                                {{ t("products") }}
                             </h2>
 
                             <p class="mt-1 text-sm text-muted">
-                                Discover products available near you
+                                {{ t("discoverProducts") }}
                             </p>
                         </div>
 
@@ -119,7 +119,8 @@ const handleAddToCart = (product: Product) => {
                             v-if="props.products.length"
                             class="hidden text-sm font-medium text-muted sm:block"
                         >
-                            {{ props.products.length }} products
+                            {{ props.products.length }}
+                            {{ t("products") }}
                         </span>
                     </div>
 
@@ -130,11 +131,11 @@ const handleAddToCart = (product: Product) => {
                         class="mt-5 rounded-2xl border border-border bg-surface px-6 py-12 text-center shadow-sm"
                     >
                         <p class="text-sm font-medium text-body">
-                            No products available.
+                            {{ t("noProducts") }}
                         </p>
 
                         <p class="mt-1 text-sm text-muted">
-                            Check back later for new products.
+                            {{ t("checkBackLater") }}
                         </p>
                     </div>
 

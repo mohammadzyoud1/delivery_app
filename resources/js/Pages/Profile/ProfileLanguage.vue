@@ -3,6 +3,8 @@
 
 import { ref, inject } from "vue";
 import { saveLanguage, type Language } from "@/Utils/language";
+import { t } from "@/Utils/i18n";
+
 // ==================== State ====================
 
 const selectedLanguage = ref<Language>(
@@ -37,10 +39,10 @@ const changeLanguage = (language: Language) => {
         <!-- ==================== Header ==================== -->
 
         <div>
-            <h2 class="text-lg font-bold text-heading">Language</h2>
+            <h2 class="text-lg font-bold text-heading">{{ t("language") }}</h2>
 
             <p class="mt-1 text-sm text-muted">
-                Choose the language you want to use in DELIVER.
+                {{ t("chooseLanguage") }}
             </p>
         </div>
 
@@ -67,7 +69,7 @@ const changeLanguage = (language: Language) => {
                     v-if="selectedLanguage === language.value"
                     class="text-sm font-bold text-brand-600"
                 >
-                    Selected
+                    {{ t("selected") }}
                 </span>
             </button>
         </div>

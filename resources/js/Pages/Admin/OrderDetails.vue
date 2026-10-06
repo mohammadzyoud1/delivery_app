@@ -6,6 +6,8 @@ import { Head, Link, router } from "@inertiajs/vue3";
 import { ArrowLeft, Truck } from "lucide-vue-next";
 import { ref } from "vue";
 import Button from "@/Components/UI/Button.vue";
+import { t } from "@/Utils/i18n";
+
 // ==================== Types ====================
 
 interface Customer {
@@ -228,7 +230,7 @@ const statusClasses = (status: string): string => {
                 class="mb-5 inline-flex items-center gap-2 text-sm font-semibold text-muted transition hover:text-brand-700"
             >
                 <ArrowLeft class="h-4 w-4" />
-                Back to Orders
+                {{ t("backtoOrders") }}
             </Link>
 
             <div
@@ -238,17 +240,18 @@ const statusClasses = (status: string): string => {
                     <p
                         class="mb-2 text-xs font-bold uppercase tracking-[0.18em] text-brand-600"
                     >
-                        Admin Panel
+                        {{ t("adminPanel") }}
                     </p>
 
                     <h1
                         class="text-2xl font-bold tracking-tight text-heading sm:text-3xl"
                     >
-                        Order #{{ props.order.id }}
+                        {{ t("order") }} #{{ props.order.id }}
                     </h1>
 
                     <p class="mt-2 text-sm text-muted">
-                        Placed {{ formatDate(props.order.created_at) }}
+                        {{ t("placed") }}
+                        {{ formatDate(props.order.created_at) }}
                     </p>
                 </div>
 
@@ -277,11 +280,11 @@ const statusClasses = (status: string): string => {
                             <p
                                 class="text-xs font-bold uppercase tracking-[0.16em] text-brand-600"
                             >
-                                Customer
+                                {{ t("customer") }}
                             </p>
 
                             <h2 class="mt-1 text-lg font-semibold text-heading">
-                                Customer Information
+                                {{ t("customerInfo") }}
                             </h2>
                         </div>
                     </div>
@@ -315,11 +318,11 @@ const statusClasses = (status: string): string => {
                     <p
                         class="text-xs font-bold uppercase tracking-[0.16em] text-brand-600"
                     >
-                        Delivery
+                        {{ t("delivery") }}
                     </p>
 
                     <h2 class="mt-1 text-lg font-semibold text-heading">
-                        Delivery Address
+                        {{ t("deliveryAddress") }}
                     </h2>
 
                     <div
@@ -344,13 +347,13 @@ const statusClasses = (status: string): string => {
                                 <p
                                     class="text-xs font-bold uppercase tracking-[0.16em] text-brand-600"
                                 >
-                                    Order
+                                    {{ t("order") }}
                                 </p>
 
                                 <h2
                                     class="mt-1 text-lg font-semibold text-heading"
                                 >
-                                    Order Items
+                                    {{ t("products") }}
                                 </h2>
                             </div>
 
@@ -360,8 +363,8 @@ const statusClasses = (status: string): string => {
                                 {{ props.order.items.length }}
                                 {{
                                     props.order.items.length === 1
-                                        ? "item"
-                                        : "items"
+                                        ? t("product")
+                                        : t("products")
                                 }}
                             </span>
                         </div>
@@ -390,7 +393,7 @@ const statusClasses = (status: string): string => {
                                         v-else
                                         class="flex h-full w-full items-center justify-center text-xs font-medium text-muted"
                                     >
-                                        No image
+                                        {{ t("noimg") }}
                                     </div>
                                 </div>
 
@@ -411,7 +414,7 @@ const statusClasses = (status: string): string => {
                                                 v-if="item.variant_name"
                                                 class="mt-1 text-sm text-muted"
                                             >
-                                                {{ item.variant_name }}
+                                                {{ t(item.variant_name) }}
                                             </p>
 
                                             <p
@@ -424,7 +427,7 @@ const statusClasses = (status: string): string => {
                                             <p
                                                 class="mt-2 text-xs font-medium text-muted"
                                             >
-                                                Seller:
+                                                {{ t("seller") }}:
                                                 {{ item.seller.first_name }}
                                                 {{ item.seller.last_name }}
                                             </p>
@@ -445,13 +448,14 @@ const statusClasses = (status: string): string => {
                                         <span
                                             class="rounded-lg bg-background px-3 py-1.5 font-medium text-body"
                                         >
-                                            Quantity: {{ item.quantity }}
+                                            {{ t("quantity") }}
+                                            {{ item.quantity }}
                                         </span>
 
                                         <span
                                             class="rounded-lg bg-background px-3 py-1.5 font-medium text-body"
                                         >
-                                            Unit:
+                                            {{ t("perUnit") }}
                                             {{
                                                 Number(item.unit_price).toFixed(
                                                     2,
@@ -474,11 +478,11 @@ const statusClasses = (status: string): string => {
                     <p
                         class="text-xs font-bold uppercase tracking-[0.16em] text-brand-600"
                     >
-                        Customer Note
+                        {{ t("customerNote") }}
                     </p>
 
                     <h2 class="mt-1 text-lg font-semibold text-heading">
-                        Custom Request
+                        {{ t("customRequest") }}
                     </h2>
 
                     <div
@@ -500,11 +504,11 @@ const statusClasses = (status: string): string => {
                     <p
                         class="text-xs font-bold uppercase tracking-[0.16em] text-brand-600"
                     >
-                        Timeline
+                        {{ t("timeline") }}
                     </p>
 
                     <h2 class="mt-1 text-lg font-semibold text-heading">
-                        Order Tracking
+                        {{ t("orderTracking") }}
                     </h2>
 
                     <div class="mt-6 space-y-6">
@@ -537,7 +541,7 @@ const statusClasses = (status: string): string => {
                                     <p
                                         class="font-semibold capitalize text-heading"
                                     >
-                                        {{ formatStatus(history.status) }}
+                                        {{ t(history.status) }}
                                     </p>
 
                                     <p class="text-xs text-muted">
@@ -549,7 +553,7 @@ const statusClasses = (status: string): string => {
                                     v-if="history.changed_by"
                                     class="mt-1 text-sm text-muted"
                                 >
-                                    Changed by
+                                    {{ t("changedBy") }}
                                     <span class="font-medium text-body">
                                         {{ history.changed_by.first_name }}
                                         {{ history.changed_by.last_name }}
@@ -557,10 +561,23 @@ const statusClasses = (status: string): string => {
                                 </p>
 
                                 <p
-                                    v-if="history.note"
+                                    v-if="
+                                        history.note &&
+                                        history.status === 'accepted'
+                                    "
                                     class="mt-2 text-sm leading-6 text-body"
                                 >
-                                    {{ history.note }}
+                                    {{ t("noteSuccess") }}
+                                </p>
+
+                                <p
+                                    v-if="
+                                        history.note &&
+                                        history.status === 'preparing'
+                                    "
+                                    class="mt-2 text-sm leading-6 text-body"
+                                >
+                                    {{ t("notePreparing") }}
                                 </p>
                             </div>
                         </div>
@@ -580,15 +597,15 @@ const statusClasses = (status: string): string => {
                     <p
                         class="text-xs font-bold uppercase tracking-[0.16em] text-brand-600"
                     >
-                        Delivery
+                        {{ t("delivery") }}
                     </p>
 
                     <h2 class="mt-1 text-lg font-semibold text-heading">
-                        Delivery Assignment
+                        {{ t("deliveryAssignment") }}
                     </h2>
 
                     <p class="mt-2 text-sm text-muted">
-                        Current delivery assignment for this order.
+                        {{ t("currentDeliveryAssignment") }}
                     </p>
 
                     <div class="mt-5 space-y-4">
@@ -600,7 +617,7 @@ const statusClasses = (status: string): string => {
                             <p
                                 class="text-[11px] font-bold uppercase tracking-wide text-muted"
                             >
-                                Assigned To
+                                {{ t("assignedTo") }}
                             </p>
 
                             <p class="mt-1 font-semibold text-heading">
@@ -622,7 +639,7 @@ const statusClasses = (status: string): string => {
                                 <p
                                     class="text-[11px] font-bold uppercase tracking-wide text-muted"
                                 >
-                                    Type
+                                    {{ t("type") }}
                                 </p>
 
                                 <p
@@ -636,13 +653,13 @@ const statusClasses = (status: string): string => {
                                 <p
                                     class="text-[11px] font-bold uppercase tracking-wide text-muted"
                                 >
-                                    Lock
+                                    {{ t("lock") }}
                                 </p>
 
                                 <span
                                     class="mt-1 inline-flex rounded-full bg-amber-50 px-2.5 py-1 text-xs font-bold text-amber-700"
                                 >
-                                    Locked
+                                    {{ t("locked") }}
                                 </span>
                             </div>
                         </div>
@@ -653,7 +670,7 @@ const statusClasses = (status: string): string => {
                             <p
                                 class="text-[11px] font-bold uppercase tracking-wide text-muted"
                             >
-                                Admin Note
+                                {{ t("adminNote") }}
                             </p>
 
                             <p class="mt-2 text-sm leading-6 text-body">
@@ -682,11 +699,11 @@ const statusClasses = (status: string): string => {
 
                         <div>
                             <h2 class="text-lg font-semibold text-heading">
-                                Assign Delivery
+                                {{ t("assignDelivery") }}
                             </h2>
 
                             <p class="mt-1 text-sm text-muted">
-                                Assign this order to a delivery user.
+                                {{ t("assignOrderToDelivery") }}
                             </p>
                         </div>
                     </div>
@@ -696,7 +713,7 @@ const statusClasses = (status: string): string => {
                             for="delivery-user"
                             class="mb-2 block text-sm font-semibold text-body"
                         >
-                            Delivery User
+                            {{ t("delivery") }}
                         </label>
 
                         <select
@@ -704,7 +721,9 @@ const statusClasses = (status: string): string => {
                             v-model="selectedDeliveryUser"
                             class="w-full rounded-xl border border-border bg-surface px-4 py-3 text-sm text-heading outline-none transition focus:border-brand-500 focus:ring-2 focus:ring-brand-100"
                         >
-                            <option :value="null">Select delivery user</option>
+                            <option :value="null">
+                                {{ t("selectDeliveryUser") }}
+                            </option>
 
                             <option
                                 v-for="user in props.deliveryUsers"
@@ -722,7 +741,7 @@ const statusClasses = (status: string): string => {
                             for="admin-note"
                             class="mb-2 block text-sm font-semibold text-body"
                         >
-                            Admin Note
+                            {{ t("adminNote") }}
                         </label>
 
                         <textarea
@@ -742,8 +761,8 @@ const statusClasses = (status: string): string => {
                     >
                         {{
                             assigningDelivery
-                                ? "Assigning..."
-                                : "Assign Delivery"
+                                ? t("assigning")
+                                : t("assignDelivery")
                         }}
                     </Button>
                 </section>
@@ -761,15 +780,15 @@ const statusClasses = (status: string): string => {
                     <p
                         class="text-xs font-bold uppercase tracking-[0.16em] text-brand-600"
                     >
-                        Management
+                        {{ t("deliveryManagement") }}
                     </p>
 
                     <h2 class="mt-1 text-lg font-semibold text-heading">
-                        Reassign Delivery
+                        {{ t("reassignDelivery") }}
                     </h2>
 
                     <p class="mt-2 text-sm text-muted">
-                        Assign this order to another delivery user.
+                        {{ t("reassignOrderToDelivery") }}
                     </p>
 
                     <div class="mt-5">
@@ -777,7 +796,7 @@ const statusClasses = (status: string): string => {
                             for="reassign-delivery-user"
                             class="mb-2 block text-sm font-semibold text-body"
                         >
-                            Delivery User
+                            {{ t("delivery") }}
                         </label>
 
                         <select
@@ -785,7 +804,9 @@ const statusClasses = (status: string): string => {
                             v-model="selectedDeliveryUser"
                             class="w-full rounded-xl border border-border bg-surface px-4 py-3 text-sm text-heading outline-none transition focus:border-brand-500 focus:ring-2 focus:ring-brand-100"
                         >
-                            <option :value="null">Select delivery user</option>
+                            <option :value="null">
+                                {{ t("selectDeliveryUser") }}
+                            </option>
 
                             <option
                                 v-for="deliveryUser in props.deliveryUsers"
@@ -803,7 +824,7 @@ const statusClasses = (status: string): string => {
                             for="reassign-note"
                             class="mb-2 block text-sm font-semibold text-body"
                         >
-                            Admin Note
+                            {{ t("adminNote") }}
                         </label>
 
                         <textarea
@@ -829,8 +850,8 @@ const statusClasses = (status: string): string => {
                     >
                         {{
                             reassigningDelivery
-                                ? "Reassigning..."
-                                : "Reassign Delivery"
+                                ? t("Reassigning")
+                                : t("reassignDelivery")
                         }}
                     </Button>
                 </section>
@@ -844,11 +865,11 @@ const statusClasses = (status: string): string => {
                     <p
                         class="text-xs font-bold uppercase tracking-[0.16em] text-red-600"
                     >
-                        Order Rejected
+                        {{ t("orderRejected") }}
                     </p>
 
                     <h2 class="mt-1 text-lg font-semibold text-red-900">
-                        Rejection Reason
+                        {{ t("rejectionReason") }}
                     </h2>
 
                     <p class="mt-3 text-sm leading-6 text-red-700">
@@ -864,18 +885,18 @@ const statusClasses = (status: string): string => {
                     <p
                         class="text-xs font-bold uppercase tracking-[0.16em] text-brand-600"
                     >
-                        Summary
+                        {{ t("summary") }}
                     </p>
 
                     <h2 class="mt-1 text-lg font-semibold text-heading">
-                        Order Summary
+                        {{ t("orderSummary") }}
                     </h2>
 
                     <div
                         class="mt-5 flex items-end justify-between gap-4 border-t border-border pt-5"
                     >
                         <span class="text-sm font-medium text-muted">
-                            Total
+                            {{ t("total") }}
                         </span>
 
                         <span
@@ -898,15 +919,15 @@ const statusClasses = (status: string): string => {
                     <p
                         class="text-xs font-bold uppercase tracking-[0.16em] text-red-600"
                     >
-                        Admin Action
+                        {{ t("adminAction") }}
                     </p>
 
                     <h2 class="mt-1 text-lg font-semibold text-heading">
-                        Reject Order
+                        {{ t("rejectOrder") }}
                     </h2>
 
                     <p class="mt-2 text-sm text-muted">
-                        Provide a reason before rejecting this order.
+                        {{ t("rejectReasonHint") }}
                     </p>
 
                     <div class="mt-5">
@@ -914,7 +935,7 @@ const statusClasses = (status: string): string => {
                             for="rejection_reason"
                             class="mb-2 block text-sm font-semibold text-body"
                         >
-                            Rejection Reason
+                            {{ t("rejectionReason") }}
                         </label>
 
                         <textarea
@@ -922,7 +943,6 @@ const statusClasses = (status: string): string => {
                             v-model="rejectionReason"
                             rows="4"
                             class="w-full resize-none rounded-xl border border-border bg-surface px-4 py-3 text-sm text-heading outline-none transition placeholder:text-muted focus:border-red-400 focus:ring-2 focus:ring-red-100"
-                            placeholder="Explain why this order is being rejected..."
                         ></textarea>
 
                         <Button
@@ -931,7 +951,7 @@ const statusClasses = (status: string): string => {
                             class="mt-3 w-full rounded-xl bg-red-600 px-4 py-3 text-sm font-semibold text-white transition hover:bg-red-700 disabled:cursor-not-allowed disabled:opacity-50"
                             @click="rejectOrder"
                         >
-                            {{ rejecting ? "Rejecting..." : "Reject Order" }}
+                            {{ rejecting ? t("Rejecting") : t("rejectOrder") }}
                         </Button>
                     </div>
                 </section>

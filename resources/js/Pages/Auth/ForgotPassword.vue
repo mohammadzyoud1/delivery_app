@@ -1,5 +1,6 @@
 <script setup lang="ts">
 // ==================== Imports ====================
+import { t } from "@/Utils/i18n";
 
 import { Link, useForm, usePage } from "@inertiajs/vue3";
 import { Mail } from "lucide-vue-next";
@@ -39,6 +40,10 @@ const handleSubmit = () => {
         },
     });
 };
+const labels: Record<string, string> = {
+    email: t("email"),
+    emailPlaceholder: t("emailPlace2"),
+};
 </script>
 
 <!-- ==================== Forgot Password State ==================== -->
@@ -49,8 +54,8 @@ const handleSubmit = () => {
             <!-- ==================== Header ==================== -->
 
             <AuthHeader
-                title="Forgot Password?"
-                subtitle="Enter your email to receive a password reset link"
+                title="forgotPass"
+                subtitle="emailPassLink"
                 :on-back="goBack"
             />
 
@@ -60,8 +65,8 @@ const handleSubmit = () => {
                 <form class="mt-10 space-y-5" @submit.prevent="handleSubmit">
                     <AuthInput
                         v-model="form.email"
-                        label="Email"
-                        placeholder="Enter your email"
+                        :label="labels.email"
+                        :placeholder="labels.emailPlaceholder"
                         :icon="Mail"
                         :error="form.errors.email"
                         type="email"
@@ -75,20 +80,20 @@ const handleSubmit = () => {
                     >
                         {{
                             form.processing
-                                ? "Sending Link..."
-                                : "Send Reset Link"
+                                ? t("sendingLink")
+                                : t("sendRstLink")
                         }}
                     </Button>
                 </form>
 
                 <p class="mt-8 text-center text-sm text-gray-500">
-                    Remember your password?
+                    {{ t("rembPass") }}
 
                     <Link
                         href="/login"
                         class="font-semibold text-gray-900 hover:underline"
                     >
-                        Login
+                        {{ t("login") }}
                     </Link>
                 </p>
             </div>
@@ -103,14 +108,13 @@ const handleSubmit = () => {
                 </div>
 
                 <h2 class="mt-6 text-xl font-bold text-gray-900">
-                    Check Your Email
+                    {{ t("chckEmail") }}
                 </h2>
 
                 <p
                     class="mx-auto mt-3 max-w-sm text-sm leading-6 text-gray-500"
                 >
-                    If an account exists for this email, we have sent you a
-                    password reset link.
+                    {{ t("ifAcc") }}
                 </p>
 
                 <Button
@@ -119,7 +123,7 @@ const handleSubmit = () => {
                     full-width
                     @click="goToLogin"
                 >
-                    Back to Login
+                    {{ t("bckLogin") }}
                 </Button>
             </div>
         </div>

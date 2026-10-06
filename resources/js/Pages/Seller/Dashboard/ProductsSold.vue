@@ -2,6 +2,7 @@
 import { computed } from "vue";
 
 import SellerLayout from "@/Layouts/SellerLayout.vue";
+import { t } from "@/Utils/i18n";
 
 // ==================== Types ====================
 
@@ -103,21 +104,14 @@ const formatPrice = (price: number) => {
             <!-- ==================== Page Header ==================== -->
 
             <section class="mb-8">
-                <p
-                    class="text-sm font-bold uppercase tracking-wider text-brand-600"
-                >
-                    Seller Center
-                </p>
-
                 <h1
                     class="mt-1 text-2xl font-extrabold tracking-tight text-heading sm:text-3xl"
                 >
-                    Products Sold
+                    {{ t("productsSold") }}
                 </h1>
 
                 <p class="mt-2 text-sm leading-6 text-muted">
-                    Track the products you have successfully sold and the
-                    revenue they generated.
+                    {{ t("productsSoldDescription") }}
                 </p>
             </section>
 
@@ -134,7 +128,7 @@ const formatPrice = (price: number) => {
                             <p
                                 class="text-xs font-bold uppercase tracking-wider text-muted"
                             >
-                                Products Sold
+                                {{ t("productsSold") }}
                             </p>
 
                             <p
@@ -144,7 +138,7 @@ const formatPrice = (price: number) => {
                             </p>
 
                             <p class="mt-1 text-xs text-muted">
-                                Successfully delivered items
+                                {{ t("successfullyDeliveredProducts") }}
                             </p>
                         </div>
 
@@ -182,7 +176,7 @@ const formatPrice = (price: number) => {
                             <p
                                 class="text-xs font-bold uppercase tracking-wider text-muted"
                             >
-                                Sales Revenue
+                                {{ t("revenue") }}
                             </p>
 
                             <p
@@ -192,7 +186,7 @@ const formatPrice = (price: number) => {
                             </p>
 
                             <p class="mt-1 text-xs text-muted">
-                                Revenue from delivered sales
+                                {{ t("revenueFromDeliveredSales") }}
                             </p>
                         </div>
 
@@ -251,12 +245,11 @@ const formatPrice = (price: number) => {
                 </div>
 
                 <h2 class="mt-5 text-base font-extrabold text-heading">
-                    No products sold yet
+                    {{ t("noProductsSoldYet") }}
                 </h2>
 
                 <p class="mx-auto mt-2 max-w-sm text-sm leading-6 text-muted">
-                    Your products will appear here after customers receive their
-                    orders.
+                    {{ t("soldProductsAppear") }}
                 </p>
             </section>
 
@@ -310,7 +303,7 @@ const formatPrice = (price: number) => {
                             </svg>
 
                             <span class="mt-2 text-xs font-medium">
-                                No image
+                                {{ t("noimg") }}
                             </span>
                         </div>
 
@@ -319,7 +312,7 @@ const formatPrice = (price: number) => {
                         <span
                             class="absolute left-3 top-3 rounded-full border border-green-200 bg-green-50 px-3 py-1 text-[11px] font-bold text-green-700 shadow-sm"
                         >
-                            Sold
+                            {{ t("sold") }}
                         </span>
                     </div>
 
@@ -340,7 +333,7 @@ const formatPrice = (price: number) => {
                                 class="flex items-center justify-between gap-4"
                             >
                                 <span class="text-sm text-muted">
-                                    Quantity sold
+                                    {{ t("quantitySold") }}
                                 </span>
 
                                 <span
@@ -356,7 +349,7 @@ const formatPrice = (price: number) => {
                                 class="flex items-center justify-between gap-4 border-t border-border pt-3"
                             >
                                 <span class="text-sm text-muted">
-                                    Revenue
+                                    {{ t("revenue") }}
                                 </span>
 
                                 <span
