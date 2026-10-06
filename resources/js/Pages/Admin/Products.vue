@@ -4,7 +4,7 @@
 import { Head, Link } from "@inertiajs/vue3";
 import AdminLayout from "@/Layouts/AdminLayout.vue";
 import { Eye, Package, Store } from "lucide-vue-next";
-
+import { t } from "@/Utils/i18n";
 // ==================== Interfaces ====================
 
 interface Seller {
@@ -65,7 +65,7 @@ const productPrice = (product: Product): string => {
 
         const minPrice = Math.min(...prices);
 
-        return `From ${minPrice.toFixed(2)}`;
+        return `${t("from")} ${minPrice.toFixed(2)}`;
     }
 
     return Number(product.price).toFixed(2);
@@ -101,17 +101,17 @@ const formatDate = (date: string): string => {
                     <p
                         class="text-xs font-bold uppercase tracking-[0.16em] text-brand-600"
                     >
-                        Admin Panel
+                        {{ t("adminPanel") }}
                     </p>
 
                     <h1
                         class="mt-1 text-2xl font-bold tracking-tight text-heading"
                     >
-                        Products
+                        {{ t("products") }}
                     </h1>
 
                     <p class="mt-1 max-w-2xl text-sm text-muted">
-                        Manage products listed by sellers across the store.
+                        {{ t("manageSellerProductsDescription") }}
                     </p>
                 </div>
 
@@ -120,7 +120,7 @@ const formatDate = (date: string): string => {
                 >
                     <Package class="h-4 w-4 text-brand-600" />
 
-                    {{ products.length }} products
+                    {{ products.length }} {{ t("products") }}
                 </div>
             </div>
 
@@ -141,7 +141,7 @@ const formatDate = (date: string): string => {
                             <p
                                 class="text-xs font-semibold uppercase tracking-wide text-muted"
                             >
-                                Total Products
+                                {{ t("totalProducts") }}
                             </p>
 
                             <p class="mt-0.5 text-xl font-bold text-heading">
@@ -165,7 +165,7 @@ const formatDate = (date: string): string => {
                             <p
                                 class="text-xs font-semibold uppercase tracking-wide text-muted"
                             >
-                                Active Products
+                                {{ t("activeProducts") }}
                             </p>
 
                             <p class="mt-0.5 text-xl font-bold text-heading">
@@ -193,7 +193,7 @@ const formatDate = (date: string): string => {
                             <p
                                 class="text-xs font-semibold uppercase tracking-wide text-muted"
                             >
-                                Sellers
+                                {{ t("sellers") }}
                             </p>
 
                             <p class="mt-0.5 text-xl font-bold text-heading">
@@ -223,11 +223,11 @@ const formatDate = (date: string): string => {
                 </div>
 
                 <h2 class="mt-4 text-base font-semibold text-heading">
-                    No products yet
+                    {{ t("noProducts") }}
                 </h2>
 
                 <p class="mx-auto mt-1 max-w-md text-sm text-muted">
-                    Products created by sellers will appear here.
+                    {{ t("sellerProductsAppear") }}
                 </p>
             </div>
 
@@ -244,43 +244,37 @@ const formatDate = (date: string): string => {
                                 <th
                                     class="px-5 py-4 text-xs font-bold uppercase tracking-wide text-muted"
                                 >
-                                    Product
+                                    {{ t("product") }}
                                 </th>
 
                                 <th
                                     class="px-5 py-4 text-xs font-bold uppercase tracking-wide text-muted"
                                 >
-                                    Seller
+                                    {{ t("seller") }}
                                 </th>
 
                                 <th
                                     class="px-5 py-4 text-xs font-bold uppercase tracking-wide text-muted"
                                 >
-                                    Category
+                                    {{ t("category") }}
                                 </th>
 
                                 <th
                                     class="px-5 py-4 text-xs font-bold uppercase tracking-wide text-muted"
                                 >
-                                    Price
+                                    {{ t("price") }}
                                 </th>
 
                                 <th
                                     class="px-5 py-4 text-xs font-bold uppercase tracking-wide text-muted"
                                 >
-                                    Stock
+                                    {{ t("stock") }}
                                 </th>
 
                                 <th
                                     class="px-5 py-4 text-xs font-bold uppercase tracking-wide text-muted"
                                 >
-                                    Status
-                                </th>
-
-                                <th
-                                    class="px-5 py-4 text-right text-xs font-bold uppercase tracking-wide text-muted"
-                                >
-                                    Action
+                                    {{ t("status") }}
                                 </th>
                             </tr>
                         </thead>
@@ -321,7 +315,9 @@ const formatDate = (date: string): string => {
                                             <p
                                                 class="mt-0.5 text-xs text-muted"
                                             >
-                                                Product #{{ product.id }}
+                                                {{ t("product") }} #{{
+                                                    product.id
+                                                }}
                                             </p>
                                         </div>
                                     </div>
@@ -376,14 +372,6 @@ const formatDate = (date: string): string => {
                                     >
                                         {{ productStock(product) }}
                                     </span>
-
-                                    <span class="ml-1 text-xs text-muted">
-                                        {{
-                                            productStock(product) === 1
-                                                ? "unit"
-                                                : "units"
-                                        }}
-                                    </span>
                                 </td>
 
                                 <!-- ==================== Status ==================== -->
@@ -393,14 +381,14 @@ const formatDate = (date: string): string => {
                                         v-if="product.is_active"
                                         class="inline-flex rounded-full border border-green-100 bg-green-50 px-3 py-1 text-xs font-bold text-green-700"
                                     >
-                                        Active
+                                        {{ t("active") }}
                                     </span>
 
                                     <span
                                         v-else
                                         class="inline-flex rounded-full border border-border bg-background px-3 py-1 text-xs font-bold text-muted"
                                     >
-                                        Inactive
+                                        {{ t("inactive") }}
                                     </span>
                                 </td>
 
@@ -412,7 +400,7 @@ const formatDate = (date: string): string => {
                                         class="inline-flex items-center gap-2 rounded-xl border border-border bg-surface px-3.5 py-2 text-sm font-semibold text-body transition hover:border-brand-100 hover:bg-brand-50 hover:text-brand-700 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:ring-offset-2"
                                     >
                                         <Eye class="h-4 w-4" />
-                                        View
+                                        {{ t("view") }}
                                     </Link>
                                 </td>
                             </tr>
@@ -455,7 +443,7 @@ const formatDate = (date: string): string => {
                                     </h2>
 
                                     <p class="mt-1 text-xs text-muted">
-                                        Product #{{ product.id }}
+                                        {{ t("product") }} #{{ product.id }}
                                     </p>
                                 </div>
 
@@ -463,14 +451,14 @@ const formatDate = (date: string): string => {
                                     v-if="product.is_active"
                                     class="shrink-0 rounded-full border border-green-100 bg-green-50 px-2.5 py-1 text-xs font-bold text-green-700"
                                 >
-                                    Active
+                                    {{ t("active") }}
                                 </span>
 
                                 <span
                                     v-else
                                     class="shrink-0 rounded-full border border-border bg-background px-2.5 py-1 text-xs font-bold text-muted"
                                 >
-                                    Inactive
+                                    {{ t("inactive") }}
                                 </span>
                             </div>
 
@@ -495,7 +483,7 @@ const formatDate = (date: string): string => {
                             <p
                                 class="text-[11px] font-bold uppercase tracking-wide text-muted"
                             >
-                                Category
+                                {{ t("category") }}
                             </p>
 
                             <p
@@ -509,7 +497,7 @@ const formatDate = (date: string): string => {
                             <p
                                 class="text-[11px] font-bold uppercase tracking-wide text-muted"
                             >
-                                Price
+                                {{ t("price") }}
                             </p>
 
                             <p
@@ -523,7 +511,7 @@ const formatDate = (date: string): string => {
                             <p
                                 class="text-[11px] font-bold uppercase tracking-wide text-muted"
                             >
-                                Stock
+                                {{ t("stock") }}
                             </p>
 
                             <p
@@ -544,7 +532,9 @@ const formatDate = (date: string): string => {
                     <div
                         class="mt-4 flex items-center justify-between border-t border-border pt-4"
                     >
-                        <span class="text-sm text-muted"> Added </span>
+                        <span class="text-sm text-muted">
+                            {{ t("added") }}
+                        </span>
 
                         <span class="text-sm font-medium text-body">
                             {{ formatDate(product.created_at) }}
@@ -558,7 +548,7 @@ const formatDate = (date: string): string => {
                         class="mt-4 flex w-full items-center justify-center gap-2 rounded-xl bg-brand-600 px-4 py-3 text-sm font-bold text-white transition hover:bg-brand-700 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:ring-offset-2"
                     >
                         <Eye class="h-4 w-4" />
-                        View Product
+                        {{ t("view") }}
                     </Link>
                 </div>
             </div>

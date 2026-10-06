@@ -48,6 +48,7 @@ const ar = {
         "صف المنتج أو المنتجات التي تريدها بأكبر قدر ممكن من الوضوح",
     customerInfo: "معلومات المشتري",
     customer: "المشتري",
+    customers: "المشترون",
     customerNote: "ملاحظات المشتري",
     customerOrdersAppear: "ستظهر طلبات العملاء هنا بمجرد تقديمها",
     customExample: "احتاج كيس ارز و كيلو لحمة من عند فلان",
@@ -440,6 +441,38 @@ const ar = {
     updateCustomerInformation: "حدّث المعلومات التي يراها العملاء",
     manageVariantsDescription:
         "أدر خيارات مثل اللون أو الحجم أو السعة وقم بضبط كل خيار من خيارات المنتج",
+
+    manageSellerProductsDescription:
+        "إدارة المنتجات المعروضة من البائعين في جميع أنحاء المتجر.",
+    sellerProductsAppear: "ستظهر هنا المنتجات التي أنشأها البائعون.",
+    from: "من",
+    added: "تمت الإضافة",
+
+    backToProducts: "الرجوع للمنتجات",
+    productDetails: "تفاصيل المنتج",
+    overviewAndImages: "نظرة عامة وصور المنتج",
+    productInfo: "معلومات المنتج",
+    productOwner: "صاحب المنتج",
+    viewSellerProfile: "عرض الملف الشخصي للبائع",
+    productInformationDescription: "معلومات السعر والمخزون والفئة والوحدة",
+    availableChoicesDescription: "الخيارات المتاحة التي تم ضبطها لهذا المنتج",
+    variantInformationDescription:
+        "معلومات السعر والمخزون ورمز المنتج (SKU) الخاصة بكل خيار",
+    inStock: "متوفر",
+    outOfStock: "غير متوفر",
+
+    options: "الخيارات",
+    variants: "الخيارات",
+    variant: "خيار",
+
+    manageSupportConversationsDescription:
+        "إدارة محادثات الدعم مع العملاء والبائعين ومستخدمي التوصيل",
+    all: "الكل",
+
+    supportConversationsAppear:
+        "ستظهر محادثات الدعم هنا عندما يتواصل المستخدمون ",
+
+    unknownCustomer: "مشتري غير معروف",
 };
 
 export default ar;

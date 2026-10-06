@@ -4,6 +4,7 @@
 import { Head, Link } from "@inertiajs/vue3";
 import { ArrowLeft, Package, UserRound } from "lucide-vue-next";
 import AdminLayout from "@/Layouts/AdminLayout.vue";
+import { t } from "@/Utils/i18n";
 
 // ==================== Types ====================
 
@@ -98,7 +99,7 @@ const variantName = (variant: ProductVariant): string => {
                     class="inline-flex items-center gap-2 text-sm font-semibold text-muted transition hover:text-brand-700"
                 >
                     <ArrowLeft class="h-4 w-4" />
-                    Back to Products
+                    {{ t("backToProducts") }}
                 </Link>
 
                 <div
@@ -108,7 +109,7 @@ const variantName = (variant: ProductVariant): string => {
                         <p
                             class="text-xs font-bold uppercase tracking-[0.16em] text-brand-600"
                         >
-                            Product Details
+                            {{ t("productDetails") }}
                         </p>
 
                         <h1
@@ -118,7 +119,7 @@ const variantName = (variant: ProductVariant): string => {
                         </h1>
 
                         <p class="mt-1 text-sm text-muted">
-                            Product #{{ product.id }}
+                            {{ t("product") }} #{{ product.id }}
                         </p>
                     </div>
 
@@ -130,7 +131,7 @@ const variantName = (variant: ProductVariant): string => {
                                 : 'border border-border bg-background text-muted'
                         "
                     >
-                        {{ product.is_active ? "Active" : "Inactive" }}
+                        {{ product.is_active ? t("active") : t("inactive") }}
                     </span>
                 </div>
             </div>
@@ -153,11 +154,11 @@ const variantName = (variant: ProductVariant): string => {
 
                             <div>
                                 <h2 class="font-semibold text-heading">
-                                    Product Information
+                                    {{ t("productInfo") }}
                                 </h2>
 
                                 <p class="text-sm text-muted">
-                                    Overview and product images
+                                    {{ t("overviewAndImages") }}
                                 </p>
                             </div>
                         </div>
@@ -191,7 +192,7 @@ const variantName = (variant: ProductVariant): string => {
                                 <Package class="mx-auto h-8 w-8 text-muted" />
 
                                 <p class="mt-2 text-sm font-medium text-body">
-                                    No product images
+                                    {{ t("noimg") }}
                                 </p>
                             </div>
                         </div>
@@ -200,7 +201,7 @@ const variantName = (variant: ProductVariant): string => {
 
                         <div class="mt-6 border-t border-border pt-6">
                             <h3 class="text-sm font-bold text-heading">
-                                Description
+                                {{ t("description") }}
                             </h3>
 
                             <p
@@ -208,7 +209,7 @@ const variantName = (variant: ProductVariant): string => {
                             >
                                 {{
                                     product.description ||
-                                    "No description provided."
+                                    t("noDescriptionProvided")
                                 }}
                             </p>
                         </div>
@@ -228,9 +229,13 @@ const variantName = (variant: ProductVariant): string => {
                         </div>
 
                         <div>
-                            <h2 class="font-semibold text-heading">Seller</h2>
+                            <h2 class="font-semibold text-heading">
+                                {{ t("seller") }}
+                            </h2>
 
-                            <p class="text-sm text-muted">Product owner</p>
+                            <p class="text-sm text-muted">
+                                {{ t("productOwner") }}
+                            </p>
                         </div>
                     </div>
 
@@ -250,7 +255,7 @@ const variantName = (variant: ProductVariant): string => {
                             </p>
 
                             <p class="mt-0.5 text-xs text-muted">
-                                View seller profile
+                                {{ t("viewSellerProfile") }}
                             </p>
                         </div>
 
@@ -267,10 +272,12 @@ const variantName = (variant: ProductVariant): string => {
                 class="rounded-2xl border border-border bg-surface p-5 shadow-sm sm:p-6"
             >
                 <div>
-                    <h2 class="font-semibold text-heading">Product Details</h2>
+                    <h2 class="font-semibold text-heading">
+                        {{ t("productDetails") }}
+                    </h2>
 
                     <p class="mt-1 text-sm text-muted">
-                        Pricing, inventory, category and unit information.
+                        {{ t("productInformationDescription") }}
                     </p>
                 </div>
 
@@ -283,7 +290,7 @@ const variantName = (variant: ProductVariant): string => {
                         <p
                             class="text-xs font-bold uppercase tracking-wide text-muted"
                         >
-                            Category
+                            {{ t("category") }}
                         </p>
 
                         <p
@@ -301,7 +308,7 @@ const variantName = (variant: ProductVariant): string => {
                         <p
                             class="text-xs font-bold uppercase tracking-wide text-muted"
                         >
-                            Price
+                            {{ t("price") }}
                         </p>
 
                         <p class="mt-2 text-sm font-semibold text-heading">
@@ -317,7 +324,7 @@ const variantName = (variant: ProductVariant): string => {
                         <p
                             class="text-xs font-bold uppercase tracking-wide text-muted"
                         >
-                            Stock
+                            {{ t("stock") }}
                         </p>
 
                         <p
@@ -340,7 +347,7 @@ const variantName = (variant: ProductVariant): string => {
                         <p
                             class="text-xs font-bold uppercase tracking-wide text-muted"
                         >
-                            Unit
+                            {{ t("unit") }}
                         </p>
 
                         <p class="mt-2 text-sm font-semibold text-heading">
@@ -357,10 +364,12 @@ const variantName = (variant: ProductVariant): string => {
                 class="rounded-2xl border border-border bg-surface p-5 shadow-sm sm:p-6"
             >
                 <div>
-                    <h2 class="font-semibold text-heading">Options</h2>
+                    <h2 class="font-semibold text-heading">
+                        {{ t("options") }}
+                    </h2>
 
                     <p class="mt-1 text-sm text-muted">
-                        Available choices configured for this product.
+                        {{ t("availableChoicesDescription") }}
                     </p>
                 </div>
 
@@ -394,10 +403,12 @@ const variantName = (variant: ProductVariant): string => {
                 class="rounded-2xl border border-border bg-surface p-5 shadow-sm sm:p-6"
             >
                 <div>
-                    <h2 class="font-semibold text-heading">Variants</h2>
+                    <h2 class="font-semibold text-heading">
+                        {{ t("variants") }}
+                    </h2>
 
                     <p class="mt-1 text-sm text-muted">
-                        Variant-specific pricing, stock and SKU information.
+                        {{ t("variantInformationDescription") }}
                     </p>
                 </div>
 
@@ -413,7 +424,7 @@ const variantName = (variant: ProductVariant): string => {
                                     <th
                                         class="px-4 py-3 text-xs font-bold uppercase tracking-wide text-muted"
                                     >
-                                        Variant
+                                        {{ t("variant") }}
                                     </th>
 
                                     <th
@@ -425,13 +436,13 @@ const variantName = (variant: ProductVariant): string => {
                                     <th
                                         class="px-4 py-3 text-xs font-bold uppercase tracking-wide text-muted"
                                     >
-                                        Price
+                                        {{ t("price") }}
                                     </th>
 
                                     <th
                                         class="px-4 py-3 text-xs font-bold uppercase tracking-wide text-muted"
                                     >
-                                        Stock
+                                        {{ t("stock") }}
                                     </th>
                                 </tr>
                             </thead>
@@ -505,8 +516,8 @@ const variantName = (variant: ProductVariant): string => {
                             >
                                 {{
                                     variant.stock > 0
-                                        ? "In stock"
-                                        : "Out of stock"
+                                        ? t("inStock")
+                                        : t("outOfStock")
                                 }}
                             </span>
                         </div>
@@ -528,7 +539,7 @@ const variantName = (variant: ProductVariant): string => {
                                 <p
                                     class="text-xs font-bold uppercase tracking-wide text-muted"
                                 >
-                                    Price
+                                    {{ t("price") }}
                                 </p>
 
                                 <p class="mt-1 text-sm font-bold text-heading">
@@ -540,7 +551,7 @@ const variantName = (variant: ProductVariant): string => {
                                 <p
                                     class="text-xs font-bold uppercase tracking-wide text-muted"
                                 >
-                                    Stock
+                                    {{ t("stock") }}
                                 </p>
 
                                 <p
@@ -576,11 +587,11 @@ const variantName = (variant: ProductVariant): string => {
 
                     <div>
                         <p class="text-sm font-semibold text-heading">
-                            No variants
+                            {{ t("noVariants") }}
                         </p>
 
                         <p class="mt-0.5 text-xs text-muted">
-                            This product uses its base price and stock.
+                            {{ t("onePriceAndStock") }}
                         </p>
                     </div>
                 </div>

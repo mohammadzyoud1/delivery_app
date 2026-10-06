@@ -5,7 +5,7 @@ import AdminLayout from "@/Layouts/AdminLayout.vue";
 import { Link } from "@inertiajs/vue3";
 import { ChevronRight, MessageCircle, User } from "lucide-vue-next";
 import { computed, ref } from "vue";
-
+import { t } from "@/Utils/i18n";
 // ==================== Types ====================
 
 interface User {
@@ -50,10 +50,10 @@ const filters: {
     value: ConversationFilter;
     label: string;
 }[] = [
-    { value: "all", label: "All" },
-    { value: "customer", label: "Customers" },
-    { value: "seller", label: "Sellers" },
-    { value: "delivery", label: "Delivery" },
+    { value: "all", label: t("all") },
+    { value: "customer", label: t("customers") },
+    { value: "seller", label: t("sellers") },
+    { value: "delivery", label: t("delivery") },
 ];
 
 // ==================== Customer Name ====================
@@ -117,12 +117,11 @@ const getLatestMessage = (conversation: Conversation) => {
                     <h1
                         class="text-2xl font-extrabold tracking-tight text-heading sm:text-3xl"
                     >
-                        Messages
+                        {{ t("messages") }}
                     </h1>
 
                     <p class="mt-1 text-sm text-muted">
-                        Manage support conversations with customers, sellers,
-                        and delivery users.
+                        {{ t("manageSupportConversationsDescription") }}
                     </p>
                 </div>
 
@@ -193,19 +192,19 @@ const getLatestMessage = (conversation: Conversation) => {
                                 {{
                                     getConversationUser(conversation)
                                         ? `${getConversationUser(conversation)?.first_name} ${getConversationUser(conversation)?.last_name} `
-                                        : "Unknown Customer"
+                                        : t("unknownCustomer")
                                 }}
                             </h2>
                             <span
                                 class="mt-1 inline-flex w-fit rounded-full bg-brand-50 px-2.5 py-1 text-xs font-semibold capitalize text-brand-700"
                             >
-                                {{ getConversationRole(conversation) }}
+                                {{ t(getConversationRole(conversation)) }}
                             </span>
 
                             <p class="mt-1 truncate text-sm text-muted">
                                 {{
                                     getLatestMessage(conversation)?.message ??
-                                    "No messages yet."
+                                    t("noMsgs")
                                 }}
                             </p>
                         </div>
@@ -235,14 +234,13 @@ const getLatestMessage = (conversation: Conversation) => {
                     </div>
 
                     <h2 class="mt-4 text-base font-bold text-heading">
-                        No conversations found
+                        {{ t("noConversations") }}
                     </h2>
 
                     <p
                         class="mx-auto mt-2 max-w-sm text-sm leading-6 text-muted"
                     >
-                        Support conversations will appear here when users
-                        contact DELIVER.
+                        {{ t("supportConversationsAppear") }}
                     </p>
                 </div>
             </div>

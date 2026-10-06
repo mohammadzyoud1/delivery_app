@@ -51,6 +51,7 @@ const en = {
     customDescriptionHint:
         "Describe the product or items you want as clearly as possible.",
     customer: "customer",
+    customers: "customers",
     customerInfo: "Customer information",
     customerOrdersAppear:
         "Customer orders will appear here once they are placed",
@@ -463,6 +464,40 @@ const en = {
     updateCustomerInformation: "Update the information customers see",
     manageVariantsDescription:
         "Manage options such as color, size, or storage and configure each product variant",
+
+    manageSellerProductsDescription:
+        "Manage products listed by sellers across the store",
+    sellerProductsAppear: "Products created by sellers will appear here",
+    from: "from",
+    added: "Added",
+
+    backToProducts: "Back to Products",
+    productDetails: "Product Details",
+    overviewAndImages: "Overview and product images",
+    productInfo: "Product Information",
+    productOwner: "Product Owner",
+    viewSellerProfile: "View seller profile",
+    productInformationDescription:
+        "Pricing, inventory, category and unit information",
+    availableChoicesDescription:
+        "Available choices configured for this product",
+    variantInformationDescription:
+        "Variant-specific pricing, stock and SKU information",
+    inStock: "In stock",
+    outOfStock: "Out of stock",
+
+    options: "Options",
+    variants: "variants",
+    variant: "variant",
+
+    manageSupportConversationsDescription:
+        "Manage support conversations with customers, sellers, and delivery users",
+    all: "All",
+
+    supportConversationsAppear:
+        "Support conversations will appear here when users contact ",
+
+    unknownCustomer: "Unknown Customer",
 };
 
 export default en;
