@@ -44,13 +44,34 @@ self.addEventListener("push", (event) => {
 self.addEventListener("notificationclick", (event) => {
     event.notification.close();
 
-    // ==================== Notification URL ====================
+    const targetUrl = new URL(
+        event.notification.data?.url ?? "/",
+        self.location.origin,
+    );
 
-    const notificationUrl = event.notification.data?.url ?? "/";
+    // Only allow navigation within this application.
+    if (targetUrl.origin !== self.location.origin) {
+        return;
+    }
 
-    const url = new URL(notificationUrl, self.location.origin).href;
+    event.waitUntil(
+        (async () => {
+            const windows = await self.clients.matchAll({
+                type: "window",
+                includeUncontrolled: true,
+            });
 
-    // ==================== Open Target URL ====================
+            // Reuse an existing application window when possible.
+            for (const client of windows) {
+                if ("focus" in client) {
+                    await client.navigate(targetUrl.href);
+                    await client.focus();
+                    return;
+                }
+            }
 
-    event.waitUntil(self.clients.openWindow(url));
+            // Otherwise, open the requested page.
+            await self.clients.openWindow(targetUrl.href);
+        })(),
+    );
 });
