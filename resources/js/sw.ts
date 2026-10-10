@@ -44,15 +44,8 @@ self.addEventListener("push", (event) => {
 self.addEventListener("notificationclick", (event) => {
     event.notification.close();
 
-    const targetUrl = new URL(
-        event.notification.data?.url ?? "/",
-        self.location.origin,
-    );
-
-    // Only allow navigation within this application.
-    if (targetUrl.origin !== self.location.origin) {
-        return;
-    }
+    const notificationUrl = event.notification.data?.url ?? "/";
+    const url = new URL(notificationUrl, self.location.origin).href;
 
     event.waitUntil(
         (async () => {
@@ -61,17 +54,21 @@ self.addEventListener("notificationclick", (event) => {
                 includeUncontrolled: true,
             });
 
-            // Reuse an existing application window when possible.
+            // App already open (installed PWA window or tab): reuse it
             for (const client of windows) {
-                if ("focus" in client) {
-                    await client.navigate(targetUrl.href);
+                if (client.url.startsWith(self.location.origin)) {
                     await client.focus();
+
+                    if ("navigate" in client) {
+                        await (client as WindowClient).navigate(url);
+                    }
+
                     return;
                 }
             }
 
-            // Otherwise, open the requested page.
-            await self.clients.openWindow(targetUrl.href);
+            // App is closed: open it (the OS routes it to the PWA if installed)
+            await self.clients.openWindow(url);
         })(),
     );
 });
